@@ -1,0 +1,28 @@
+﻿<Window x:Class="ArcadeGames.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArcadeGames"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="Auto" Width="Auto">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Margin="0 150 0 0">
+            <Image Source="/Images/thumbs.png"/>
+            <Image Source="/Images/logo.png"/>
+
+            <StackPanel>
+                <Button Style="{StaticResource NavigationButton}"
+                        Content="Tris"/>
+                <Button Style="{StaticResource NavigationButton}"
+                        Content="Memory Game"/>
+                <Button Style="{StaticResource NavigationButton}"
+                        Content="Whack A Bug"/>
+                <Button Style="{StaticResource NavigationButton}"
+                        Content="Space Invaders"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

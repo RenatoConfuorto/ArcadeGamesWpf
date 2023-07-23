@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="bgColor">#3535ec</Color>
+    <Color x:Key="accentColor">#f70d68</Color>
+    <Color x:Key="textColor">#ffffff</Color>
+
+    <SolidColorBrush x:Key="BgColor" Color="{StaticResource bgColor}"/>
+    <SolidColorBrush x:Key="AcccentColor" Color="{StaticResource accentColor}"/>
+    <SolidColorBrush x:Key="TextColor" Color="{StaticResource textColor}"/>
+</ResourceDictionary>
