@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,17 +15,17 @@ namespace LIB.Navigation
     public class NavigationServiceBase : NotifyerPropertyChangedBase, INavigationService
     {
         private ViewModelBase _viewModel;
-        private ViewModelBase _parentViewModel;
+        private Type _parentView;
         private readonly Func<Type, ViewModelBase> _viewModelFactory;
         public ViewModelBase CurrentView
         {
             get => _viewModel;
             private set => SetProperty(ref _viewModel, value);
         }
-        public ViewModelBase ParentView
+        public Type ParentView
         {
-            get => _parentViewModel;
-            set => SetProperty(ref _parentViewModel, value);
+            get => _parentView;
+            private set => SetProperty(ref _parentView, value);
         }
 
         public NavigationServiceBase(Func<Type, ViewModelBase> viewModelFactory)
@@ -32,11 +33,31 @@ namespace LIB.Navigation
             _viewModelFactory = viewModelFactory;
         }
 
-        public void NavigateTo<T>(T parentView = null) where T : ViewModelBase 
+        public void NavigateTo<T>() where T : ViewModelBase 
         {
             ViewModelBase viewModel = _viewModelFactory?.Invoke(typeof(T));
-            ParentView = parentView;
             CurrentView = viewModel;
+            SetParentView();
+        }
+
+        public void NavigateTo(Type viewModelType)
+        {
+            if (viewModelType.IsSubclassOf(typeof(ViewModelBase)))
+            {
+                ViewModelBase viewModel = _viewModelFactory?.Invoke(viewModelType);
+                CurrentView = viewModel;
+                SetParentView();
+            }
+        }
+        private void SetParentView()
+        {
+            Type parent = null;
+            Attributes.ParentView attribute = CurrentView.GetType().GetCustomAttribute<Attributes.ParentView>();
+            if(attribute != null)
+            {
+                parent = attribute.Parent;
+            }
+            ParentView = parent;
         }
     }
 }

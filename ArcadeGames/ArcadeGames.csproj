@@ -49,6 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -148,6 +149,10 @@
     <ProjectReference Include="..\LIB_Library\LIB_Library.csproj">
       <Project>{801b867b-ad2d-48f0-ab09-f292567878b4}</Project>
       <Name>LIB_Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tris\Tris.csproj">
+      <Project>{0130fbf5-b46a-4d22-982f-a5eb63f4e9fd}</Project>
+      <Name>Tris</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

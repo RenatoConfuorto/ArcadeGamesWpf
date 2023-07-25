@@ -1,10 +1,12 @@
 ﻿using LIB.Attributes;
 using LIB.Base;
 using LIB.Interfaces.Navigation;
+using LIB.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +23,15 @@ namespace LIB.ViewModels
         }
         #endregion
 
+        #region Events
+        public delegate void ViewChangedEvent(string viewToCall);
+        public event ViewChangedEvent viewChangedEvent;
+        #endregion
+
         #region Constructor
+        public ViewModelBase()
+        {
+        }
         public ViewModelBase(INavigationService navService)
         {
             Navigation = navService;
@@ -49,25 +59,56 @@ namespace LIB.ViewModels
         #endregion
 
         #region Protected Methods
-        protected void NavigateTo<T>(T parentView = null) where T : ViewModelBase //not used
+        protected void NavigateTo<T>(T viewToCall) where T : ViewModelBase
         {
-            Navigation.NavigateTo<T>(parentView);
+            if(Navigation.CurrentView != null)
+            {
+                Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
+            }
+            Navigation.NavigateTo(typeof(T));
+            if(Navigation.CurrentView != null)
+            {
+                Navigation.CurrentView.viewChangedEvent += OnViewChanged;
+            }
             SetCommandExecutionStatus();
         }
-        protected void NavigateToView<T>(T viewModel) where T : ViewModelBase
+        protected void OnViewChanged(string viewToCall)
         {
-            ViewModelBase newParentView = null;
-            Type newView = viewModel?.GetType();
-            ParentView attribute = newView?.GetCustomAttribute<ParentView>();
-            if(attribute != null)
+            NavigateToView(viewToCall);
+        }
+        protected void NavigateToView(string viewName)
+        {
+            if(ViewsManager.Views.ContainsKey(viewName))
             {
-                newParentView = attribute.Parent;
+                Type viewType = ViewsManager.Views[viewName];
+                if(viewType != null)
+                {
+                    if (Navigation.CurrentView != null)
+                    {
+                        Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
+                    }
+                    Navigation.NavigateTo(viewType);
+                    if (Navigation.CurrentView != null)
+                    {
+                        Navigation.CurrentView.viewChangedEvent += OnViewChanged;
+                    }
+                    SetCommandExecutionStatus();
+                }
             }
-            Navigation.NavigateTo<T>();
-            //set new parent view
-            Navigation.ParentView = newParentView;
-            SetCommandExecutionStatus();
-
+        }
+        protected void ChangeView(string viewToCall)
+        {
+            viewChangedEvent?.Invoke(viewToCall);
+        }
+        protected void NavigateToView(Type viewModelType)
+        {
+            if (viewModelType.IsSubclassOf(typeof(ViewModelBase)))
+            {
+                if(ViewsManager.Views.ContainsKey(viewModelType.Name))
+                {
+                    NavigateToView(viewModelType.Name);
+                }
+            }
         }
         #endregion
 

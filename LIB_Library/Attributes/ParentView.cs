@@ -9,14 +9,14 @@ namespace LIB.Attributes
 {
     public class ParentView : Attribute
     {
-        private ViewModelBase _parent;
-        public ViewModelBase Parent
+        private Type _parent;
+        public Type Parent
         {
             get => _parent; 
             private set => _parent = value;
         }
 
-        public ParentView(ViewModelBase parent)
+        public ParentView(Type parent)
         {
             Parent = parent;
         }

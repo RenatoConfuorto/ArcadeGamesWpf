@@ -29,14 +29,12 @@
         </Style.Resources>
     </Style>
 
-    <Style TargetType="Button" x:Key="NavigationButton">
-        <Setter Property="Background" Value="Transparent"/>
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource AcccentColor}"/>
         <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="FontSize" Value="{MarkupExtensions:EmFontSize 1.8}"/>
-        <Setter Property="Padding" Value="18 9"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="MinWidth" Value="50"/>
+        <Setter Property="Margin" Value="4 2"/>
+        <Setter Property="Padding" Value="4 6"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -46,6 +44,22 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+                <Setter Property="CornerRadius" Value="2"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style TargetType="Button" x:Key="NavigationButton" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="{MarkupExtensions:EmFontSize 1.8}"/>
+        <Setter Property="Padding" Value="18 9"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Style.Resources>
             <Style TargetType="Border">
                 <Setter Property="BorderThickness" Value="0"/>
@@ -76,4 +90,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
 </ResourceDictionary>

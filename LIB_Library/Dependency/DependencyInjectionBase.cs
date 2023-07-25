@@ -31,5 +31,13 @@ namespace LIB.Dependency
         }
 
         public abstract void InjectDependencies();
+
+        protected void RegisterView<T>() where T : ViewModelBase
+        {
+            if(ViewsManager.AddView(typeof(T).Name, typeof(T)))
+            {
+                services.AddSingleton<T>();
+            }
+        }
     }
 }

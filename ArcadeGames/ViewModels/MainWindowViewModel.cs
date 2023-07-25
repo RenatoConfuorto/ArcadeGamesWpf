@@ -1,10 +1,15 @@
-﻿using LIB.Base;
+﻿using LIB.Attributes;
+using LIB.Base;
+using LIB.Constants;
+using LIB.Helpers;
 using LIB.Interfaces.Navigation;
+using LIB.Navigation;
 using LIB.ViewModels;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,7 +33,7 @@ namespace ArcadeGames.ViewModels
         public MainWindowViewModel(INavigationService navService) 
             : base(navService)
         {
-            NavigateTo<HomeViewModel>();
+            NavigateToView(LIB.Constants.ViewNames.HomeViewModel);
         }
         #endregion
 
@@ -52,13 +57,23 @@ namespace ArcadeGames.ViewModels
         #region Command Methods
         private void ShoutDownCommandExecute(object param)
         {
-            Application.Current.Shutdown();
+            if(MessageDialogHelper.ShowConfirmationRequestMessage("Uscire dall'applicazione?"))
+            {
+                Application.Current.Shutdown();
+            }
         }
         private void PreviousPageCommandExecute(object param) 
         {
-            NavigateToView(Navigation.ParentView);
+            if(Navigation.ParentView == typeof(ViewModelBase))
+            {
+                NavigateToView(ViewNames.HomeViewModel);
+            }
+            else
+            {
+                NavigateToView(Navigation.ParentView);
+            }
         }
-        private bool PreviousPageCommandCanExecute(object param) => Navigation.ParentView == null;
+        private bool PreviousPageCommandCanExecute(object param) => Navigation.ParentView != null;
         #endregion
     }
 }

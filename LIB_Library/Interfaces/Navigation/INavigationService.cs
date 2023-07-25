@@ -10,7 +10,8 @@ namespace LIB.Interfaces.Navigation
     public interface INavigationService
     {
         ViewModelBase CurrentView { get; }
-        ViewModelBase ParentView { get; set; }
-        void NavigateTo<T>(T parentView = null) where T : ViewModelBase;
+        Type ParentView { get; }
+        void NavigateTo<T>() where T : ViewModelBase;
+        void NavigateTo(Type viewModelType);
     }
 }
