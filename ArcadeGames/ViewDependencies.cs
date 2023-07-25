@@ -21,6 +21,7 @@ namespace ArcadeGames
                 DataContext = provider.GetRequiredService< MainWindowViewModel>()
             });
             services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<HomeViewModel>();
         }
     }
 }

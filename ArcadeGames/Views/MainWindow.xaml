@@ -3,26 +3,39 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:MarkupExtensions="clr-namespace:LIB.MarkupExtensions;assembly=LIB_Library"
         xmlns:local="clr-namespace:ArcadeGames"
         mc:Ignorable="d"
-        Title="MainWindow" Height="Auto" Width="Auto">
+        Title="Arcade Mania" Width="{x:Static SystemParameters.PrimaryScreenWidth}"  
+            Height="{x:Static SystemParameters.PrimaryScreenHeight}">
     <Grid>
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Margin="0 150 0 0">
-            <Image Source="/Images/thumbs.png"/>
-            <Image Source="/Images/logo.png"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <StackPanel>
-                <Button Style="{StaticResource NavigationButton}"
-                        Content="Tris"/>
-                <Button Style="{StaticResource NavigationButton}"
-                        Content="Memory Game"/>
-                <Button Style="{StaticResource NavigationButton}"
-                        Content="Whack A Bug"/>
-                <Button Style="{StaticResource NavigationButton}"
-                        Content="Space Invaders"/>
+        <GroupBox Grid.Row="0" 
+                  BorderThickness="1" 
+                  BorderBrush="{StaticResource BorderColor}"
+                  Margin="30 15 30 0">
+            <StackPanel Orientation="Horizontal">
+
+                <Button Style="{StaticResource IconButton}"
+                        Command="{Binding PreviousPageCommand}"
+                        ToolTip="Indietro"
+                        Content="&#129092;"
+                        Margin="15">
+                </Button>
+                <Button Style="{StaticResource IconButton}"
+                        Command="{Binding ShoutDownCommand}"
+                        ToolTip="Esci"
+                        Margin="15"
+                        Width="55"
+                        Height="55">
+                    <ContentPresenter Content="{StaticResource ShoutdownIcon}"/>
+                </Button>
             </StackPanel>
-        </StackPanel>
+        </GroupBox>
+        <ContentPresenter Grid.Row="1" Content="{Binding Navigation.CurrentView}"/>
     </Grid>
 </Window>

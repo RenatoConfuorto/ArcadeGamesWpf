@@ -14,11 +14,17 @@ namespace LIB.Navigation
     public class NavigationServiceBase : NotifyerPropertyChangedBase, INavigationService
     {
         private ViewModelBase _viewModel;
+        private ViewModelBase _parentViewModel;
         private readonly Func<Type, ViewModelBase> _viewModelFactory;
         public ViewModelBase CurrentView
         {
             get => _viewModel;
             private set => SetProperty(ref _viewModel, value);
+        }
+        public ViewModelBase ParentView
+        {
+            get => _parentViewModel;
+            set => SetProperty(ref _parentViewModel, value);
         }
 
         public NavigationServiceBase(Func<Type, ViewModelBase> viewModelFactory)
@@ -26,9 +32,10 @@ namespace LIB.Navigation
             _viewModelFactory = viewModelFactory;
         }
 
-        public void NavigateTo<T>() where T : ViewModelBase
+        public void NavigateTo<T>(T parentView = null) where T : ViewModelBase 
         {
             ViewModelBase viewModel = _viewModelFactory?.Invoke(typeof(T));
+            ParentView = parentView;
             CurrentView = viewModel;
         }
     }
