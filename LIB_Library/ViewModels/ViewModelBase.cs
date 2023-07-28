@@ -64,11 +64,19 @@ namespace LIB.ViewModels
             if(Navigation.CurrentView != null)
             {
                 Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
+                if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
+                {
+                    ((ContentViewModel)Navigation.CurrentView).ResetGame();
+                }
             }
             Navigation.NavigateTo(typeof(T));
             if(Navigation.CurrentView != null)
             {
                 Navigation.CurrentView.viewChangedEvent += OnViewChanged;
+                if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
+                {
+                    ((ContentViewModel)Navigation.CurrentView).ResetGame();
+                }
             }
             SetCommandExecutionStatus();
         }
@@ -86,11 +94,19 @@ namespace LIB.ViewModels
                     if (Navigation.CurrentView != null)
                     {
                         Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
+                        if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
+                        {
+                            ((ContentViewModel)Navigation.CurrentView).ResetGame();
+                        }
                     }
                     Navigation.NavigateTo(viewType);
                     if (Navigation.CurrentView != null)
                     {
                         Navigation.CurrentView.viewChangedEvent += OnViewChanged;
+                        if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
+                        {
+                            ((ContentViewModel)Navigation.CurrentView).ResetGame();
+                        }
                     }
                     SetCommandExecutionStatus();
                 }

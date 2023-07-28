@@ -1,4 +1,5 @@
 ﻿using LIB.Attributes;
+using LIB.Base;
 using LIB.Interfaces.Navigation;
 using LIB.ViewModels;
 using System;
@@ -16,18 +17,29 @@ namespace Tris.ViewModels
         #endregion
 
         #region Public Properties
+        public RelayCommand MultiplayerCommand { get; set; }
         #endregion
 
         #region Constructor
+        public TrisHomePageViewModel() : this(null) { }
         public TrisHomePageViewModel(INavigationService navService) : base(navService)
         {
         }
         #endregion
 
         #region Override Methods
+        protected override void InitCommands()
+        {
+            base.InitCommands();
+            MultiplayerCommand = new RelayCommand(MultiplayerCommandExecute);
+        }
         #endregion
 
         #region Private Methods
+        private void MultiplayerCommandExecute(object param)
+        {
+            ChangeView(typeof(TrisMultiplayerViewModel).Name);
+        }
         #endregion
     }
 }

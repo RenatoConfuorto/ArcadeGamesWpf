@@ -11,5 +11,6 @@ namespace LIB.Constants
         public static string MainWindowViewModel = "MainWindowViewModel";
         public static string HomeViewModel = "HomeViewModel";
         public static string TrisHomePageViewModel = "TrisHomePageViewModel";
+        public static string TrisMultiplayerViewModel = "TrisMultiplayerViewModel";
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="Dependency\DependencyInjectionBase.cs" />
     <Compile Include="Base\NotifyerPropertyChangedBase.cs" />
     <Compile Include="Base\RelayCommand.cs" />
+    <Compile Include="Entities\CellEntityBase.cs" />
     <Compile Include="Helpers\MessageDialogHelper.cs" />
     <Compile Include="Interfaces\Navigation\INavigationService.cs" />
     <Compile Include="MarkupExtensions\EmFontSize.cs" />

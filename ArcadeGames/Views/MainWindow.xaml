@@ -13,26 +13,48 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
         <GroupBox Grid.Row="0" 
                   BorderThickness="1" 
                   BorderBrush="{StaticResource BorderColor}"
+                  MaxHeight="100"
                   Margin="30 15 30 0">
             <StackPanel Orientation="Horizontal">
 
                 <Button Style="{StaticResource IconButton}"
                         Command="{Binding PreviousPageCommand}"
                         ToolTip="Indietro"
-                        Content="&#129092;"
+                        Padding="10"
+                        MinWidth="60"
+                        MinHeight="60"
                         Margin="15">
+                    <Button.Content>
+                        <Image Source="{StaticResource ArrowLeft}"/>
+                    </Button.Content>
+                </Button>
+                <Button Style="{StaticResource IconButton}"
+                        ToolTip="Indietro"
+                        Padding="10"
+                        MinWidth="60"
+                        MinHeight="60"
+                        Margin="15">
+                    <Button.Content>
+                        <Image Source="{StaticResource UserIcon}"/>
+                    </Button.Content>
                 </Button>
                 <Button Style="{StaticResource IconButton}"
                         Command="{Binding ShoutDownCommand}"
                         ToolTip="Esci"
-                        Margin="15"
-                        Width="55"
-                        Height="55">
-                    <ContentPresenter Content="{StaticResource ShoutdownIcon}"/>
+                        MinWidth="60"
+                        MinHeight="60"
+                        Padding="10"
+                        Margin="10">
+                    <Button.Content>
+                        <Image Source="{StaticResource ShoutdownIcon}"/>
+                    </Button.Content>
                 </Button>
             </StackPanel>
         </GroupBox>

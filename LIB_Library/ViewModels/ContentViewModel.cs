@@ -24,11 +24,22 @@ namespace LIB.ViewModels
         #endregion
 
         #region Override Methods
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            InitGame();
+        }
         #endregion
-
-        
 
         #region Private Methods
         #endregion
+
+        #region Protected Methods
+        protected virtual void InitGame() { }
+        #endregion
+        public void ResetGame()
+        {
+            InitGame();
+        }
     }
 }

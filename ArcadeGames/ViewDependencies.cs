@@ -25,7 +25,7 @@ namespace ArcadeGames
             });
             RegisterView<HomeViewModel>();
             RegisterView<TrisHomePageViewModel>();
-
+            RegisterView<TrisMultiplayerViewModel>();
         }
     }
 }
