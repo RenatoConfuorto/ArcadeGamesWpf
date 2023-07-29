@@ -3,7 +3,6 @@ using LIB.Dependency;
 using LIB.Interfaces.Navigation;
 using LIB.Interfaces.ViewModels;
 using LIB.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +20,6 @@ namespace LIB.Navigation
         private IViewModelBase _viewModel;
         private string _parentViewName;
 
-        //private readonly Func<Type, ViewModelBase> _viewModelFactory;
         public IUnityContainer Container
         {
             get
@@ -44,23 +42,6 @@ namespace LIB.Navigation
         public NavigationServiceBase()
         {
         }
-
-        //public void NavigateTo<T>() where T : ViewModelBase 
-        //{
-        //    ViewModelBase viewModel = _viewModelFactory?.Invoke(typeof(T));
-        //    CurrentView = viewModel;
-        //    SetParentView();
-        //}
-
-        //public void NavigateTo(Type viewModelType)
-        //{
-        //    if (viewModelType.IsSubclassOf(typeof(ViewModelBase)))
-        //    {
-        //        ViewModelBase viewModel = _viewModelFactory?.Invoke(viewModelType);
-        //        CurrentView = viewModel;
-        //        SetParentView();
-        //    }
-        //}
         public void NavigateTo(string ViewName)
         {
             if(ViewName != null)
@@ -74,12 +55,6 @@ namespace LIB.Navigation
         private void SetParentView()
         {
             string parent = null;
-            //Attributes.ParentView attribute = CurrentView.GetType().GetCustomAttribute<Attributes.ParentView>();
-            //if(attribute != null)
-            //{
-            //    parent = attribute.ParentName;
-            //}
-            //ParentViewName = parent;
             if(CurrentView != null)
             {
                 parent = CurrentView.ParentView;

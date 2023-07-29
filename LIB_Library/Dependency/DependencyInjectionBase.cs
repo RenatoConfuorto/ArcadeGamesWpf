@@ -1,7 +1,6 @@
 ﻿using LIB.Interfaces.Navigation;
 using LIB.Navigation;
 using LIB.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Practices.Unity.Configuration;
 using System;
 using System.CodeDom;
@@ -28,32 +27,12 @@ namespace LIB.Dependency
                 return _container;
             }
         }
-
-        //private readonly ServiceProvider _serviceProvider;
-        //protected IServiceCollection services;
-
-        //public ServiceProvider ServiceProvider
-        //{
-        //    get => _serviceProvider;
-        //}
         public DependencyInjectionBase()
         {
-            //services = new ServiceCollection();
-            //services.AddSingleton<Func<Type, ViewModelBase>>(serviceProvider => viewModelType => (ViewModelBase)serviceProvider.GetRequiredService(viewModelType));
-            //services.AddSingleton<INavigationService, NavigationServiceBase>();
-            //InjectDependencies();
-            //_serviceProvider = services.BuildServiceProvider();
         }
 
         public abstract void InjectDependencies();
 
-        //protected void RegisterView<T>() where T : ViewModelBase
-        //{
-        //    if(ViewsManager.AddView(typeof(T).Name, typeof(T)))
-        //    {
-        //        services.AddSingleton<T>();
-        //    }
-        //}
         protected void AddDependency(Type interfaceType, Type classType)
         {
             Container.RegisterType(interfaceType, classType, new ContainerControlledLifetimeManager());

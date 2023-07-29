@@ -4,7 +4,6 @@ using LIB.Dependency;
 using LIB.Constants;
 using LIB.Interfaces.Navigation;
 using LIB.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +18,6 @@ namespace ArcadeGames
     {
         public override void InjectDependencies()
         {
-            //RegisterView<MainWindowViewModel>();
-            //services.AddSingleton<MainWindow>(provider => new MainWindow()
-            //{
-            //    DataContext = provider.GetRequiredService<MainWindowViewModel>()
-            //});
-            //RegisterView<HomeViewModel>();
-            //RegisterView<TrisHomePageViewModel>();
-            //RegisterView<TrisMultiplayerViewModel>();
             AddDependency<IViewModelBase, MainWindowViewModel>(ViewNames.MainWindow);
             AddDependency<IViewModelBase, HomeViewModel>(ViewNames.Home);
         }

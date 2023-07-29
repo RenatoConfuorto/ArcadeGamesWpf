@@ -49,7 +49,6 @@ namespace LIB.Dependency
             if (_container == null)
             {
                 _container = new UnityContainer();
-                //BuildContainerFromConfigFile("DADLHelperDefaultContainer", _container);
             }
 
             return _container;
