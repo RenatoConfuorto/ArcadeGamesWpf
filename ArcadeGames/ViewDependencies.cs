@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tris.ViewModels;
+using LIB.Interfaces.ViewModels;
 
 namespace ArcadeGames
 {
@@ -18,14 +19,16 @@ namespace ArcadeGames
     {
         public override void InjectDependencies()
         {
-            RegisterView<MainWindowViewModel>();
-            services.AddSingleton<MainWindow>(provider => new MainWindow()
-            {
-                DataContext = provider.GetRequiredService<MainWindowViewModel>()
-            });
-            RegisterView<HomeViewModel>();
-            RegisterView<TrisHomePageViewModel>();
-            RegisterView<TrisMultiplayerViewModel>();
+            //RegisterView<MainWindowViewModel>();
+            //services.AddSingleton<MainWindow>(provider => new MainWindow()
+            //{
+            //    DataContext = provider.GetRequiredService<MainWindowViewModel>()
+            //});
+            //RegisterView<HomeViewModel>();
+            //RegisterView<TrisHomePageViewModel>();
+            //RegisterView<TrisMultiplayerViewModel>();
+            AddDependency<IViewModelBase, MainWindowViewModel>(ViewNames.MainWindow);
+            AddDependency<IViewModelBase, HomeViewModel>(ViewNames.Home);
         }
     }
 }

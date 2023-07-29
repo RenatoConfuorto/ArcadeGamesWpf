@@ -1,5 +1,6 @@
 ﻿using LIB.Attributes;
 using LIB.Base;
+using LIB.Constants;
 using LIB.Interfaces.Navigation;
 using LIB.ViewModels;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Tris.ViewModels
 {
-    [ParentView(typeof(ViewModelBase))]
+    //[ParentView(typeof(ViewModelBase))]
     public class TrisHomePageViewModel : ContentViewModel
     {
         #region Private Fields
@@ -21,10 +22,7 @@ namespace Tris.ViewModels
         #endregion
 
         #region Constructor
-        public TrisHomePageViewModel() : this(null) { }
-        public TrisHomePageViewModel(INavigationService navService) : base(navService)
-        {
-        }
+        public TrisHomePageViewModel() : base(ViewNames.Home) { }
         #endregion
 
         #region Override Methods
@@ -38,7 +36,7 @@ namespace Tris.ViewModels
         #region Private Methods
         private void MultiplayerCommandExecute(object param)
         {
-            ChangeView(typeof(TrisMultiplayerViewModel).Name);
+            ChangeView(ViewNames.TrisMultiplayer);
         }
         #endregion
     }

@@ -23,10 +23,7 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Constructor
-        public HomeViewModel() :this(null) { }
-        public HomeViewModel(INavigationService navService) : base(navService)
-        {
-        }
+        public HomeViewModel() : base() { }
         #endregion
 
         #region Override Methods
@@ -40,7 +37,7 @@ namespace ArcadeGames.ViewModels
         #region Private Methods
         private void TrisPageCommandExecute(object param)
         {
-            ChangeView(ViewNames.TrisHomePageViewModel);
+            ChangeView(ViewNames.TrisHomePage);
         }
         #endregion
     }

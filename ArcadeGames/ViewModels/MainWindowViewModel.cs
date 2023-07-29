@@ -30,10 +30,10 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Constructor
-        public MainWindowViewModel(INavigationService navService) 
-            : base(navService)
+        public MainWindowViewModel() 
+            : base()
         {
-            NavigateToView(LIB.Constants.ViewNames.HomeViewModel);
+            NavigateToView(ViewNames.Home);
         }
         #endregion
 
@@ -64,16 +64,16 @@ namespace ArcadeGames.ViewModels
         }
         private void PreviousPageCommandExecute(object param) 
         {
-            if(Navigation.ParentView == typeof(ViewModelBase))
+            if (String.IsNullOrEmpty(Navigation.ParentViewName))
             {
-                NavigateToView(ViewNames.HomeViewModel);
+                NavigateToView(ViewNames.Home);
             }
             else
             {
-                NavigateToView(Navigation.ParentView);
+                NavigateToView(Navigation.ParentViewName);
             }
         }
-        private bool PreviousPageCommandCanExecute(object param) => Navigation.ParentView != null;
+        private bool PreviousPageCommandCanExecute(object param) => !String.IsNullOrEmpty(Navigation.ParentViewName);
         #endregion
     }
 }

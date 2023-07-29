@@ -8,9 +8,9 @@ namespace LIB.Constants
 {
     public static class ViewNames
     {
-        public static string MainWindowViewModel = "MainWindowViewModel";
-        public static string HomeViewModel = "HomeViewModel";
-        public static string TrisHomePageViewModel = "TrisHomePageViewModel";
-        public static string TrisMultiplayerViewModel = "TrisMultiplayerViewModel";
+        public static string MainWindow = "MainWindow";
+        public static string Home = "Home";
+        public static string TrisHomePage = "TrisHomePage";
+        public static string TrisMultiplayer = "TrisMultiplayer";
     }
 }

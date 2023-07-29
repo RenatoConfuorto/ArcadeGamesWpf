@@ -1,6 +1,9 @@
 ﻿using LIB.Attributes;
 using LIB.Base;
+using LIB.Dependency;
+using LIB.Events;
 using LIB.Interfaces.Navigation;
+using LIB.Interfaces.ViewModels;
 using LIB.Navigation;
 using System;
 using System.Collections.Generic;
@@ -9,10 +12,11 @@ using System.Reflection;
 using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace LIB.ViewModels
 {
-    public abstract class ViewModelBase : NotifyerPropertyChangedBase
+    public abstract class ViewModelBase : NotifyerPropertyChangedBase , IViewModelBase, IDisposable
     {
         #region Navigation
         private INavigationService _navigation;
@@ -21,20 +25,19 @@ namespace LIB.ViewModels
             get => _navigation;
             set => SetProperty(ref _navigation, value);
         }
+        public string ParentView { get; private set; }
         #endregion
 
         #region Events
-        public delegate void ViewChangedEvent(string viewToCall);
         public event ViewChangedEvent viewChangedEvent;
         #endregion
 
         #region Constructor
-        public ViewModelBase()
+        public ViewModelBase(string parentView = null)
         {
-        }
-        public ViewModelBase(INavigationService navService)
-        {
-            Navigation = navService;
+            ParentView = parentView;
+            IUnityContainer container = UnityHelper.Current.GetLocalContainer();
+            _navigation = container.Resolve<INavigationService>();
             OnInitialized();
         }
         #endregion
@@ -61,24 +64,24 @@ namespace LIB.ViewModels
         #region Protected Methods
         protected void NavigateTo<T>(T viewToCall) where T : ViewModelBase
         {
-            if(Navigation.CurrentView != null)
-            {
-                Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
-                if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
-                {
-                    ((ContentViewModel)Navigation.CurrentView).ResetGame();
-                }
-            }
-            Navigation.NavigateTo(typeof(T));
-            if(Navigation.CurrentView != null)
-            {
-                Navigation.CurrentView.viewChangedEvent += OnViewChanged;
-                if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
-                {
-                    ((ContentViewModel)Navigation.CurrentView).ResetGame();
-                }
-            }
-            SetCommandExecutionStatus();
+            //if(Navigation.CurrentView != null)
+            //{
+            //    Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
+            //    if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
+            //    {
+            //        ((ContentViewModel)Navigation.CurrentView).ResetGame();
+            //    }
+            //}
+            //Navigation.NavigateTo(typeof(T));
+            //if(Navigation.CurrentView != null)
+            //{
+            //    Navigation.CurrentView.viewChangedEvent += OnViewChanged;
+            //    if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
+            //    {
+            //        ((ContentViewModel)Navigation.CurrentView).ResetGame();
+            //    }
+            //}
+            //SetCommandExecutionStatus();
         }
         protected void OnViewChanged(string viewToCall)
         {
@@ -86,31 +89,41 @@ namespace LIB.ViewModels
         }
         protected void NavigateToView(string viewName)
         {
-            if(ViewsManager.Views.ContainsKey(viewName))
+            if(Navigation.CurrentView != null)
             {
-                Type viewType = ViewsManager.Views[viewName];
-                if(viewType != null)
-                {
-                    if (Navigation.CurrentView != null)
-                    {
-                        Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
-                        if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
-                        {
-                            ((ContentViewModel)Navigation.CurrentView).ResetGame();
-                        }
-                    }
-                    Navigation.NavigateTo(viewType);
-                    if (Navigation.CurrentView != null)
-                    {
-                        Navigation.CurrentView.viewChangedEvent += OnViewChanged;
-                        if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
-                        {
-                            ((ContentViewModel)Navigation.CurrentView).ResetGame();
-                        }
-                    }
-                    SetCommandExecutionStatus();
-                }
+                Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
             }
+            Navigation.NavigateTo(viewName);
+            if(Navigation.CurrentView != null)
+            {
+                Navigation.CurrentView.viewChangedEvent += OnViewChanged;
+            }
+            SetCommandExecutionStatus();
+            //if(ViewsManager.Views.ContainsKey(viewName))
+            //{
+            //    Type viewType = ViewsManager.Views[viewName];
+            //    if(viewType != null)
+            //    {
+            //        if (Navigation.CurrentView != null)
+            //        {
+            //            Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
+            //            if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
+            //            {
+            //                ((ContentViewModel)Navigation.CurrentView).ResetGame();
+            //            }
+            //        }
+            //        Navigation.NavigateTo(viewType);
+            //        if (Navigation.CurrentView != null)
+            //        {
+            //            Navigation.CurrentView.viewChangedEvent += OnViewChanged;
+            //            if (Navigation.CurrentView.GetType().IsSubclassOf(typeof(ContentViewModel)))
+            //            {
+            //                ((ContentViewModel)Navigation.CurrentView).ResetGame();
+            //            }
+            //        }
+            //        SetCommandExecutionStatus();
+            //    }
+            //}
         }
         protected void ChangeView(string viewToCall)
         {
@@ -125,6 +138,11 @@ namespace LIB.ViewModels
                     NavigateToView(viewModelType.Name);
                 }
             }
+        }
+
+        public virtual void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
         #endregion
 

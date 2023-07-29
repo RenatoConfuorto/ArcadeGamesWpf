@@ -43,6 +43,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -58,6 +59,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=5.11.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.5.11.2\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.11.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Configuration.5.11.2\lib\net47\Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.11.5\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +76,12 @@
     <Compile Include="Dependency\DependencyInjectionBase.cs" />
     <Compile Include="Base\NotifyerPropertyChangedBase.cs" />
     <Compile Include="Base\RelayCommand.cs" />
+    <Compile Include="Dependency\UnityHelper.cs" />
     <Compile Include="Entities\CellEntityBase.cs" />
+    <Compile Include="Events\ViewChangedEvent.cs" />
     <Compile Include="Helpers\MessageDialogHelper.cs" />
     <Compile Include="Interfaces\Navigation\INavigationService.cs" />
+    <Compile Include="Interfaces\ViewModels\IViewModelBase.cs" />
     <Compile Include="MarkupExtensions\EmFontSize.cs" />
     <Compile Include="Navigation\NavigationServiceBase.cs" />
     <Compile Include="Navigation\ViewsManager.cs" />
@@ -85,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Fonts\PressStart2P-Regular.ttf" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

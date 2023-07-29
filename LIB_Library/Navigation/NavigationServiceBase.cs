@@ -1,5 +1,7 @@
 ﻿using LIB.Base;
+using LIB.Dependency;
 using LIB.Interfaces.Navigation;
+using LIB.Interfaces.ViewModels;
 using LIB.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,55 +11,80 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace LIB.Navigation
 {
     public class NavigationServiceBase : NotifyerPropertyChangedBase, INavigationService
     {
-        private ViewModelBase _viewModel;
-        private Type _parentView;
-        private readonly Func<Type, ViewModelBase> _viewModelFactory;
-        public ViewModelBase CurrentView
+        private IUnityContainer _container;
+        private IViewModelBase _viewModel;
+        private string _parentViewName;
+
+        //private readonly Func<Type, ViewModelBase> _viewModelFactory;
+        public IUnityContainer Container
+        {
+            get
+            {
+                if (_container == null) _container = UnityHelper.Current.GetLocalContainer();
+                return _container;
+            }
+        }
+        public IViewModelBase CurrentView
         {
             get => _viewModel;
             private set => SetProperty(ref _viewModel, value);
         }
-        public Type ParentView
+        public string ParentViewName
         {
-            get => _parentView;
-            private set => SetProperty(ref _parentView, value);
+            get => _parentViewName;
+            private set => SetProperty(ref _parentViewName, value);
         }
 
-        public NavigationServiceBase(Func<Type, ViewModelBase> viewModelFactory)
+        public NavigationServiceBase()
         {
-            _viewModelFactory = viewModelFactory;
         }
 
-        public void NavigateTo<T>() where T : ViewModelBase 
-        {
-            ViewModelBase viewModel = _viewModelFactory?.Invoke(typeof(T));
-            CurrentView = viewModel;
-            SetParentView();
-        }
+        //public void NavigateTo<T>() where T : ViewModelBase 
+        //{
+        //    ViewModelBase viewModel = _viewModelFactory?.Invoke(typeof(T));
+        //    CurrentView = viewModel;
+        //    SetParentView();
+        //}
 
-        public void NavigateTo(Type viewModelType)
+        //public void NavigateTo(Type viewModelType)
+        //{
+        //    if (viewModelType.IsSubclassOf(typeof(ViewModelBase)))
+        //    {
+        //        ViewModelBase viewModel = _viewModelFactory?.Invoke(viewModelType);
+        //        CurrentView = viewModel;
+        //        SetParentView();
+        //    }
+        //}
+        public void NavigateTo(string ViewName)
         {
-            if (viewModelType.IsSubclassOf(typeof(ViewModelBase)))
+            if(ViewName != null)
             {
-                ViewModelBase viewModel = _viewModelFactory?.Invoke(viewModelType);
-                CurrentView = viewModel;
+                if(CurrentView != null) CurrentView.Dispose();
+                CurrentView = Container.Resolve<IViewModelBase>(ViewName);
                 SetParentView();
             }
+
         }
         private void SetParentView()
         {
-            Type parent = null;
-            Attributes.ParentView attribute = CurrentView.GetType().GetCustomAttribute<Attributes.ParentView>();
-            if(attribute != null)
+            string parent = null;
+            //Attributes.ParentView attribute = CurrentView.GetType().GetCustomAttribute<Attributes.ParentView>();
+            //if(attribute != null)
+            //{
+            //    parent = attribute.ParentName;
+            //}
+            //ParentViewName = parent;
+            if(CurrentView != null)
             {
-                parent = attribute.Parent;
+                parent = CurrentView.ParentView;
             }
-            ParentView = parent;
+            ParentViewName = parent;
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using ArcadeGames.ViewModels;
 using ArcadeGames.Views;
+using LIB.Constants;
+using LIB.Dependency;
+using LIB.Interfaces.ViewModels;
 using LIB.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,6 +12,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Unity;
 
 namespace ArcadeGames
 {
@@ -17,6 +21,15 @@ namespace ArcadeGames
     /// </summary>
     public partial class App : Application
     {
+        private IUnityContainer _container;
+        public IUnityContainer Container
+        {
+            get
+            {
+                if(_container == null )_container = UnityHelper.Current.GetLocalContainer();
+                return _container;
+            }
+        }
         public App()
         {
             
@@ -29,9 +42,19 @@ namespace ArcadeGames
             {
                 DefaultValue = FindResource(typeof(Window))
             });
-            var mainWindow = dependencies.ServiceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+            DependencyInjectionBase.InitDependencies();
+            NavigateToMainView();
+
             base.OnStartup(e);
+        }
+
+        public void NavigateToMainView()
+        {
+            IUnityContainer container = UnityHelper.Current.GetLocalContainer();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.DataContext = container.Resolve<IViewModelBase>(ViewNames.MainWindow);
+            mainWindow.Show();
+
         }
     }
 }

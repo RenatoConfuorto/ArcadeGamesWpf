@@ -36,7 +36,7 @@
                     </Button.Content>
                 </Button>
                 <Button Style="{StaticResource IconButton}"
-                        ToolTip="Indietro"
+                        ToolTip="Gestione Utenti"
                         Padding="10"
                         MinWidth="60"
                         MinHeight="60"

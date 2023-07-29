@@ -1,4 +1,5 @@
 ﻿using LIB.Interfaces.Navigation;
+using LIB.Interfaces.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace LIB.ViewModels
         #endregion
 
         #region Constructor
-        public ContentViewModel(INavigationService navService) : base(navService)
+        public ContentViewModel(string parentView = null) : base(parentView)
         {
         }
         #endregion
@@ -29,6 +30,11 @@ namespace LIB.ViewModels
             base.OnInitialized();
             InitGame();
         }
+        public override void Dispose()
+        {
+            base.Dispose();
+            InitGame();
+        }
         #endregion
 
         #region Private Methods
@@ -37,9 +43,5 @@ namespace LIB.ViewModels
         #region Protected Methods
         protected virtual void InitGame() { }
         #endregion
-        public void ResetGame()
-        {
-            InitGame();
-        }
     }
 }

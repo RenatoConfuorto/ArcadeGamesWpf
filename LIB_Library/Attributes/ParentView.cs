@@ -9,16 +9,16 @@ namespace LIB.Attributes
 {
     public class ParentView : Attribute
     {
-        private Type _parent;
-        public Type Parent
+        private string _parentName;
+        public string ParentName
         {
-            get => _parent; 
-            private set => _parent = value;
+            get => _parentName; 
+            private set => _parentName = value;
         }
 
-        public ParentView(Type parent)
+        public ParentView(string parentName)
         {
-            Parent = parent;
+            ParentName = parentName;
         }
     }
 }

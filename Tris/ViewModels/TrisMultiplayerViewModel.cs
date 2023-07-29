@@ -1,4 +1,5 @@
 ﻿using LIB.Attributes;
+using LIB.Constants;
 using LIB.Helpers;
 using LIB.Interfaces.Navigation;
 using LIB.ViewModels;
@@ -12,7 +13,6 @@ using Tris.Common;
 
 namespace Tris.ViewModels
 {
-    [ParentView(typeof(TrisHomePageViewModel))]
     public class TrisMultiplayerViewModel : ContentViewModel
     {
         #region Private Fields
@@ -40,9 +40,8 @@ namespace Tris.ViewModels
         #endregion
 
         #region Constructor
-        public TrisMultiplayerViewModel() : this(null) { }
-        public TrisMultiplayerViewModel(INavigationService navService) : base(navService)
-        {
+        public TrisMultiplayerViewModel() : base(ViewNames.TrisHomePage) 
+        { 
         }
         #endregion
 
