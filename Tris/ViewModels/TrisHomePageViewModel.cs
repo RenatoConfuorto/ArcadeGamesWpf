@@ -1,16 +1,18 @@
-﻿using LIB.Base;
+﻿using Core.Commands;
 using LIB.Constants;
-using LIB.Interfaces.Navigation;
+using Core.Interfaces.Navigation;
 using LIB.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Attributes;
+using Tris.Views;
 
 namespace Tris.ViewModels
 {
-    //[ParentView(typeof(ViewModelBase))]
+    [ViewRef(typeof(TrisHomePageView))]
     public class TrisHomePageViewModel : ContentViewModel
     {
         #region Private Fields

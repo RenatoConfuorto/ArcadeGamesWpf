@@ -1,9 +1,9 @@
 ﻿using ArcadeGames.ViewModels;
 using ArcadeGames.Views;
 using LIB.Constants;
-using LIB.Dependency;
-using LIB.Interfaces.ViewModels;
-using LIB.ViewModels;
+using Core.Dependency;
+using Core.Interfaces.ViewModels;
+using Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

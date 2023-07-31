@@ -1,14 +1,14 @@
-﻿using LIB.Dependency;
-using LIB.Interfaces.ViewModels;
-using LIB.ViewModels;
+﻿using Core.Dependency;
+using Core.Interfaces.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Unity;
 
-namespace LIB.Interfaces.Navigation
+namespace Core.Interfaces.Navigation
 {
     public interface INavigationService
     {
@@ -18,6 +18,7 @@ namespace LIB.Interfaces.Navigation
         //void NavigateTo(Type viewModelType);
         IUnityContainer Container { get; }
         IViewModelBase CurrentView { get; }
+        UserControl CurrentControl { get; }
         string ParentViewName { get; }
 
         void NavigateTo(string ViewName);

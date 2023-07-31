@@ -1,9 +1,9 @@
-﻿using LIB.Base;
+﻿using Core.Commands;
 using LIB.Constants;
-using LIB.Helpers;
-using LIB.Interfaces.Navigation;
-using LIB.Navigation;
-using LIB.ViewModels;
+using Core.Helpers;
+using Core.Interfaces.Navigation;
+using Core.Navigation;
+using Core.ViewModels;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;

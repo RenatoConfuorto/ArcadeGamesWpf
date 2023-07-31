@@ -1,16 +1,16 @@
 ﻿using ArcadeGames.ViewModels;
 using ArcadeGames.Views;
-using LIB.Dependency;
+using Core.Dependency;
 using LIB.Constants;
-using LIB.Interfaces.Navigation;
-using LIB.ViewModels;
+using Core.Interfaces.Navigation;
+using Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tris.ViewModels;
-using LIB.Interfaces.ViewModels;
+using Core.Interfaces.ViewModels;
 
 namespace ArcadeGames
 {

@@ -1,9 +1,9 @@
-﻿using LIB.Base;
-using LIB.Dependency;
-using LIB.Events;
-using LIB.Interfaces.Navigation;
-using LIB.Interfaces.ViewModels;
-using LIB.Navigation;
+﻿using Core.Dependency;
+using Core.Entities;
+using Core.Events;
+using Core.Interfaces.Navigation;
+using Core.Interfaces.ViewModels;
+using Core.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity;
 
-namespace LIB.ViewModels
+namespace Core.ViewModels
 {
     public abstract class ViewModelBase : NotifyerPropertyChangedBase , IViewModelBase, IDisposable
     {
@@ -81,16 +81,6 @@ namespace LIB.ViewModels
         protected void ChangeView(string viewToCall)
         {
             viewChangedEvent?.Invoke(viewToCall);
-        }
-        protected void NavigateToView(Type viewModelType)
-        {
-            if (viewModelType.IsSubclassOf(typeof(ViewModelBase)))
-            {
-                if(ViewsManager.Views.ContainsKey(viewModelType.Name))
-                {
-                    NavigateToView(viewModelType.Name);
-                }
-            }
         }
 
         public virtual void Dispose()

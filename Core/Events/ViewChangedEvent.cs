@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LIB.Events
+namespace Core.Events
 {
     public delegate void ViewChangedEvent(string viewToCall);
 }

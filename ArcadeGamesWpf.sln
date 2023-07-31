@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LIB_Library", "LIB_Library\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tris", "Tris\Tris.csproj", "{0130FBF5-B46A-4D22-982F-A5EB63F4E9FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{375E336E-3EFC-40FE-88DD-6FE78A662ADA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0130FBF5-B46A-4D22-982F-A5EB63F4E9FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0130FBF5-B46A-4D22-982F-A5EB63F4E9FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0130FBF5-B46A-4D22-982F-A5EB63F4E9FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{375E336E-3EFC-40FE-88DD-6FE78A662ADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{375E336E-3EFC-40FE-88DD-6FE78A662ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{375E336E-3EFC-40FE-88DD-6FE78A662ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{375E336E-3EFC-40FE-88DD-6FE78A662ADA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

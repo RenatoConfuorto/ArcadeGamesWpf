@@ -85,6 +85,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{375E336E-3EFC-40FE-88DD-6FE78A662ADA}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LIB_Library\LIB_Library.csproj">
       <Project>{801b867b-ad2d-48f0-ab09-f292567878b4}</Project>
       <Name>LIB_Library</Name>

@@ -1,7 +1,6 @@
-﻿using LIB.Interfaces.Navigation;
-using LIB.Navigation;
-using LIB.ViewModels;
-using Microsoft.Practices.Unity.Configuration;
+﻿using Core.Interfaces.Navigation;
+using Core.Navigation;
+using Core.ViewModels;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ using System.Windows.Markup;
 using Unity;
 using Unity.Lifetime;
 
-namespace LIB.Dependency
+namespace Core.Dependency
 {
     public abstract class DependencyInjectionBase
     {

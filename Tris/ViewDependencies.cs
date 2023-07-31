@@ -1,6 +1,6 @@
 ﻿using LIB.Constants;
-using LIB.Dependency;
-using LIB.Interfaces.ViewModels;
+using Core.Dependency;
+using Core.Interfaces.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

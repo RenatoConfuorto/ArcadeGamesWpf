@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LIB.Base
+namespace Core.Entities
 {
     public class NotifyerPropertyChangedBase : INotifyPropertyChanged
     {

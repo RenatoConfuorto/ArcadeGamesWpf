@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Unity;
 
-namespace LIB.Dependency
+namespace Core.Dependency
 {
     public class UnityHelper
     {

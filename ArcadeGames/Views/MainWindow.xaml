@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:MarkupExtensions="clr-namespace:LIB.MarkupExtensions;assembly=LIB_Library"
+        xmlns:MarkupExtensions="clr-namespace:Core.MarkupExtensions;assembly=Core"
         xmlns:local="clr-namespace:ArcadeGames"
         mc:Ignorable="d"
         Title="Arcade Mania" Width="{x:Static SystemParameters.PrimaryScreenWidth}"  

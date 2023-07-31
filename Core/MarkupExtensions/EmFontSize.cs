@@ -7,7 +7,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows;
 
-namespace LIB.MarkupExtensions
+namespace Core.MarkupExtensions
 {
     [MarkupExtensionReturnType(typeof(double))]
     public class EmFontSize : MarkupExtension

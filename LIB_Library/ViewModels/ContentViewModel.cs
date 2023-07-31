@@ -1,5 +1,6 @@
-﻿using LIB.Interfaces.Navigation;
-using LIB.Interfaces.ViewModels;
+﻿using Core.Interfaces.Navigation;
+using Core.Interfaces.ViewModels;
+using Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using LIB.Constants;
-using LIB.Helpers;
-using LIB.Interfaces.Navigation;
+using Core.Helpers;
+using Core.Interfaces.Navigation;
 using LIB.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tris.Common;
+using Core.Attributes;
+using Tris.Views;
 
 namespace Tris.ViewModels
 {
+    [ViewRef(typeof(TrisMultiplayer))]
     public class TrisMultiplayerViewModel : ContentViewModel
     {
         #region Private Fields
