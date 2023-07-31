@@ -16,6 +16,7 @@ namespace Tris
         {
             AddDependency<IViewModelBase, TrisHomePageViewModel>(ViewNames.TrisHomePage);
             AddDependency<IViewModelBase, TrisMultiplayerViewModel>(ViewNames.TrisMultiplayer);
+            AddDependency<IViewModelBase, TrisSingleplayerViewModel>(ViewNames.TrisSingleplayer);
         }
     }
 }

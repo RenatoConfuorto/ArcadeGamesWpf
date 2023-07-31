@@ -18,9 +18,9 @@ namespace Tris.ViewModels
     public class TrisMultiplayerViewModel : ContentViewModel
     {
         #region Private Fields
-        private int turn;
-        private ObservableCollection<TrisEntity> _cells;
-        private List<int[]> winningCombinations = new List<int[]>()
+        protected int turn;
+        protected ObservableCollection<TrisEntity> _cells;
+        protected List<int[]> winningCombinations = new List<int[]>()
         {
             new int[] {0, 1, 2},
             new int[] {3, 4, 5},
@@ -78,7 +78,7 @@ namespace Tris.ViewModels
             }
             return result;
         }
-        private bool CheckVictory()
+        protected bool CheckVictory()
         {
             for(int i = 0; i < winningCombinations.Count; i++)
             {

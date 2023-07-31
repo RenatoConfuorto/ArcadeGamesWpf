@@ -15,4 +15,8 @@
     <DataTemplate DataType="{x:Type TrisViewModels:TrisMultiplayerViewModel}">
         <TrisViews:TrisMultiplayer/>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type TrisViewModels:TrisSingleplayerViewModel}">
+        <TrisViews:TrisSingleplayer/>
+    </DataTemplate>
 </ResourceDictionary>

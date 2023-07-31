@@ -67,9 +67,13 @@
     </Compile>
     <Compile Include="ViewDependencies.cs" />
     <Compile Include="ViewModels\TrisHomePageViewModel.cs" />
+    <Compile Include="ViewModels\TrisSingleplayerViewModel.cs" />
     <Compile Include="ViewModels\TrisMultiplayerViewModel.cs" />
     <Compile Include="Views\TrisHomePageView.xaml.cs">
       <DependentUpon>TrisHomePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrisSingleplayer.xaml.cs">
+      <DependentUpon>TrisSingleplayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TrisMultiplayer.xaml.cs">
       <DependentUpon>TrisMultiplayer.xaml</DependentUpon>
@@ -106,6 +110,10 @@
     <Page Include="Views\TrisHomePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrisSingleplayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TrisMultiplayer.xaml">
       <SubType>Designer</SubType>

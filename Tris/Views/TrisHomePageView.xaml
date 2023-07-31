@@ -29,6 +29,7 @@
 
             <StackPanel>
                 <Button Style="{StaticResource NavigationButton}"
+                        Command="{Binding SingleplayerCommand}"
                         Content="SinglePlayer"/>
                 <Button Style="{StaticResource NavigationButton}"
                         Command="{Binding MultiplayerCommand}"

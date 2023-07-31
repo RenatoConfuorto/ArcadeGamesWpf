@@ -20,6 +20,7 @@ namespace Tris.ViewModels
 
         #region Public Properties
         public RelayCommand MultiplayerCommand { get; set; }
+        public RelayCommand SingleplayerCommand { get; set; }
         #endregion
 
         #region Constructor
@@ -31,6 +32,7 @@ namespace Tris.ViewModels
         {
             base.InitCommands();
             MultiplayerCommand = new RelayCommand(MultiplayerCommandExecute);
+            SingleplayerCommand = new RelayCommand(SingleplayerCommandExecute);
         }
         #endregion
 
@@ -38,6 +40,10 @@ namespace Tris.ViewModels
         private void MultiplayerCommandExecute(object param)
         {
             ChangeView(ViewNames.TrisMultiplayer);
+        }
+        private void SingleplayerCommandExecute(object param)
+        {
+            ChangeView(ViewNames.TrisSingleplayer);
         }
         #endregion
     }
