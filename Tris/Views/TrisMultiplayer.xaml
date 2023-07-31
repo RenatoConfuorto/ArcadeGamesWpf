@@ -22,6 +22,7 @@
         </Grid.ColumnDefinitions>
         
         <ItemsControl Grid.Column="0" 
+                      IsEnabled="{Binding IsGameEnabled}"
                       ItemsSource="{Binding Cells}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

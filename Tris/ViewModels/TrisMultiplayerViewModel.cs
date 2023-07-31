@@ -111,7 +111,7 @@ namespace Tris.ViewModels
             {
                 MessageDialogHelper.ShowInfoMessage("Pareggio");
             }
-            InitGame();
+            IsGameEnabled = false;
         }
         #endregion
         #region Protected Methods
