@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tris", "Tris\Tris.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{375E336E-3EFC-40FE-88DD-6FE78A662ADA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManager", "UserManager\UserManager.csproj", "{1A64B6B0-C698-48B1-8A94-F1ECD297AD0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{375E336E-3EFC-40FE-88DD-6FE78A662ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{375E336E-3EFC-40FE-88DD-6FE78A662ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{375E336E-3EFC-40FE-88DD-6FE78A662ADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A64B6B0-C698-48B1-8A94-F1ECD297AD0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A64B6B0-C698-48B1-8A94-F1ECD297AD0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A64B6B0-C698-48B1-8A94-F1ECD297AD0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A64B6B0-C698-48B1-8A94-F1ECD297AD0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

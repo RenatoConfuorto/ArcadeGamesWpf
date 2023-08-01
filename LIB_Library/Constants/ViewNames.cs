@@ -12,8 +12,11 @@ namespace LIB.Constants
     {
         public static string MainWindow = "MainWindow";
         public static string Home = "Home";
+        //Tris
         public static string TrisHomePage = "TrisHomePage";
         public static string TrisMultiplayer = "TrisMultiplayer";
         public static string TrisSingleplayer = "TrisSingleplayer";
+        //User Manager
+        public static string UserMngMainPage = "UserMngMainPage";
     }
 }

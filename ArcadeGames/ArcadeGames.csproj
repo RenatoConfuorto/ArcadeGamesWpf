@@ -159,6 +159,10 @@
       <Project>{0130fbf5-b46a-4d22-982f-a5eb63f4e9fd}</Project>
       <Name>Tris</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UserManager\UserManager.csproj">
+      <Project>{1a64b6b0-c698-48b1-8a94-f1ecd297ad0d}</Project>
+      <Name>UserManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

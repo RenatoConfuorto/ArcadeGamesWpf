@@ -62,6 +62,7 @@
     <Compile Include="Dependency\UnityHelper.cs" />
     <Compile Include="Entities\NotifyerPropertyChangedBase.cs" />
     <Compile Include="Events\ViewChangedEvent.cs" />
+    <Compile Include="Helpers\XmlSerializer.cs" />
     <Compile Include="Interfaces\Navigation\INavigationService.cs" />
     <Compile Include="Interfaces\ViewModels\IViewModelBase.cs" />
     <Compile Include="MarkupExtensions\EmFontSize.cs" />
@@ -84,7 +85,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Helpers\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

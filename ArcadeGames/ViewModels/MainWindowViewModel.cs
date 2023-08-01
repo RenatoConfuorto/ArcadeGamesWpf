@@ -25,6 +25,7 @@ namespace ArcadeGames.ViewModels
 
         #region Commands
         public RelayCommand ShoutDownCommand { get; set; }
+        public RelayCommand UserManagerCommand { get; set; }
         public RelayCommand PreviousPageCommand { get; set; }
         public RelayCommand ReloadPageCommand { get; set; }
         #endregion
@@ -44,6 +45,7 @@ namespace ArcadeGames.ViewModels
             ShoutDownCommand = new RelayCommand(ShoutDownCommandExecute);
             PreviousPageCommand = new RelayCommand(PreviousPageCommandExecute, PreviousPageCommandCanExecute);
             ReloadPageCommand = new RelayCommand(ReloadPageCommandExecute);
+            UserManagerCommand = new RelayCommand(UserManagerCommandExecute);
         }
         protected override void SetCommandExecutionStatus()
         {
@@ -77,6 +79,11 @@ namespace ArcadeGames.ViewModels
         }
         private bool PreviousPageCommandCanExecute(object param) => !String.IsNullOrEmpty(Navigation.ParentViewName);
         private void ReloadPageCommandExecute(object param) { NavigateToView(Navigation.CurrentView.ViewName); }
+
+        private void UserManagerCommandExecute(object param)
+        {
+            NavigateToView(ViewNames.UserMngMainPage);
+        }
         #endregion
     }
 }

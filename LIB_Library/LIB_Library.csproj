@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Constants\ViewNames.cs" />
     <Compile Include="Entities\CellEntityBase.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Helpers\MessageDialogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\GameMessage.xaml.cs">

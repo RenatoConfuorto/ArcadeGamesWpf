@@ -9,79 +9,38 @@
         mc:Ignorable="d"
         Title="Arcade Mania" Width="{x:Static SystemParameters.PrimaryScreenWidth}"  
             Height="{x:Static SystemParameters.PrimaryScreenHeight}">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Border BorderBrush="Transparent"
+            BorderThickness="30 15 30 0"
+            Margin="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <GroupBox Grid.Row="0" 
-                  BorderThickness="1" 
-                  BorderBrush="{StaticResource BorderColor}"
-                  MaxHeight="100"
-                  Margin="30 15 30 0">
-            <StackPanel Orientation="Horizontal">
-                
-
-                <!--<Button Style="{StaticResource IconButton}"
-                        Command="{Binding PreviousPageCommand}"
-                        ToolTip="Indietro"
-                        Padding="10"
-                        MinWidth="60"
-                        MinHeight="60"
-                        Margin="15">
-                    <Button.Content>
-                        <Image Source="{StaticResource ArrowLeft}"/>
-                    </Button.Content>
-                </Button>
-                <Button Style="{StaticResource IconButton}"
-                        Command="{Binding ReloadPageCommand}"
-                        ToolTip="Indietro"
-                        Padding="10"
-                        MinWidth="60"
-                        MinHeight="60"
-                        Margin="15">
-                    <Button.Content>
-                        <Image Source="{StaticResource ReloadIcon}"/>
-                    </Button.Content>
-                </Button>
-                <Button Style="{StaticResource IconButton}"
-                        ToolTip="Gestione Utenti"
-                        Padding="10"
-                        MinWidth="60"
-                        MinHeight="60"
-                        Margin="15">
-                    <Button.Content>
-                        <Image Source="{StaticResource UserIcon}"/>
-                    </Button.Content>
-                </Button>
-                <Button Style="{StaticResource IconButton}"
-                        Command="{Binding ShoutDownCommand}"
-                        ToolTip="Esci"
-                        MinWidth="60"
-                        MinHeight="60"
-                        Padding="10"
-                        Margin="10">
-                    <Button.Content>
-                        <Image Source="{StaticResource ShoutdownIcon}"/>
-                    </Button.Content>
-                </Button>-->
-                <UserControls:IconButton ToolTip="Indietro"
-                                         Source="{StaticResource ArrowLeft}"
-                                         Command="{Binding PreviousPageCommand}"/>
-                <UserControls:IconButton ToolTip="Ricarica"
-                                         Source="{StaticResource ReloadIcon}"
-                                         Command="{Binding ReloadPageCommand}"/>
-                <UserControls:IconButton ToolTip="Gestione Utenti"
-                                         Source="{StaticResource UserIcon}"/>
-                <UserControls:IconButton ToolTip="Esci"
-                                         Source="{StaticResource ShoutdownIcon}"
-                                         Command="{Binding ShoutDownCommand}"/>
-            </StackPanel>
-        </GroupBox>
-        <ContentPresenter Grid.Row="1" Content="{Binding Navigation.CurrentView}"/>
-    </Grid>
+            <GroupBox Grid.Row="0" 
+                      BorderThickness="1" 
+                      BorderBrush="{StaticResource BorderColor}"
+                      MaxHeight="100">
+                <StackPanel Orientation="Horizontal">
+                    <UserControls:IconButton ToolTip="Indietro"
+                                             Source="{StaticResource ArrowLeft}"
+                                             Command="{Binding PreviousPageCommand}"/>
+                    <UserControls:IconButton ToolTip="Ricarica"
+                                             Source="{StaticResource ReloadIcon}"
+                                             Command="{Binding ReloadPageCommand}"/>
+                    <UserControls:IconButton ToolTip="Gestione Utenti"
+                                             Source="{StaticResource UserIcon}"
+                                             Command="{Binding UserManagerCommand}"/>
+                    <UserControls:IconButton ToolTip="Esci"
+                                             Source="{StaticResource ShoutdownIcon}"
+                                             Command="{Binding ShoutDownCommand}"/>
+                </StackPanel>
+            </GroupBox>
+            <ContentPresenter Grid.Row="1" Content="{Binding Navigation.CurrentView}"/>
+        </Grid>
+    </Border>
 </Window>
