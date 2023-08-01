@@ -9,6 +9,7 @@ namespace Core.Interfaces.ViewModels
 {
     public interface IViewModelBase : IDisposable
     {
+        string ViewName { get; }
         string ParentView { get; }
         event ViewChangedEvent viewChangedEvent;
     }

@@ -16,7 +16,7 @@ using System.Threading;
 namespace Tris.ViewModels
 {
     [ViewRef(typeof(TrisSingleplayer))]
-    public class TrisSingleplayerViewModel : TrisMultiplayerViewModel
+    public class TrisSingleplayerViewModel : TrisGameBaseModel
     {
         #region Private Fields
         private bool isComputerTurn = false;
@@ -27,7 +27,7 @@ namespace Tris.ViewModels
         #endregion
 
         #region Constructor
-        public TrisSingleplayerViewModel() : base() 
+        public TrisSingleplayerViewModel() : base(ViewNames.TrisSingleplayer) 
         { 
         }
         #endregion
@@ -41,6 +41,16 @@ namespace Tris.ViewModels
         protected override void InitGame()
         {
             base.InitGame();
+            if(parallelThread != null)
+            {
+                try
+                {
+                    parallelThread.Abort();
+                }catch(Exception ex) 
+                {
+
+                }
+            }
             isComputerTurn = false;
         }
         #endregion

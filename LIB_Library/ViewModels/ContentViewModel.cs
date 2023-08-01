@@ -26,7 +26,7 @@ namespace LIB.ViewModels
         #endregion
 
         #region Constructor
-        public ContentViewModel(string parentView = null) : base(parentView)
+        public ContentViewModel(string viewName, string parentView = null) : base(viewName, parentView)
         {
         }
         #endregion

@@ -36,6 +36,17 @@
                     </Button.Content>
                 </Button>
                 <Button Style="{StaticResource IconButton}"
+                        Command="{Binding ReloadPageCommand}"
+                        ToolTip="Indietro"
+                        Padding="10"
+                        MinWidth="60"
+                        MinHeight="60"
+                        Margin="15">
+                    <Button.Content>
+                        <Image Source="{StaticResource ReloadIcon}"/>
+                    </Button.Content>
+                </Button>
+                <Button Style="{StaticResource IconButton}"
                         ToolTip="Gestione Utenti"
                         Padding="10"
                         MinWidth="60"

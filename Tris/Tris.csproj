@@ -66,6 +66,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewDependencies.cs" />
+    <Compile Include="ViewModels\TrisGameBaseModel.cs" />
     <Compile Include="ViewModels\TrisHomePageViewModel.cs" />
     <Compile Include="ViewModels\TrisSingleplayerViewModel.cs" />
     <Compile Include="ViewModels\TrisMultiplayerViewModel.cs" />

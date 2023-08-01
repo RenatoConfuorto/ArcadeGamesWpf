@@ -30,10 +30,14 @@ namespace Core.ViewModels
         #region Events
         public event ViewChangedEvent viewChangedEvent;
         #endregion
+        #region Public Properties
+        public string ViewName { get; private set; }
+        #endregion
 
         #region Constructor
-        public ViewModelBase(string parentView = null)
+        public ViewModelBase(string viewName, string parentView = null)
         {
+            ViewName = viewName;
             ParentView = parentView;
             IUnityContainer container = UnityHelper.Current.GetLocalContainer();
             _navigation = container.Resolve<INavigationService>();

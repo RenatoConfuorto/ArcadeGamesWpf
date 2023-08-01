@@ -24,7 +24,7 @@ namespace Tris.ViewModels
         #endregion
 
         #region Constructor
-        public TrisHomePageViewModel() : base(ViewNames.Home) { }
+        public TrisHomePageViewModel() : base(ViewNames.TrisHomePage, ViewNames.Home) { }
         #endregion
 
         #region Override Methods

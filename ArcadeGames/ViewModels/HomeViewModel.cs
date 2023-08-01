@@ -26,7 +26,7 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Constructor
-        public HomeViewModel() : base() { }
+        public HomeViewModel() : base(ViewNames.Home) { }
         #endregion
 
         #region Override Methods
