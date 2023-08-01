@@ -11,11 +11,10 @@ using Tris.Common;
 
 namespace Tris.ViewModels
 {
-    public abstract class TrisGameBaseModel : ContentViewModel
+    public abstract class TrisGameBaseModel : GameViewModelBase<TrisEntity>
     {
         #region Private Fields
         protected int turn;
-        protected ObservableCollection<TrisEntity> _cells;
         protected List<int[]> winningCombinations = new List<int[]>()
         {
             new int[] {0, 1, 2},
@@ -30,11 +29,6 @@ namespace Tris.ViewModels
         #endregion
 
         #region Public Properties
-        public ObservableCollection<TrisEntity> Cells
-        {
-            get => _cells;
-            set => SetProperty(ref _cells, value);
-        }
         #endregion
 
         #region Constructor
@@ -53,12 +47,8 @@ namespace Tris.ViewModels
         {
             base.InitGame();
             turn = 1;
-            Cells = GenerateGrid();
         }
-        #endregion
-
-        #region Private Methods
-        private ObservableCollection<TrisEntity> GenerateGrid()
+        protected override ObservableCollection<TrisEntity> GenerateGrid()
         {
             ObservableCollection<TrisEntity> result = new ObservableCollection<TrisEntity>();
             TrisEntity cell;
@@ -74,6 +64,9 @@ namespace Tris.ViewModels
             }
             return result;
         }
+        #endregion
+
+        #region Private Methods
         protected bool CheckVictory()
         {
             for (int i = 0; i < winningCombinations.Count; i++)

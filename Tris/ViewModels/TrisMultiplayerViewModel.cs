@@ -51,13 +51,13 @@ namespace Tris.ViewModels
                 {
                     player = "O";
                 }
-                MessageDialogHelper.ShowInfoMessage($"{player} ha vinto !");
+                GameOverMessage = $"{player} ha vinto !";
             }
             else
             {
-                MessageDialogHelper.ShowInfoMessage("Pareggio");
+                GameOverMessage = "Pareggio";
             }
-            IsGameEnabled = false;
+            EndGame();
         }
         #endregion
         #region Protected Methods

@@ -13,7 +13,7 @@ namespace Core.Helpers
         public static void ShowInfoMessage(string message)
         {
             MessageBox messagebox = new MessageBox(MessageType.Info, message);
-            messagebox.ShowDialog();
+            messagebox.Show();
         }
 
         public static bool ShowConfirmationRequestMessage(string message)

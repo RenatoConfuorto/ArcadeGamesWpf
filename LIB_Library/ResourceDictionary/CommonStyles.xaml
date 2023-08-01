@@ -3,6 +3,7 @@
                     xmlns:UserControls="clr-namespace:LIB.UserControls"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Core;component/ResourceDictionary/CommonStyles.xaml"/>
         <ResourceDictionary Source="/LIB_Library;component/ResourceDictionary/CommonColors.xaml"/>
         <ResourceDictionary Source="/LIB_Library;component/ResourceDictionary/Geometries.xaml"/>
     </ResourceDictionary.MergedDictionaries>

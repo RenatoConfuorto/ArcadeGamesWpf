@@ -2,6 +2,7 @@
                     xmlns:MarkupExtensions="clr-namespace:Core.MarkupExtensions"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Core;component/ResourceDictionary/MessageBox.xaml"/>
+        <ResourceDictionary Source="/Core;component/ResourceDictionary/ValueConverters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+    
 </ResourceDictionary>

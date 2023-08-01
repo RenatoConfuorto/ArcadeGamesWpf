@@ -12,6 +12,7 @@ using Tris.Common;
 using Core.Attributes;
 using Tris.Views;
 using System.Threading;
+using System.Windows;
 
 namespace Tris.ViewModels
 {
@@ -65,13 +66,13 @@ namespace Tris.ViewModels
                 {
                     player = "Computer";
                 }
-                MessageDialogHelper.ShowInfoMessage($"{player} ha vinto !");
+                GameOverMessage = $"{player} ha vinto !";
             }
             else
             {
-                MessageDialogHelper.ShowInfoMessage("Pareggio");
+                GameOverMessage = "Pareggio";
             }
-            IsGameEnabled = false;
+            EndGame();
         }
         private bool AfterSign()
         {
@@ -150,7 +151,7 @@ namespace Tris.ViewModels
         }
         #endregion
         #region Protected Methods
-        protected async override void OnCellClicked(int cellId)
+        protected override void OnCellClicked(int cellId)
         {
             if (isComputerTurn) return;
             if(parallelThread != null) parallelThread.Abort();
