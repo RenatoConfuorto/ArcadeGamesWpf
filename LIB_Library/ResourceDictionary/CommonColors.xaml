@@ -8,7 +8,7 @@
 
     <SolidColorBrush x:Key="BgColor" Color="{StaticResource bgColor}"/>
     <SolidColorBrush x:Key="BgColorLight" Color="{StaticResource bgColorLight}"/>
-    <SolidColorBrush x:Key="AcccentColor" Color="{StaticResource accentColor}"/>
+    <SolidColorBrush x:Key="AccentColor" Color="{StaticResource accentColor}"/>
     <SolidColorBrush x:Key="TextColor" Color="{StaticResource textColor}"/>
     <SolidColorBrush x:Key="BorderColor" Color="{StaticResource borderColor}"/>
 </ResourceDictionary>

@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:MarkupExtensions="clr-namespace:Core.MarkupExtensions;assembly=Core"
+                    xmlns:UserControls="clr-namespace:LIB.UserControls"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/LIB_Library;component/ResourceDictionary/CommonColors.xaml"/>
@@ -30,7 +31,7 @@
     </Style>
 
     <Style TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource AcccentColor}"/>
+        <Setter Property="Background" Value="{StaticResource AccentColor}"/>
         <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="MinWidth" Value="50"/>
@@ -70,23 +71,10 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource BgColor}"/>
-                <Setter Property="Foreground" Value="{StaticResource AcccentColor}"/>
+                <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="Background" Value="{StaticResource BgColor}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style TargetType="Button" BasedOn="{StaticResource NavigationButton}" x:Key="IconButton">
-        <Style.Resources>
-            <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="5"/>
-            </Style>
-        </Style.Resources>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
             </Trigger>
         </Style.Triggers>
     </Style>

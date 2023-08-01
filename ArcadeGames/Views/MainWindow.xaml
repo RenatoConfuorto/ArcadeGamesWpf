@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:UserControls="clr-namespace:LIB.UserControls;assembly=LIB_Library"
         xmlns:MarkupExtensions="clr-namespace:Core.MarkupExtensions;assembly=Core"
         xmlns:local="clr-namespace:ArcadeGames"
         mc:Ignorable="d"
@@ -23,8 +24,9 @@
                   MaxHeight="100"
                   Margin="30 15 30 0">
             <StackPanel Orientation="Horizontal">
+                
 
-                <Button Style="{StaticResource IconButton}"
+                <!--<Button Style="{StaticResource IconButton}"
                         Command="{Binding PreviousPageCommand}"
                         ToolTip="Indietro"
                         Padding="10"
@@ -66,7 +68,18 @@
                     <Button.Content>
                         <Image Source="{StaticResource ShoutdownIcon}"/>
                     </Button.Content>
-                </Button>
+                </Button>-->
+                <UserControls:IconButton ToolTip="Indietro"
+                                         Source="{StaticResource ArrowLeft}"
+                                         Command="{Binding PreviousPageCommand}"/>
+                <UserControls:IconButton ToolTip="Ricarica"
+                                         Source="{StaticResource ReloadIcon}"
+                                         Command="{Binding ReloadPageCommand}"/>
+                <UserControls:IconButton ToolTip="Gestione Utenti"
+                                         Source="{StaticResource UserIcon}"/>
+                <UserControls:IconButton ToolTip="Esci"
+                                         Source="{StaticResource ShoutdownIcon}"
+                                         Command="{Binding ShoutDownCommand}"/>
             </StackPanel>
         </GroupBox>
         <ContentPresenter Grid.Row="1" Content="{Binding Navigation.CurrentView}"/>
