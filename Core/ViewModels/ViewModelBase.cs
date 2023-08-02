@@ -3,7 +3,6 @@ using Core.Entities;
 using Core.Events;
 using Core.Interfaces.Navigation;
 using Core.Interfaces.ViewModels;
-using Core.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

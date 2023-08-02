@@ -70,7 +70,6 @@
     <Compile Include="Interfaces\Navigation\INavigationService.cs" />
     <Compile Include="Interfaces\ViewModels\IViewModelBase.cs" />
     <Compile Include="MarkupExtensions\EmFontSize.cs" />
-    <Compile Include="Navigation\NavigationServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -89,6 +88,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Navigation\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,7 +15,7 @@ using System.Windows.Controls;
 using Core.Attributes;
 using System.Windows;
 
-namespace Core.Navigation
+namespace LIB.Navigation
 {
     public class NavigationServiceBase : NotifyerPropertyChangedBase, INavigationService
     {

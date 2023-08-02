@@ -10,7 +10,7 @@ using UserManager.ViewModels;
 
 namespace UserManager
 {
-    public class ViewDependencies : DependencyInjectionBase
+    public class ModuleDependencies : DependencyInjectionBase
     {
         public override void InjectDependencies()
         {

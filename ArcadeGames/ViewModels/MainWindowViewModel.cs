@@ -2,7 +2,6 @@
 using LIB.Constants;
 using Core.Helpers;
 using Core.Interfaces.Navigation;
-using Core.Navigation;
 using Core.ViewModels;
 using System;
 using System.CodeDom;

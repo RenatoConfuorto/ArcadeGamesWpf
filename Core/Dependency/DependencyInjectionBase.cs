@@ -2,7 +2,6 @@
 using Core.Helpers;
 using Core.Interfaces.Navigation;
 using Core.Interfaces.ViewModels;
-using Core.Navigation;
 using Core.ViewModels;
 using System;
 using System.CodeDom;
@@ -58,8 +57,6 @@ namespace Core.Dependency
         /// </summary>
         public static void InitDependencies()
         {
-            IUnityContainer container = UnityHelper.Current.GetLocalContainer();
-            container.RegisterType(typeof(INavigationService), typeof(NavigationServiceBase));
 
             Assembly[] assemblies = AssemblyHelper.LoadApplicationAssemblies();
             foreach (Assembly assembly in assemblies)
