@@ -35,17 +35,18 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\ModulesAssemblies\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>CS0168;</NoWarn>
+    <NoWarn>CS0168;CS1591;</NoWarn>
+    <DocumentationFile>..\ModulesAssemblies\Debug\ArcadeGames.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\ModulesAssemblies\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -88,10 +89,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="ResourceDictionary\CommonStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ResourceDictionary\ViewsDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,14 +152,6 @@
       <Project>{801b867b-ad2d-48f0-ab09-f292567878b4}</Project>
       <Name>LIB_Library</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tris\Tris.csproj">
-      <Project>{0130fbf5-b46a-4d22-982f-a5eb63f4e9fd}</Project>
-      <Name>Tris</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UserManager\UserManager.csproj">
-      <Project>{1a64b6b0-c698-48b1-8a94-f1ecd297ad0d}</Project>
-      <Name>UserManager</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
@@ -183,4 +172,8 @@
     <Resource Include="Images\thumbs.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

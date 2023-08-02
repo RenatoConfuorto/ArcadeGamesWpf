@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tris.ViewModels;
 using Core.Interfaces.ViewModels;
 
 namespace ArcadeGames

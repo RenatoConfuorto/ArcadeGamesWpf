@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/LIB_Library;component/ResourceDictionary/CommonStyles.xaml"/>
-        <ResourceDictionary Source="/ArcadeGames;component/ResourceDictionary/ViewsDictionary.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

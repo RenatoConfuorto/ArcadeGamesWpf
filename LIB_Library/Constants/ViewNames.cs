@@ -8,7 +8,7 @@ using System.Windows.Controls.Primitives;
 
 namespace LIB.Constants
 {
-    public static class ViewNames
+    public class ViewNames
     {
         public static string MainWindow = "MainWindow";
         public static string Home = "Home";

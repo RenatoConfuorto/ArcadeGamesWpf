@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
+using Core.Helpers;
 
 namespace ArcadeGames
 {
@@ -36,7 +37,6 @@ namespace ArcadeGames
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            ViewDependencies dependencies = new ViewDependencies();
             FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
             {
                 DefaultValue = FindResource(typeof(Window))

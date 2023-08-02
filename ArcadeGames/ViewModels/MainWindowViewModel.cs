@@ -12,9 +12,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Core.Attributes;
+using ArcadeGames.Views;
 
 namespace ArcadeGames.ViewModels
 {
+    [ViewRef(typeof(MainWindow))]
     public class MainWindowViewModel : ViewModelBase
     {
         #region Private Fields
