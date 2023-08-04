@@ -51,7 +51,10 @@
                 </Style>
             </StackPanel.Resources>
             <Button Content="Crea" Command="{Binding NewCommand}"/>
-            <Button Content="Connetti" Command="{Binding LogInCommand}"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Connetti" Command="{Binding LogInMainCommand}"/>
+                <Button Content="Connetti" Command="{Binding LogInSecondCommand}" CommandParameter="1"/>
+            </StackPanel>
             <Button Content="Gestisci" Command="{Binding ManageCommand}"/>
         </StackPanel>
     </Grid>

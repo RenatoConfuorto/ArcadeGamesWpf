@@ -25,7 +25,8 @@ namespace UserManager.ViewModels
 
         #region Commands
         public RelayCommand NewCommand { get; set; }
-        public RelayCommand LogInCommand { get; set; }
+        public RelayCommand LogInMainCommand { get; set; }
+        public RelayCommand LogInSecondCommand { get; set; }
         public RelayCommand ManageCommand { get; set; }
         #endregion
 
@@ -63,14 +64,7 @@ namespace UserManager.ViewModels
         {
             base.OnInitialized();
             Users = new ObservableCollection<User>(UserHelper.GetUsers());
-            //Users = new ObservableCollection<User>()
-            //{
-            //    new User() {Name="Test1", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=true},
-            //    new User() {Name="Test2", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=false},
-            //    new User() {Name="Test3", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=false},
-            //    new User() {Name="Test4", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=false},
-            //};
-            //string test = XmlSerializerBase.SerializeObjectToString(Users[1]);
+            
         }
         public override void Dispose()
         {
@@ -82,14 +76,21 @@ namespace UserManager.ViewModels
         {
             base.InitCommands();
             NewCommand = new RelayCommand(NewCommandExecute, NewCommandCanExecute);
-            LogInCommand = new RelayCommand(LogInCommandExecute, LogInCommandCanExecute);
+            LogInMainCommand = new RelayCommand(LogInMainCommandExecute, LogInMainCommandCanExecute);
+            LogInSecondCommand = new RelayCommand(LogInSecondCommandExecute, LogInSecondCommandCanExecute);
             ManageCommand = new RelayCommand(ManageCommandExecute, ManageCommandCanExecute);
+            NotifyPropertyChanged(nameof(NewCommand));
+            NotifyPropertyChanged(nameof(LogInMainCommand));
+            NotifyPropertyChanged(nameof(LogInSecondCommand));
+            NotifyPropertyChanged(nameof(ManageCommand));
         }
 
         protected override void SetCommandExecutionStatus()
         {
             base.SetCommandExecutionStatus();
             NewCommand.RaiseCanExecuteChanged();
+            LogInMainCommand.RaiseCanExecuteChanged();
+            LogInSecondCommand.RaiseCanExecuteChanged();
             ManageCommand.RaiseCanExecuteChanged();
         }
         #endregion
@@ -99,9 +100,62 @@ namespace UserManager.ViewModels
         {
             ChangeView(ViewNames.NewUserPage);
         }
+        private void GetLoggedUsers(out User mainLoggedUser, out User secondLoggedUser)
+        {
+            mainLoggedUser = LIB.UserMng.UserManager.MainLoggedUser.CurrentUser;
+            secondLoggedUser = LIB.UserMng.UserManager.SecondLoggedUser.CurrentUser;
+        }
         private bool NewCommandCanExecute(object param) => true;
-        private void LogInCommandExecute(object param) { }
-        private bool LogInCommandCanExecute(object param) => SelectedUser != null;
+        private void LogInMainCommandExecute(object param) 
+        {
+            if (LIB.UserMng.UserManager.MainLoggedUser.CurrentUser != null)
+            {
+                if (MessageDialogHelper.ShowConfirmationRequestMessage("È già stato effettuato l'accesso con un altro utente. \r\n Cambiare l'utente attuale?"))
+                {
+                    LIB.UserMng.UserManager.MainLoggedUser.UserLogIn(SelectedUser);
+                    MessageDialogHelper.ShowInfoMessage("Accesso effettuato");
+                }
+            }
+            else
+            {
+                LIB.UserMng.UserManager.MainLoggedUser.UserLogIn(SelectedUser);
+                MessageDialogHelper.ShowInfoMessage("Accesso effettuato");
+            }
+            SetCommandExecutionStatus();
+            
+        }
+        private bool LogInMainCommandCanExecute(object param)
+        {
+            User main;
+            User second;
+            GetLoggedUsers(out main, out second);
+            //return SelectedUser != null && main != null && SelectedUser?.Name != main?.Name && SelectedUser?.Name != second?.Name;
+            return SelectedUser != null && main?.Name != SelectedUser?.Name && second?.Name != SelectedUser?.Name;
+        }
+        private void LogInSecondCommandExecute(object param) 
+        {
+            if (LIB.UserMng.UserManager.SecondLoggedUser.CurrentUser != null)
+            {
+                if (MessageDialogHelper.ShowConfirmationRequestMessage("È già stato effettuato l'accesso con un altro utente. \r\n Cambiare l'utente attuale?"))
+                {
+                    LIB.UserMng.UserManager.SecondLoggedUser.UserLogIn(SelectedUser);
+                    MessageDialogHelper.ShowInfoMessage("Accesso effettuato");
+                }
+            }
+            else
+            {
+                LIB.UserMng.UserManager.SecondLoggedUser.UserLogIn(SelectedUser);
+                MessageDialogHelper.ShowInfoMessage("Accesso effettuato");
+            }
+            SetCommandExecutionStatus();
+        }
+        private bool LogInSecondCommandCanExecute(object param)
+        {
+            User main;
+            User second;
+            GetLoggedUsers(out main, out second);
+            return SelectedUser != null && main != null && SelectedUser?.Name != main?.Name && SelectedUser?.Name != second?.Name;
+        }
         private void ManageCommandExecute(object param) {}
         private bool ManageCommandCanExecute(object param) => SelectedUser != null;
         #endregion

@@ -25,20 +25,43 @@
                       BorderThickness="1" 
                       BorderBrush="{StaticResource BorderColor}"
                       MaxHeight="100">
-                <StackPanel Orientation="Horizontal">
-                    <UserControls:IconButton ToolTip="Indietro"
-                                             Source="{StaticResource ArrowLeft}"
-                                             Command="{Binding PreviousPageCommand}"/>
-                    <UserControls:IconButton ToolTip="Ricarica"
-                                             Source="{StaticResource ReloadIcon}"
-                                             Command="{Binding ReloadPageCommand}"/>
-                    <UserControls:IconButton ToolTip="Gestione Utenti"
-                                             Source="{StaticResource UserIcon}"
-                                             Command="{Binding UserManagerCommand}"/>
-                    <UserControls:IconButton ToolTip="Esci"
-                                             Source="{StaticResource ShoutdownIcon}"
-                                             Command="{Binding ShoutDownCommand}"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0" 
+                                Orientation="Horizontal">
+                        <UserControls:IconButton ToolTip="Indietro"
+                                                 Source="{StaticResource ArrowLeft}"
+                                                 Command="{Binding PreviousPageCommand}"/>
+                        <UserControls:IconButton ToolTip="Ricarica"
+                                                 Source="{StaticResource ReloadIcon}"
+                                                 Command="{Binding ReloadPageCommand}"/>
+                        <UserControls:IconButton ToolTip="Gestione Utenti"
+                                                 Source="{StaticResource UserIcon}"
+                                                 Command="{Binding UserManagerCommand}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                        <Button Content="{Binding CurrentUserName}"
+                                Margin="100 0"
+                                Style="{StaticResource NavigationButton}"/>
+                        <Button Content="{Binding SecondUserName}"
+                                Style="{StaticResource NavigationButton}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal">
+                        <UserControls:IconButton ToolTip="Esci"
+                                                 Source="{StaticResource ShoutdownIcon}"
+                                                 Command="{Binding ShoutDownCommand}"/>
+                    </StackPanel>
+                </Grid>
             </GroupBox>
             <ContentPresenter Grid.Row="1" Content="{Binding Navigation.CurrentView}"/>
         </Grid>

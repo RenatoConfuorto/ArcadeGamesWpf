@@ -38,7 +38,7 @@
             </Border>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding Message}" Margin="0 10" FontSize="{MarkupExtensions:EmFontSize 1.8}"/>
+                <TextBlock Text="{Binding Message}" Margin="0 10" FontSize="{MarkupExtensions:EmFontSize 1.8}" TextWrapping="Wrap" LineHeight="32"/>
             </StackPanel>
 
             <Border BorderBrush="White"

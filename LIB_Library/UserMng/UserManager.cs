@@ -1,4 +1,5 @@
-﻿using Core.Helpers;
+﻿using Core.Entities;
+using Core.Helpers;
 using LIB.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,25 +9,43 @@ using System.Threading.Tasks;
 
 namespace LIB.UserMng
 {
-    public class UserManager
+    public class UserManager : NotifyerPropertyChangedBase
     {
-        private static UserManager _loggedUser;
-        public static UserManager LoggedUser
+        #region Static Properties
+        private static UserManager _mainLoggedUser;
+        public static UserManager MainLoggedUser
         {
             get
             {
-                if(_loggedUser == null) _loggedUser = new UserManager();
-                return _loggedUser;
+                if(_mainLoggedUser == null) _mainLoggedUser = new UserManager();
+                return _mainLoggedUser;
             }
         }
 
+        private static UserManager _secondLoggedUser;
+        public static UserManager SecondLoggedUser
+        {
+            get
+            {
+                if (_secondLoggedUser == null) _secondLoggedUser = new UserManager();
+                return _secondLoggedUser;
+            }
+        }
+        #endregion
+
         private UserManager() { }
+        private User _currentUser;
 
-        public User CurrentUser { get; private set; }
+        public User CurrentUser 
+        {
+            get => _currentUser; 
+            private set => SetProperty(ref _currentUser, value); 
+        }
 
+        #region Public Methods
         public void UserLogIn(User user)
         {
-            if(user != null)
+            if (user != null)
             {
                 CurrentUser = user;
                 return;
@@ -35,15 +54,20 @@ namespace LIB.UserMng
 
         public void UserLogOut()
         {
-            if(CurrentUser != null)
+            if (CurrentUser != null)
             {
                 CurrentUser = null;
             }
-        }
+        } 
+        #endregion
 
-        public User GetLoggedInUser()
+        #region Static Methods
+        public static User GetMainLoggedInUser()
         {
-            return CurrentUser;
+            return MainLoggedUser.CurrentUser;
         }
+        #endregion
+
+
     }
 }

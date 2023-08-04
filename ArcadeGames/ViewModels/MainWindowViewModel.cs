@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using Core.Attributes;
 using ArcadeGames.Views;
+using LIB.Entities;
+using LIB.UserMng;
+using LIB.Helpers;
+using System.ComponentModel;
 
 namespace ArcadeGames.ViewModels
 {
@@ -20,9 +24,29 @@ namespace ArcadeGames.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         #region Private Fields
+        private User _currentUser;
+        private User _secondUser;
         #endregion
 
         #region Public Properties
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set => SetProperty(ref _currentUser, value);
+        }
+        public string CurrentUserName
+        {
+            get => CurrentUser != null ? CurrentUser.Name : "---";
+        }
+        public User SecondUser
+        {
+            get => _secondUser;
+            set => SetProperty(ref _secondUser, value);
+        }
+        public string SecondUserName
+        {
+            get => SecondUser != null ? SecondUser.Name : "---";
+        }
         #endregion
 
         #region Commands
@@ -36,11 +60,17 @@ namespace ArcadeGames.ViewModels
         public MainWindowViewModel() 
             : base(ViewNames.MainWindow)
         {
+            UserManager.MainLoggedUser.PropertyChanged += OnLoggedUserChanged;
+            UserManager.SecondLoggedUser.PropertyChanged += OnLoggedUserChanged;
             NavigateToView(ViewNames.Home);
         }
         #endregion
 
         #region Override Methods
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+        }
         protected override void InitCommands()
         {
             base.InitCommands();
@@ -58,6 +88,13 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Private Methods
+        private void OnLoggedUserChanged(object sender, PropertyChangedEventArgs e)
+        {
+            CurrentUser = UserManager.MainLoggedUser.CurrentUser;
+            NotifyPropertyChanged(nameof(CurrentUserName));
+            SecondUser = UserManager.SecondLoggedUser.CurrentUser;
+            NotifyPropertyChanged(nameof(SecondUserName));
+        }
         #endregion
 
         #region Command Methods
@@ -80,7 +117,10 @@ namespace ArcadeGames.ViewModels
             }
         }
         private bool PreviousPageCommandCanExecute(object param) => !String.IsNullOrEmpty(Navigation.ParentViewName);
-        private void ReloadPageCommandExecute(object param) { NavigateToView(Navigation.CurrentView.ViewName); }
+        private void ReloadPageCommandExecute(object param) 
+        {
+            Navigation.CurrentView.InitViewModel();
+        }
 
         private void UserManagerCommandExecute(object param)
         {

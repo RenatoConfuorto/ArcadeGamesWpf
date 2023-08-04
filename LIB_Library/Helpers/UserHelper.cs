@@ -21,12 +21,16 @@ namespace LIB.Helpers
             //controllare se esiste la directory degli utenti
             GameFoldersHelper.CheckDirectoryData();
             //controllare se esiste già un nome con questo utente
-            //TO DO
+            string UserFolderPath = $"{Cnst.ApplicationFolderUsers}\\{newUser.Name}";
+            if (Directory.Exists(UserFolderPath))
+            {
+                errorMessage = $"È già presente un utente con il nome {newUser.Name}.";
+                return result;
+            }
 
             //creare l'utente
             try
             {
-                string UserFolderPath = $"{Cnst.ApplicationFolderUsers}\\{newUser.Name}";
                 Directory.CreateDirectory(UserFolderPath);
                 //set dates to User
                 newUser.Created = newUser.Updated = newUser.LastConnected = DateTime.Now;

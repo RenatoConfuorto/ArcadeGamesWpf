@@ -57,7 +57,7 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect Color="{StaticResource accentColorDark}" BlurRadius="25" Direction="0" ShadowDepth="3" Opacity="0.7" />
+                        <DropShadowEffect Color="{StaticResource accentColorDark}" BlurRadius="20" Direction="0" ShadowDepth="3" Opacity="0.7" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -85,6 +85,11 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource BgColor}"/>
                 <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Transparent" BlurRadius="0" Direction="0" ShadowDepth="0" Opacity="0" />
+                    </Setter.Value>
+                </Setter>
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="Background" Value="{StaticResource BgColor}"/>
