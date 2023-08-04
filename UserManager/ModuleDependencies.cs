@@ -15,6 +15,7 @@ namespace UserManager
         public override void InjectDependencies()
         {
             AddDependency<IViewModelBase, UserMngMainPageViewModel>(ViewNames.UserMngMainPage);
+            AddDependency<IViewModelBase, NewUserViewModel>(ViewNames.NewUserPage);
         }
     }
 }

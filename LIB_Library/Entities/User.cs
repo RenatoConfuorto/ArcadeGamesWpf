@@ -9,13 +9,6 @@ namespace LIB.Entities
 {
     public class User : NotifyerPropertyChangedBase
     {
-        private int _Id;
-        public int Id
-        {
-            get => _Id; 
-            set => SetProperty(ref _Id, value);
-        }
-
         private string _name;
         public string Name
         {

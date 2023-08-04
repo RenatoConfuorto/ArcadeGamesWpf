@@ -3,6 +3,7 @@ using Core.Commands;
 using Core.Helpers;
 using LIB.Constants;
 using LIB.Entities;
+using LIB.Helpers;
 using LIB.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace UserManager.ViewModels
 
         #region Commands
         public RelayCommand NewCommand { get; set; }
+        public RelayCommand LogInCommand { get; set; }
         public RelayCommand ManageCommand { get; set; }
         #endregion
 
@@ -60,24 +62,27 @@ namespace UserManager.ViewModels
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            Users = new ObservableCollection<User>()
-            {
-                new User() {Id=0, Name="Test1", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=true},
-                new User() {Id=1, Name="Test2", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=false},
-                new User() {Id=2, Name="Test3", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=false},
-                new User() {Id=3, Name="Test4", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=false},
-            };
-            string test = XmlSerializerBase.SerializeObjectToString(Users[1]);
+            Users = new ObservableCollection<User>(UserHelper.GetUsers());
+            //Users = new ObservableCollection<User>()
+            //{
+            //    new User() {Name="Test1", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=true},
+            //    new User() {Name="Test2", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=false},
+            //    new User() {Name="Test3", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=false},
+            //    new User() {Name="Test4", Created=DateTime.Now, Updated=DateTime.Now, IsDefaultAccess=false},
+            //};
+            //string test = XmlSerializerBase.SerializeObjectToString(Users[1]);
         }
         public override void Dispose()
         {
             base.Dispose();
+            Users = null;
         }
 
         protected override void InitCommands()
         {
             base.InitCommands();
             NewCommand = new RelayCommand(NewCommandExecute, NewCommandCanExecute);
+            LogInCommand = new RelayCommand(LogInCommandExecute, LogInCommandCanExecute);
             ManageCommand = new RelayCommand(ManageCommandExecute, ManageCommandCanExecute);
         }
 
@@ -90,8 +95,13 @@ namespace UserManager.ViewModels
         #endregion
 
         #region Private Methods
-        private void NewCommandExecute(object param) {}
+        private void NewCommandExecute(object param) 
+        {
+            ChangeView(ViewNames.NewUserPage);
+        }
         private bool NewCommandCanExecute(object param) => true;
+        private void LogInCommandExecute(object param) { }
+        private bool LogInCommandCanExecute(object param) => SelectedUser != null;
         private void ManageCommandExecute(object param) {}
         private bool ManageCommandCanExecute(object param) => SelectedUser != null;
         #endregion

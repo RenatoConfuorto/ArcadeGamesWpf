@@ -20,36 +20,39 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <ListView ItemsSource="{Binding Users}"
-                  SelectedItem="{Binding SelectedUser}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Nome" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Creato" DisplayMemberBinding="{Binding Created}"/>
-                        <GridViewColumn Header="Accesso automatico" x:Name="GridViewCheckboxColumn" Width="300">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel HorizontalAlignment="Center" Width="300">
-                                        <CheckBox IsChecked="{Binding IsDefaultAccess}" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <StackPanel>
+            <Label Content="Utenti"/>
+            <ListView ItemsSource="{Binding Users}"
+                      SelectedItem="{Binding SelectedUser}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Nome" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="Creato" DisplayMemberBinding="{Binding Created}"/>
+                            <GridViewColumn Header="Accesso automatico" x:Name="GridViewCheckboxColumn" Width="300">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel HorizontalAlignment="Center" Width="300">
+                                            <CheckBox IsChecked="{Binding IsDefaultAccess}" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="15">
+        <StackPanel Grid.Column="1" Margin="15 45">
             <StackPanel.Resources>
                 <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                     <Setter Property="Padding" Value="12 8"/>
                 </Style>
             </StackPanel.Resources>
-            <Button Content="Crea"/>
-            <Button Content="Connetti"/>
-            <Button Content="Gestisci"/>
+            <Button Content="Crea" Command="{Binding NewCommand}"/>
+            <Button Content="Connetti" Command="{Binding LogInCommand}"/>
+            <Button Content="Gestisci" Command="{Binding ManageCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

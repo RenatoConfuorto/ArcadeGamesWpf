@@ -57,6 +57,10 @@ namespace LIB.Navigation
             {
                 if(CurrentView != null) CurrentView.Dispose();
                 CurrentView = Container.Resolve<IViewModelBase>(ViewName);
+                if (CurrentView != null && CurrentView.IsDisposed)
+                {
+                    CurrentView.InitViewModel();
+                }
                 SetContentView();
                 SetParentView();
             }

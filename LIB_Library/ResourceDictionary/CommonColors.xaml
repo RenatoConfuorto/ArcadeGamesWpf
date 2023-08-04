@@ -3,12 +3,14 @@
     <Color x:Key="bgColor">#3535ec</Color>
     <Color x:Key="bgColorLight">#3569ec</Color>
     <Color x:Key="accentColor">#f70d68</Color>
+    <Color x:Key="accentColorDark">#5e3b49</Color>
     <Color x:Key="textColor">#ffffff</Color>
     <Color x:Key="borderColor">#dce0e6</Color>
 
     <SolidColorBrush x:Key="BgColor" Color="{StaticResource bgColor}"/>
     <SolidColorBrush x:Key="BgColorLight" Color="{StaticResource bgColorLight}"/>
     <SolidColorBrush x:Key="AccentColor" Color="{StaticResource accentColor}"/>
+    <SolidColorBrush x:Key="AccentColorDark" Color="{StaticResource accentColorDark}"/>
     <SolidColorBrush x:Key="TextColor" Color="{StaticResource textColor}"/>
     <SolidColorBrush x:Key="BorderColor" Color="{StaticResource borderColor}"/>
 </ResourceDictionary>

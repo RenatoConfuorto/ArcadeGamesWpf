@@ -18,5 +18,6 @@ namespace LIB.Constants
         public static string TrisSingleplayer = "TrisSingleplayer";
         //User Manager
         public static string UserMngMainPage = "UserMngMainPage";
+        public static string NewUserPage = "NewUserPage";
     }
 }

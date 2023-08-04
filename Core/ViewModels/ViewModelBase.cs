@@ -17,6 +17,7 @@ namespace Core.ViewModels
     public abstract class ViewModelBase : NotifyerPropertyChangedBase , IViewModelBase, IDisposable
     {
         #region Navigation
+        IUnityContainer container;
         private INavigationService _navigation;
         public INavigationService Navigation
         {
@@ -24,6 +25,12 @@ namespace Core.ViewModels
             set => SetProperty(ref _navigation, value);
         }
         public string ParentView { get; private set; }
+        #endregion
+
+        #region IsDisposed
+        private bool _isDisposed = false;
+
+        public bool IsDisposed { get => _isDisposed; }
         #endregion
 
         #region Events
@@ -38,7 +45,7 @@ namespace Core.ViewModels
         {
             ViewName = viewName;
             ParentView = parentView;
-            IUnityContainer container = UnityHelper.Current.GetLocalContainer();
+            container = UnityHelper.Current.GetLocalContainer();
             _navigation = container.Resolve<INavigationService>();
             OnInitialized();
         }
@@ -88,7 +95,15 @@ namespace Core.ViewModels
 
         public virtual void Dispose()
         {
+            _isDisposed = true;
             GC.SuppressFinalize(this);
+        }
+        #endregion
+
+        #region Public Methods
+        public void InitViewModel()
+        {
+            OnInitialized();
         }
         #endregion
 
