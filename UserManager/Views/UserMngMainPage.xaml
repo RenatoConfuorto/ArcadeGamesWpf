@@ -17,6 +17,7 @@
     <Grid Background="{StaticResource BgColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
@@ -44,7 +45,7 @@
             </ListView>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="15 45">
+        <StackPanel Grid.Column="1" Margin="15 45" HorizontalAlignment="Left">
             <StackPanel.Resources>
                 <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                     <Setter Property="Padding" Value="12 8"/>
@@ -53,9 +54,43 @@
             <Button Content="Crea" Command="{Binding NewCommand}"/>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Connetti" Command="{Binding LogInMainCommand}"/>
-                <Button Content="Connetti" Command="{Binding LogInSecondCommand}" CommandParameter="1"/>
+                <Button Content="Connetti" Command="{Binding LogInSecondCommand}"/>
             </StackPanel>
             <Button Content="Gestisci" Command="{Binding ManageCommand}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Margin="30 50">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="{Binding MainUserName}"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Margin="8 0"/>
+                <Button Command="{Binding LogOutMainUserCommand}"
+                        Content="Disconnetti"
+                        Padding="12 8"
+                        Grid.Row="0"
+                        Grid.Column="1"/>
+                <TextBlock Text="{Binding SecondUserName}"
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Margin="8 0"/>
+                <Button Command="{Binding LogOutSecondUserCommand}"
+                        Content="Disconnetti"
+                        Padding="12 8"
+                        Grid.Row="1"
+                        Grid.Column="1"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>
