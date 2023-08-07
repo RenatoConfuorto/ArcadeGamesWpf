@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Core.Events
 {
-    public delegate void ViewChangedEvent(string viewToCall);
+    public delegate void ViewChangedEvent(string viewToCall, object viewParam);
 }

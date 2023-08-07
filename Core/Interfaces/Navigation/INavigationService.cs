@@ -21,6 +21,6 @@ namespace Core.Interfaces.Navigation
         UserControl CurrentControl { get; }
         string ParentViewName { get; }
 
-        void NavigateTo(string ViewName);
+        void NavigateTo(string ViewName, object param = null);
     }
 }

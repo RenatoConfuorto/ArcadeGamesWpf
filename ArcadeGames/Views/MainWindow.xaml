@@ -49,9 +49,13 @@
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Right">
                         <Button Content="{Binding CurrentUserName}"
+                                Command="{Binding ManageUserCommand}"
+                                CommandParameter="{Binding CurrentUser}"
                                 Margin="100 0"
                                 Style="{StaticResource NavigationButton}"/>
                         <Button Content="{Binding SecondUserName}"
+                                Command="{Binding ManageUserCommand}"
+                                CommandParameter="{Binding SecondUser}"
                                 Style="{StaticResource NavigationButton}"/>
                     </StackPanel>
 

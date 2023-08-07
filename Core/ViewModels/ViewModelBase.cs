@@ -32,6 +32,10 @@ namespace Core.ViewModels
 
         public bool IsDisposed { get => _isDisposed; }
         #endregion
+        #region View Param
+        private object _viewParam;
+        public object ViewParam { get => _viewParam; }
+        #endregion
 
         #region Events
         public event ViewChangedEvent viewChangedEvent;
@@ -41,10 +45,11 @@ namespace Core.ViewModels
         #endregion
 
         #region Constructor
-        public ViewModelBase(string viewName, string parentView = null)
+        public ViewModelBase(string viewName, string parentView = null, object param = null)
         {
             ViewName = viewName;
             ParentView = parentView;
+            _viewParam = param;
             container = UnityHelper.Current.GetLocalContainer();
             _navigation = container.Resolve<INavigationService>();
             OnInitialized();
@@ -59,6 +64,7 @@ namespace Core.ViewModels
         {
             InitCommands();
             SetCommandExecutionStatus();
+            GetViewParameter();
         }
         protected virtual void InitCommands()
         {
@@ -71,26 +77,29 @@ namespace Core.ViewModels
         #endregion
 
         #region Protected Methods
-        protected void OnViewChanged(string viewToCall)
+        protected void OnViewChanged(string viewToCall, object viewParam)
         {
-            NavigateToView(viewToCall);
+            NavigateToView(viewToCall, viewParam);
         }
-        protected void NavigateToView(string viewName)
+        protected void NavigateToView(string viewName, object param = null)
         {
             if(Navigation.CurrentView != null)
             {
                 Navigation.CurrentView.viewChangedEvent -= OnViewChanged;
             }
-            Navigation.NavigateTo(viewName);
+            Navigation.NavigateTo(viewName, param);
             if(Navigation.CurrentView != null)
             {
                 Navigation.CurrentView.viewChangedEvent += OnViewChanged;
             }
             SetCommandExecutionStatus();
         }
-        protected void ChangeView(string viewToCall)
+        protected void ChangeView(string viewToCall, object viewParam = null)
         {
-            viewChangedEvent?.Invoke(viewToCall);
+            viewChangedEvent?.Invoke(viewToCall, viewParam);
+        }
+        protected virtual void GetViewParameter()
+        {
         }
 
         public virtual void Dispose()

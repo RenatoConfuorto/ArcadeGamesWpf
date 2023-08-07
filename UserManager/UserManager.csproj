@@ -64,8 +64,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ModuleDependencies.cs" />
+    <Compile Include="ViewModels\ManagerUserViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\UserMngMainPageViewModel.cs" />
+    <Compile Include="Views\ManageUserView.xaml.cs">
+      <DependentUpon>ManageUserView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NewUserView.xaml.cs">
       <DependentUpon>NewUserView.xaml</DependentUpon>
     </Compile>
@@ -85,6 +89,10 @@
     <Page Include="ResourceDictionary\CommonStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ManageUserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NewUserView.xaml">
       <SubType>Designer</SubType>

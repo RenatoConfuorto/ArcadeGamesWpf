@@ -16,6 +16,7 @@ namespace UserManager
         {
             AddDependency<IViewModelBase, UserMngMainPageViewModel>(ViewNames.UserMngMainPage);
             AddDependency<IViewModelBase, NewUserViewModel>(ViewNames.NewUserPage);
+            AddDependency<IViewModelBase, ManagerUserViewModel>(ViewNames.ManageUserView);
         }
     }
 }

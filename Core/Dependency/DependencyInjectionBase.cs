@@ -38,7 +38,7 @@ namespace Core.Dependency
 
         protected void AddDependency(Type interfaceType, Type classType)
         {
-            Container.RegisterType(interfaceType, classType, new ContainerControlledLifetimeManager());
+            Container.RegisterType(interfaceType, classType, new TransientLifetimeManager());
         }
         protected void AddDependency<I, C>()
         {
@@ -46,7 +46,7 @@ namespace Core.Dependency
         }
         protected void AddDependency(Type interfaceType, Type classType, string name)
         {
-            Container.RegisterType(interfaceType, classType, name, new ContainerControlledLifetimeManager());
+            Container.RegisterType(interfaceType, classType, name, new TransientLifetimeManager());
         }
         protected void AddDependency<I, C>(string name)
         {

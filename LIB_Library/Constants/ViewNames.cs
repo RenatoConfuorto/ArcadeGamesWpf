@@ -19,5 +19,6 @@ namespace LIB.Constants
         //User Manager
         public static string UserMngMainPage = "UserMngMainPage";
         public static string NewUserPage = "NewUserPage";
+        public static string ManageUserView = "ManageUserView";
     }
 }

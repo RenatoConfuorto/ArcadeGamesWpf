@@ -54,6 +54,7 @@ namespace ArcadeGames.ViewModels
         public RelayCommand UserManagerCommand { get; set; }
         public RelayCommand PreviousPageCommand { get; set; }
         public RelayCommand ReloadPageCommand { get; set; }
+        public RelayCommand ManageUserCommand { get; set; }
         #endregion
 
         #region Constructor
@@ -78,12 +79,14 @@ namespace ArcadeGames.ViewModels
             PreviousPageCommand = new RelayCommand(PreviousPageCommandExecute, PreviousPageCommandCanExecute);
             ReloadPageCommand = new RelayCommand(ReloadPageCommandExecute);
             UserManagerCommand = new RelayCommand(UserManagerCommandExecute);
+            ManageUserCommand = new RelayCommand(ManageUserCommandExecute);
         }
         protected override void SetCommandExecutionStatus()
         {
             base.SetCommandExecutionStatus();
             PreviousPageCommand.RaiseCanExecuteChanged();
             ReloadPageCommand.RaiseCanExecuteChanged();
+            ManageUserCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
@@ -125,6 +128,11 @@ namespace ArcadeGames.ViewModels
         private void UserManagerCommandExecute(object param)
         {
             NavigateToView(ViewNames.UserMngMainPage);
+        }
+        private void ManageUserCommandExecute(object param)
+        {
+            if (param == null) return;
+            NavigateToView(ViewNames.ManageUserView, param);
         }
         #endregion
     }

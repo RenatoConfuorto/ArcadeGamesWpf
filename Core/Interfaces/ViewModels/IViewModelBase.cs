@@ -11,6 +11,7 @@ namespace Core.Interfaces.ViewModels
     {
         string ViewName { get; }
         string ParentView { get; }
+        object ViewParam { get; }
         bool IsDisposed { get; }
         event ViewChangedEvent viewChangedEvent;
         void InitViewModel();

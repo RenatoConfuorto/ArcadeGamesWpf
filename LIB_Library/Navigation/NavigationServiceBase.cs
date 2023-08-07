@@ -14,6 +14,7 @@ using Unity;
 using System.Windows.Controls;
 using Core.Attributes;
 using System.Windows;
+using Unity.Resolution;
 
 namespace LIB.Navigation
 {
@@ -51,17 +52,24 @@ namespace LIB.Navigation
         public NavigationServiceBase()
         {
         }
-        public void NavigateTo(string ViewName)
+        public void NavigateTo(string ViewName, object param = null)
         {
             if(ViewName != null)
             {
                 if(CurrentView != null) CurrentView.Dispose();
-                CurrentView = Container.Resolve<IViewModelBase>(ViewName);
+                if(param == null)
+                {
+                    CurrentView = Container.Resolve<IViewModelBase>(ViewName);
+                }
+                else
+                {
+                    CurrentView = Container.Resolve<IViewModelBase>(ViewName, new ParameterOverride("param", param));
+                }
                 if (CurrentView != null && CurrentView.IsDisposed)
                 {
-                    CurrentView.InitViewModel();
+                    //CurrentView.InitViewModel();
                 }
-                SetContentView();
+                SetContentView();//TO CHECK
                 SetParentView();
             }
 
