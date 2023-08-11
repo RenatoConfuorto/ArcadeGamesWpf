@@ -32,12 +32,35 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                         Margin="0 8">
+                <StackPanel.Resources>
+                    <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </StackPanel.Resources>
                 <Label Content="Login Automatico: " Width="300" />
-                <CheckBox>
+                <CheckBox IsChecked="{Binding IsDefaultAccess}">
                     <CheckBox.LayoutTransform>
                         <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                     </CheckBox.LayoutTransform>
                 </CheckBox>
+                <RadioButton IsChecked="{Binding IsFirstAccessChecked}" 
+                             Content="Main" 
+                             GroupName="AccessOrder" 
+                             IsEnabled="{Binding IsDefaultAccess}"
+                             VerticalAlignment="Center"
+                             Foreground="{StaticResource TextColor}"
+                             Margin="14 0"/>
+                <RadioButton IsChecked="{Binding IsSecondAccessChecked}" 
+                             Content="Second" 
+                             GroupName="AccessOrder" 
+                             IsEnabled="{Binding IsDefaultAccess}"
+                             VerticalAlignment="Center"
+                             Foreground="{StaticResource TextColor}"
+                             Margin="14 0"/>
             </StackPanel>
 
             <Button Margin="0 25"

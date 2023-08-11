@@ -13,7 +13,53 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Label Content="{Binding User.Name}"/>
+
+    <Grid Background="{StaticResource BgColor}" Margin="15 30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Margin="0 10">
+                <Label Content="Nome: " Width="300"/>
+                <TextBox Text="{Binding User.Name}" IsEnabled="False" Width="400"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 10">
+                <Label Content="Data Creazione: " Width="300"/>
+                <TextBox Text="{Binding User.Created}" IsEnabled="False" Width="400"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 10">
+                <Label Content="Tempo di gioco: " Width="300"/>
+                <TextBox Text="{Binding User.TotalActiveTime}" IsEnabled="False" Width="400"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 10">
+                <StackPanel.Resources>
+                    <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <Label Content="LogIn automatioco: " Width="300"/>
+                <CheckBox IsChecked="{Binding IsDefaultAccess}" VerticalAlignment="Center"/>
+                <RadioButton IsChecked="{Binding IsFirstAccessChecked}" 
+                             Content="Main" 
+                             GroupName="AccessOrder" 
+                             IsEnabled="{Binding IsDefaultAccess}"
+                             VerticalAlignment="Center"
+                             Foreground="{StaticResource TextColor}"
+                             Margin="14 0"/>
+                <RadioButton IsChecked="{Binding IsSecondAccessChecked}" 
+                             Content="Second" 
+                             GroupName="AccessOrder" 
+                             IsEnabled="{Binding IsDefaultAccess}"
+                             VerticalAlignment="Center"
+                             Foreground="{StaticResource TextColor}"
+                             Margin="14 0"/>
+            </StackPanel>
+            
+        </StackPanel>
     </Grid>
 </UserControl>

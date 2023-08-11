@@ -41,6 +41,39 @@ namespace UserManager.ViewModels
                 }
             }
         }
+        public bool IsDefaultAccess
+        {
+            get => User.IsDefaultAccess;
+            set
+            {
+                User.IsDefaultAccess = value;
+                if (!value)
+                {
+                    IsFirstAccessChecked = false;
+                    IsSecondAccessChecked = false;
+                }
+                NotifyPropertyChanged();
+            }
+        }
+        public bool IsFirstAccessChecked
+        {
+            get => User?.AutoLoginOrder == 1;
+            set
+            {
+                if (value) User.AutoLoginOrder = 1;
+                else User.AutoLoginOrder = 0;
+                NotifyPropertyChanged();
+            }
+        }
+        public bool IsSecondAccessChecked
+        {
+            get => User?.AutoLoginOrder == 2;
+            set
+            {
+                if (value) User.AutoLoginOrder = 2;
+                else User.AutoLoginOrder = 0;
+            }
+        }
         #endregion
 
         #region Commands

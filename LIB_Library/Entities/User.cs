@@ -50,5 +50,12 @@ namespace LIB.Entities
             get => _isDefaultAccess;
             set => SetProperty(ref _isDefaultAccess, value);
         }
+
+        private int _autoLoginOrder;
+        public int AutoLoginOrder
+        {
+            get => _autoLoginOrder;
+            set => SetProperty(ref _autoLoginOrder, value);
+        }
     }
 }
