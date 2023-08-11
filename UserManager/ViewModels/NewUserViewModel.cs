@@ -52,6 +52,10 @@ namespace UserManager.ViewModels
                     IsFirstAccessChecked = false;
                     IsSecondAccessChecked = false;
                 }
+                else
+                {
+                    IsFirstAccessChecked = true;
+                }
                 NotifyPropertyChanged();
             }
         }

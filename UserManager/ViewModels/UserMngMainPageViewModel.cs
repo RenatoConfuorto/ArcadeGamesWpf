@@ -205,7 +205,10 @@ namespace UserManager.ViewModels
             GetLoggedUsers(out main, out second);
             return SelectedUser != null && main != null && SelectedUser?.Name != main?.Name && SelectedUser?.Name != second?.Name;
         }
-        private void ManageCommandExecute(object param) {}
+        private void ManageCommandExecute(object param) 
+        {
+            ChangeView(ViewNames.ManageUserView, SelectedUser);
+        }
         private bool ManageCommandCanExecute(object param) => SelectedUser != null;
 
         private void LogOutMainUserCommandExecute(object param) 
