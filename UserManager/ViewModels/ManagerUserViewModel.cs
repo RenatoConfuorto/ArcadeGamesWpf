@@ -39,6 +39,7 @@ namespace UserManager.ViewModels
                 {
                     IsFirstAccessChecked = false;
                     IsSecondAccessChecked = false;
+                    User.AutoLoginOrder = 0;
                 }
                 else
                 {
@@ -53,7 +54,7 @@ namespace UserManager.ViewModels
             set
             {
                 if(value)User.AutoLoginOrder = 1;
-                else User.AutoLoginOrder = 0;
+                //else User.AutoLoginOrder = 0;
                 NotifyPropertyChanged();
             }
         }
@@ -63,7 +64,7 @@ namespace UserManager.ViewModels
             set
             {
                 if (value) User.AutoLoginOrder = 2;
-                else User.AutoLoginOrder = 0;
+                //else User.AutoLoginOrder = 0;
                 NotifyPropertyChanged();
             }
         }

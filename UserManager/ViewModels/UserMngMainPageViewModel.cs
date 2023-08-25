@@ -178,6 +178,7 @@ namespace UserManager.ViewModels
             GetLoggedUsers(out main, out second);
             //return SelectedUser != null && main != null && SelectedUser?.Name != main?.Name && SelectedUser?.Name != second?.Name;
             return SelectedUser != null && main?.Name != SelectedUser?.Name && second?.Name != SelectedUser?.Name;
+            //return SelectedUser.Name != MainUser?.Name;
         }
         private void LogInSecondCommandExecute(object param) 
         {
@@ -204,6 +205,7 @@ namespace UserManager.ViewModels
             User second;
             GetLoggedUsers(out main, out second);
             return SelectedUser != null && main != null && SelectedUser?.Name != main?.Name && SelectedUser?.Name != second?.Name;
+            //return SelectedUser.Name != SecondUser?.Name;
         }
         private void ManageCommandExecute(object param) 
         {
@@ -226,6 +228,7 @@ namespace UserManager.ViewModels
                     MainUser = SecondUser;
                     SecondUser = null;
                 }
+                SetCommandExecutionStatus();
             }
         }
         private bool LogOutMainUserCommandCanExecute(object param) => MainUser != null;
@@ -237,6 +240,7 @@ namespace UserManager.ViewModels
                 SecondUser = null;
                 MessageDialogHelper.ShowInfoMessage("Account disconnesso");
             }
+            SetCommandExecutionStatus();
         }
         private bool LogOutSecondUserCommandCanExecute(object param) => SecondUser != null;
         #endregion

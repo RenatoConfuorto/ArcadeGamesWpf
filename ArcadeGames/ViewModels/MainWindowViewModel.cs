@@ -64,6 +64,7 @@ namespace ArcadeGames.ViewModels
             UserManager.MainLoggedUser.PropertyChanged += OnLoggedUserChanged;
             UserManager.SecondLoggedUser.PropertyChanged += OnLoggedUserChanged;
             NavigateToView(ViewNames.Home);
+            UserHelper.AutoLogInUsers();
         }
         #endregion
 

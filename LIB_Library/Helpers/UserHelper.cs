@@ -1,6 +1,7 @@
 ﻿using Core.Helpers;
 using LIB.Constants;
 using LIB.Entities;
+using LIB.UserMng;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -68,6 +69,35 @@ namespace LIB.Helpers
                 CheckAndOverrideUserLogInOrder(ref user);
                 result = WriteUserFile(UserFolderPath, user);
             }catch(Exception ex)
+            {
+                errorMessage = ex.Message;
+                return result;
+            }
+
+            return result;
+        }
+
+        public static bool BaseUpdateUser(User user, out string errorMessage)
+        {
+            bool result = false;
+            errorMessage = String.Empty;
+            //controllare se esiste la directory degli utenti
+            GameFoldersHelper.CheckDirectoryData();
+            //controllare se esiste già un nome con questo utente
+            string UserFolderPath = $"{Cnst.ApplicationFolderUsers}\\{user.Name}";
+            if (!Directory.Exists(UserFolderPath))
+            {
+                errorMessage = $"Impossibile trovare l'utente {user.Name}";
+                return result;
+            }
+
+            try
+            {
+                user.Updated = DateTime.Now;
+                //CheckAndOverrideUserLogInOrder(ref user);
+                result = WriteUserFile(UserFolderPath, user);
+            }
+            catch (Exception ex)
             {
                 errorMessage = ex.Message;
                 return result;
@@ -152,7 +182,7 @@ namespace LIB.Helpers
                         currentUser.IsDefaultAccess = false;
                         currentUser.AutoLoginOrder = 0;
                         string errorMessage;
-                        if(!UpdateUser(currentUser, out errorMessage))
+                        if(!BaseUpdateUser(currentUser, out errorMessage))
                         {
                             MessageDialogHelper.ShowInfoMessage(errorMessage);
                             return;
@@ -163,6 +193,27 @@ namespace LIB.Helpers
                         user.IsDefaultAccess = false;
                         user.AutoLoginOrder = 0;
                     }
+                }
+            }
+        }
+        /// <summary>
+        /// log in the pre-set users
+        /// </summary>
+        public static void AutoLogInUsers()
+        {
+            List<User> _users = GetUsers();
+            if(_users.Count > 0)
+            {
+                User mainUser = _users.Where(u => u.IsDefaultAccess && u.AutoLoginOrder == 1).FirstOrDefault();
+                if (mainUser != null)
+                {
+                    UserManager.MainLoggedUser.UserLogIn(mainUser);
+                }
+
+                User secondUser = _users.Where(u => u.IsDefaultAccess && u.AutoLoginOrder == 2).FirstOrDefault();
+                if(secondUser != null)
+                {
+                    UserManager.SecondLoggedUser.UserLogIn(secondUser);
                 }
             }
         }
