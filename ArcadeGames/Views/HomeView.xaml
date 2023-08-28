@@ -27,6 +27,9 @@
                         Content="Whack A Bug"/>
                 <Button Style="{StaticResource NavigationButton}"
                         Content="Space Invaders"/>
+                <Button Style="{StaticResource NavigationButton}"
+                        Command="{Binding MultiPlayerCommand}"
+                        Content="MultiPlayer"/>
             </StackPanel>
         </StackPanel>
     </Grid>

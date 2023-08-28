@@ -74,6 +74,7 @@
     <Compile Include="Entities\CellEntityBase.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Helpers\GameFoldersHelper.cs" />
+    <Compile Include="Helpers\CommunicationHelper.cs" />
     <Compile Include="Helpers\MessageDialogHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Navigation\NavigationServiceBase.cs" />
@@ -98,6 +99,7 @@
   <ItemGroup>
     <Resource Include="Fonts\PressStart2P-Regular.ttf" />
     <None Include="app.config" />
+    <None Include="Communication\MessagesDefinition.xlsx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

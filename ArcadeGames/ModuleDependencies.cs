@@ -19,6 +19,7 @@ namespace ArcadeGames
         {
             AddDependency<IViewModelBase, MainWindowViewModel>(ViewNames.MainWindow);
             AddDependency<IViewModelBase, HomeViewModel>(ViewNames.Home);
+            AddDependency<IViewModelBase, MultiPlayerFormViewModel>(ViewNames.MultiPlayerForm);
         }
     }
 }
