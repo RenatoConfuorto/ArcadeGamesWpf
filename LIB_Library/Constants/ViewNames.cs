@@ -13,6 +13,7 @@ namespace LIB.Constants
         public static string MainWindow = "MainWindow";
         public static string Home = "Home";
         public static string MultiPlayerForm = "MultiPlayerForm";
+        public static string MultiPlayerLobby = "MultiPlayerLobby";
         //Tris
         public static string TrisHomePage = "TrisHomePage";
         public static string TrisMultiplayer = "TrisMultiplayer";

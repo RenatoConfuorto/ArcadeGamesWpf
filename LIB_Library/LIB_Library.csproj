@@ -69,6 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDependencies.cs" />
+    <Compile Include="Communication\Dispacher.cs" />
+    <Compile Include="Communication\MessageReceivedEvent.cs" />
     <Compile Include="Constants\Cnst.cs" />
     <Compile Include="Constants\ViewNames.cs" />
     <Compile Include="Entities\CellEntityBase.cs" />
@@ -99,7 +101,7 @@
   <ItemGroup>
     <Resource Include="Fonts\PressStart2P-Regular.ttf" />
     <None Include="app.config" />
-    <None Include="Communication\MessagesDefinition.xlsx" />
+    <None Include="Communication\Messages\MessagesDefinition.xlsx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

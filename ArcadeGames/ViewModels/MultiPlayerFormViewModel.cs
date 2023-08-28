@@ -72,6 +72,7 @@ namespace ArcadeGames.ViewModels
         #region Private Methods
         private void CreateCommandExecute(object param)
         {
+            ChangeView(ViewNames.MultiPlayerLobby);
         }
         private void JoinCommandExeucte(object param)
         {

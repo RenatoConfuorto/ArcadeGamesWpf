@@ -89,8 +89,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\MultiPlayerFormViewModel.cs" />
+    <Compile Include="ViewModels\MultiPlayerLobbyViewModel.cs" />
     <Compile Include="Views\MultiPlayerFormView.xaml.cs">
       <DependentUpon>MultiPlayerFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MultiPlayerLobbyView.xaml.cs">
+      <DependentUpon>MultiPlayerLobbyView.xaml</DependentUpon>
     </Compile>
     <Page Include="ResourceDictionary\CommonStyles.xaml">
       <SubType>Designer</SubType>
@@ -120,6 +124,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\MultiPlayerFormView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MultiPlayerLobbyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
