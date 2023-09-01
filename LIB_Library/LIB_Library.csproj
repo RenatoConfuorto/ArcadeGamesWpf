@@ -69,8 +69,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDependencies.cs" />
-    <Compile Include="Communication\Dispacher.cs" />
-    <Compile Include="Communication\MessageReceivedEvent.cs" />
+    <Compile Include="Communication\Constants\CommunicationCnst.cs" />
+    <Compile Include="Communication\Events\ClientDisconnectedEvent.cs" />
+    <Compile Include="Communication\MessageBrokers\BrokerBase.cs" />
+    <Compile Include="Communication\MessageBrokers\BrokerClient.cs" />
+    <Compile Include="Communication\MessageBrokers\BrokerHost.cs" />
+    <Compile Include="Communication\Events\MessageReceivedEvent.cs" />
+    <Compile Include="Communication\Messages\Base\MessageBase.cs" />
+    <Compile Include="Communication\Messages\ConnectionConfirmation.cs" />
+    <Compile Include="Communication\Messages\LobbyChatMessage.cs" />
+    <Compile Include="Communication\Messages\ConnectionConfirmed.cs" />
+    <Compile Include="Communication\StateObject.cs" />
     <Compile Include="Constants\Cnst.cs" />
     <Compile Include="Constants\ViewNames.cs" />
     <Compile Include="Entities\CellEntityBase.cs" />
@@ -138,6 +147,7 @@
     <Folder Include="Base\" />
     <Folder Include="Dependency\" />
     <Folder Include="Events\" />
+    <Folder Include="Interfaces\Communication\" />
     <Folder Include="Interfaces\Navigation\" />
     <Folder Include="Interfaces\ViewModels\" />
     <Folder Include="MarkupExtensions\" />

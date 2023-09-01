@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LIB.Communication
+namespace LIB.Communication.Events
 {
-    public delegate void MessageReceivedEvent(object messageReceived);
+    public delegate void ClientDisconnectedEvent();
 }

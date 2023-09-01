@@ -91,7 +91,7 @@ namespace LIB.Navigation
                 ViewRef viewRefAttribute = CurrentView.GetType().GetCustomAttribute<ViewRef>();
                 if(viewRefAttribute != null)
                 {
-                    CurrentControl = (UserControl)Activator.CreateInstance(viewRefAttribute.ViewType);
+                    //CurrentControl = (UserControl)Activator.CreateInstance(viewRefAttribute.ViewType);
                 }
                 else
                 {

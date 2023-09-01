@@ -22,5 +22,12 @@ namespace Core.Helpers
             messageBox.ShowDialog();
             return messageBox.result;
         }
+
+        public static MessageBox ShowStatusMessage(string message)
+        {
+            MessageBox messageBox = new MessageBox(MessageType.Info, message);
+            messageBox.Show();
+            return messageBox;
+        }
     }
 }

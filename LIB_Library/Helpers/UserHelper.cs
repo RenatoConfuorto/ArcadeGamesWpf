@@ -136,14 +136,17 @@ namespace LIB.Helpers
 
             if (GameFoldersHelper.CheckDirectoryData())
             {
-                string[] directoryUsers = Directory.GetDirectories(Cnst.ApplicationFolderUsers);
-                User _user;
-                foreach (string directoryUser in directoryUsers)
+                if (Directory.Exists(Cnst.ApplicationFolderUsers))
                 {
-                    if (!File.Exists($"{directoryUser}\\_user")) continue;
-                    string userXML = File.ReadAllText($"{directoryUser}\\_user");
-                    _user = (User)XmlSerializerBase.DeserializeObjectFromString(userXML, typeof(User));
-                    users.Add(_user);
+                    string[] directoryUsers = Directory.GetDirectories(Cnst.ApplicationFolderUsers);
+                    User _user;
+                    foreach (string directoryUser in directoryUsers)
+                    {
+                        if (!File.Exists($"{directoryUser}\\_user")) continue;
+                        string userXML = File.ReadAllText($"{directoryUser}\\_user");
+                        _user = (User)XmlSerializerBase.DeserializeObjectFromString(userXML, typeof(User));
+                        users.Add(_user);
+                    }
                 }
             }
 

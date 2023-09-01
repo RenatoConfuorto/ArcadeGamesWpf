@@ -2,6 +2,10 @@
 using Core.Attributes;
 using Core.Commands;
 using Core.Helpers;
+using LIB.Communication.Constants;
+using LIB.Communication.MessageBrokers;
+using LIB.Communication.Messages;
+using LIB.Communication.Messages.Base;
 using LIB.Constants;
 using LIB.Helpers;
 using LIB.ViewModels;
@@ -12,6 +16,7 @@ using System.Net.NetworkInformation;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace ArcadeGames.ViewModels
 {
@@ -72,7 +77,14 @@ namespace ArcadeGames.ViewModels
         #region Private Methods
         private void CreateCommandExecute(object param)
         {
-            ChangeView(ViewNames.MultiPlayerLobby);
+            BrokerHost broker = new BrokerHost();
+            broker.RunServer(CommunicationCnst.DEFAULT_PORT);
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            {
+                { "Mode", CommunicationCnst.Mode.Host },
+                { "Broker", broker }
+            };
+            ChangeView(ViewNames.MultiPlayerLobby, parameters);
         }
         private void JoinCommandExeucte(object param)
         {
@@ -80,14 +92,32 @@ namespace ArcadeGames.ViewModels
             {
                 Ping ping = new Ping();
                 PingReply pr = ping.Send(RemoteIp);
-                if(pr.Status == IPStatus.Success)
+                Task.Run(async () =>
                 {
-                    //lobby
-                }
-                else
-                {
-                    MessageDialogHelper.ShowInfoMessage("Impossibile trovare l'host specificato");
-                }
+                    if (pr.Status == IPStatus.Success)
+                    {
+                        BrokerClient client = new BrokerClient();
+                        await client.RunClient(CommunicationCnst.DEFAULT_PORT, RemoteIp);
+                        if (client.IsConnectionOpen)
+                        {
+                            Dictionary<string, object> parameters = new Dictionary<string, object>()
+                            {
+                                { "Mode", CommunicationCnst.Mode.Host },
+                                { "Broker", client }
+                            };
+                            ChangeView(ViewNames.MultiPlayerLobby, parameters);
+                        }
+                        else
+                        {
+                            MessageDialogHelper.ShowInfoMessage("La connessione non è andata a buon fine");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        MessageDialogHelper.ShowInfoMessage("Impossibile trovare l'host specificato");
+                    }
+                });
             }catch(Exception ex)
             {
                 MessageDialogHelper.ShowInfoMessage("Impossibile trovare l'host specificato\r\n" + ex.Message);
