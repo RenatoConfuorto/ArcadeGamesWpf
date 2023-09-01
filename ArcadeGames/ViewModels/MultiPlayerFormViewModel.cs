@@ -102,7 +102,7 @@ namespace ArcadeGames.ViewModels
                         {
                             Dictionary<string, object> parameters = new Dictionary<string, object>()
                             {
-                                { "Mode", CommunicationCnst.Mode.Host },
+                                { "Mode", CommunicationCnst.Mode.Client },
                                 { "Broker", client }
                             };
                             ChangeView(ViewNames.MultiPlayerLobby, parameters);

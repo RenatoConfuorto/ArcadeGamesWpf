@@ -138,6 +138,7 @@ namespace LIB.Communication.MessageBrokers
 
         public override void Dispose()
         {
+            _socket?.Shutdown(SocketShutdown.Both);
             _socket?.Dispose();
             base.Dispose();
         }

@@ -1,4 +1,5 @@
 ﻿using LIB.Communication.Constants;
+using LIB.Communication.Events;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,41 +76,17 @@ namespace LIB.Helpers
             return new Socket(address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         }
         /// <summary>
-        /// Tries and execute a method multiple time.
+        /// Check if the client is still connected
         /// </summary>
-        /// <param name="method">The method to execute</param>
-        /// <param name="obj">The object on which to call the method</param>
-        /// <param name="parameters">The methods parameters</param>
-        public static void ExecuteRecursiveTry(MethodInfo method, object obj, params object[] parameters)
-        {
-            int tries = 0;
-            //bool auxCheck = EvaluateAuxChecks(AuxChecks);
-            Exception lastEx = null;
-            while (tries < CommunicationCnst.CONNECTION_MAX_TRIES)
-            {
-                try
-                {
-                    method?.Invoke(obj, parameters);
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    tries++;
-                    Thread.Sleep(CommunicationCnst.CONNECTION_RETRY_WAIT);
-                    lastEx = ex;
-                }
-            }
-            if (lastEx != null) throw lastEx;
-        }
-        /// <summary>
-        /// Get the MethodInfo of a method
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="method"></param>
+        /// <param name="socket"></param>
         /// <returns></returns>
-        public static MethodInfo GetMethodInfo(object obj, Action method)
+        public static bool CheckIfClientIsConnected(Socket socket)
         {
-            return obj.GetType().GetMethod(method.Method.Name);
+            try
+            {
+                return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0);
+            }
+            catch (SocketException) { return false; }
         }
     }
 }

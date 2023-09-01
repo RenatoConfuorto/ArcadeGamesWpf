@@ -12,6 +12,7 @@ namespace LIB.Communication.Constants
         //public const int CONNECTION_TIMEOUT = 30000; //30s
         public const int CONNECTION_MAX_TRIES = 30;
         public const int CONNECTION_RETRY_WAIT = 3000; //3s
+        public const int CONNECTION_CHECK_INTERVAL = 500; //0.5s
         public enum Mode
         {
             Host = 0,

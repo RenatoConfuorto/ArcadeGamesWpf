@@ -69,6 +69,7 @@ namespace ArcadeGames.ViewModels
                             {
                                 _brokerHost = (BrokerHost)tempObj;
                                 _brokerHost.MessageReceived += OnMessageReceived;
+                                _brokerHost.ClientDisconnectedEvent += OnClientDisconnected;
                             }
                         }
                         else if (_userMode == CommunicationCnst.Mode.Client)
@@ -100,6 +101,10 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Private Methods
+        private void OnClientDisconnected()
+        {
+            Task.Run(() =>  _brokerHost.StartListening(CommunicationCnst.DEFAULT_PORT));
+        }
         private void OnMessageReceived(object message)
         {
 

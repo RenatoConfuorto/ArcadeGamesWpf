@@ -63,13 +63,16 @@ namespace LIB.Communication.MessageBrokers
 
         private void ReceiveMessageHandle(IAsyncResult ar)
         {
-            StateObject so = (StateObject)ar.AsyncState;
-            int read = so.workSocket.EndReceive(ar);
-            if(read > 0)
+            try
             {
-                if(IsConnectionOpen)so.workSocket.BeginReceive(so.buffer, 0, StateObject.BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveMessageHandle), so);
-                GetObjectReceived(so.buffer);
-            }
+                StateObject so = (StateObject)ar.AsyncState;
+                int read = so.workSocket.EndReceive(ar);
+                if(read > 0)
+                {
+                    if(IsConnectionOpen)so.workSocket.BeginReceive(so.buffer, 0, StateObject.BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveMessageHandle), so);
+                    GetObjectReceived(so.buffer);
+                }
+            }catch(Exception ex) { }
         }
         
         private void GetObjectReceived(byte[] data)
