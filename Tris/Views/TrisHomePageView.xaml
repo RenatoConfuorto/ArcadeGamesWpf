@@ -34,6 +34,9 @@
                 <Button Style="{StaticResource NavigationButton}"
                         Command="{Binding MultiplayerCommand}"
                         Content="Multiplayer"/>
+                <Button Style="{StaticResource NavigationButton}"
+                        Command="{Binding SuperTrisMpCommand}"
+                        Content="Super Tris - MP"/>
             </StackPanel>
         </StackPanel>
     </Grid>

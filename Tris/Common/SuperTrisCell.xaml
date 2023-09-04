@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Tris.Common.SuperTrisCell"
+             x:Name="SuperTrisCellControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tris.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LIB_Library;component/ResourceDictionary/CommonStyles.xaml"/>
+                <ResourceDictionary Source="/Tris;component/ResourceDictionary/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border BorderBrush="{Binding CellContent.IsCellActive, Converter={StaticResource SuperTrisBorderColorConverter}, ElementName=SuperTrisCellControl}"
+            BorderThickness="6"
+            CornerRadius="2">
+        <ItemsControl Grid.Column="0" 
+                      IsEnabled="{Binding CellContent.IsCellActive, Mode=OneWay, ElementName=SuperTrisCellControl}"
+                      ItemsSource="{Binding CellContent.SubCells, Mode=OneWay, ElementName=SuperTrisCellControl}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel FlowDirection="LeftToRight"
+                               Width="{Binding PanelWidth, Mode=OneWay, ElementName=SuperTrisCellControl}"
+                               Height="{Binding PanelHeight, Mode=OneWay, ElementName=SuperTrisCellControl}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:TrisCell CellContent="{Binding .}"
+                                       Width="{Binding SubCellWidth, Mode=OneWay, ElementName=SuperTrisCellControl}"
+                                       Height="{Binding SubCellHeight, Mode=OneWay, ElementName=SuperTrisCellControl}"
+                                       Margin="{Binding SubCellMargin, Mode=OneWay, ElementName=SuperTrisCellControl}"
+                                       CellFontSize="{Binding SubCellFontSize, Mode=OneWay, ElementName=SuperTrisCellControl}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Border>
+</UserControl>

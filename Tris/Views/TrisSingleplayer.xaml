@@ -18,7 +18,7 @@
     <Grid Background="{StaticResource BgColor}"
           Style="{StaticResource GameBoard}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="480"/>
+            <ColumnDefinition Width="450"/>
             <ColumnDefinition Width="240" MaxWidth="240"/>
         </Grid.ColumnDefinitions>
         
@@ -28,13 +28,17 @@
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel FlowDirection="LeftToRight"
-                               Width="480"
-                               Height="480"/>
+                               Width="450"
+                               Height="450"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Entities:TrisCell CellContent="{Binding .}"/>
+                    <Entities:TrisCell CellContent="{Binding .}"
+                                       Width="120"
+                                       Height="120"
+                                       Margin="15"
+                                       CellFontSize="70"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

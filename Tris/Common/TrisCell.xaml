@@ -19,12 +19,9 @@
             <ControlTemplate TargetType="Button">
                 <Border BorderBrush="{StaticResource TextColor}"
             Background="{StaticResource BgColor}"
-            BorderThickness="4"
-            Width="120"
-            Height="120"
-            Margin="15">
+            BorderThickness="4">
                     <TextBlock Text="{Binding CellContent.Text, Mode=OneWay, ElementName=UserControl}" 
-                               FontSize="70" 
+                               FontSize="{Binding CellFontSize, Mode=OneWay, ElementName=UserControl}" 
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Foreground="{StaticResource TextColor}"/>

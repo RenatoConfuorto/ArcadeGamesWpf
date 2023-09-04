@@ -18,6 +18,7 @@ namespace LIB.Constants
         public static string TrisHomePage = "TrisHomePage";
         public static string TrisMultiplayer = "TrisMultiplayer";
         public static string TrisSingleplayer = "TrisSingleplayer";
+        public static string SuperTrisMultiplayer = "SuperTrisMultiPlayer";
         //User Manager
         public static string UserMngMainPage = "UserMngMainPage";
         public static string NewUserPage = "NewUserPage";

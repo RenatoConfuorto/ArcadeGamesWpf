@@ -26,6 +26,7 @@ namespace Tris.Common
             Btn.Click += Button_Click;
         }
 
+        #region CellContent
         public static readonly DependencyProperty CellContentPorperty =
             DependencyProperty.Register(nameof(CellContent),
                                         typeof(TrisEntity),
@@ -37,7 +38,20 @@ namespace Tris.Common
             get => (TrisEntity)GetValue(CellContentPorperty);
             set => SetValue(CellContentPorperty, value);
         }
+        #endregion
 
+        #region CellFontSize
+        public static readonly DependencyProperty CellFontSizeProperty =
+            DependencyProperty.Register(nameof(CellFontSize),
+                typeof(double),
+                typeof(TrisCell));
+
+        public double CellFontSize
+        {
+            get => (double)GetValue(CellFontSizeProperty);
+            set => SetValue(CellFontSizeProperty, value);
+        } 
+        #endregion
         private static void CellContentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) { }
 
         private void Button_Click(object sender, RoutedEventArgs e)

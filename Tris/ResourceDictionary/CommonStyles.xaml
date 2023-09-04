@@ -1,6 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:Converters="clr-namespace:Tris.Value_Converters"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/LIB_Library;component/ResourceDictionary/CommonStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+
+    <Converters:SuperTrisBorderColorConverter x:Key="SuperTrisBorderColorConverter"/>
 </ResourceDictionary>

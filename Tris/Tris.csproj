@@ -50,6 +50,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\SuperTrisCell.xaml.cs">
+      <DependentUpon>SuperTrisCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\SuperTrisEntity.cs" />
     <Compile Include="Common\TrisCell.xaml.cs">
       <DependentUpon>TrisCell.xaml</DependentUpon>
     </Compile>
@@ -68,12 +72,18 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ModuleDependencies.cs" />
+    <Compile Include="Value Converters\SuperTrisBorderColorConverter.cs" />
+    <Compile Include="ViewModels\SuperTrisBaseModel.cs" />
     <Compile Include="ViewModels\TrisGameBaseModel.cs" />
     <Compile Include="ViewModels\TrisHomePageViewModel.cs" />
+    <Compile Include="ViewModels\SuperTrisMultiplayerViewModel.cs" />
     <Compile Include="ViewModels\TrisSingleplayerViewModel.cs" />
     <Compile Include="ViewModels\TrisMultiplayerViewModel.cs" />
     <Compile Include="Views\TrisHomePageView.xaml.cs">
       <DependentUpon>TrisHomePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SuperTrisMp.xaml.cs">
+      <DependentUpon>SuperTrisMp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TrisSingleplayer.xaml.cs">
       <DependentUpon>TrisSingleplayer.xaml</DependentUpon>
@@ -102,6 +112,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Common\SuperTrisCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\TrisCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,6 +127,10 @@
     <Page Include="Views\TrisHomePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SuperTrisMp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TrisSingleplayer.xaml">
       <Generator>MSBuild:Compile</Generator>
