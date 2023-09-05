@@ -50,14 +50,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\SuperTrisCell.xaml.cs">
+    <Compile Include="Common\Interfaces\ITrisEntity.cs" />
+    <Compile Include="Common\UserControls\SuperTrisCell.xaml.cs">
       <DependentUpon>SuperTrisCell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\SuperTrisEntity.cs" />
-    <Compile Include="Common\TrisCell.xaml.cs">
+    <Compile Include="Common\Entities\SuperTrisEntity.cs" />
+    <Compile Include="Common\UserControls\TrisCell.xaml.cs">
       <DependentUpon>TrisCell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\TrisEntity.cs" />
+    <Compile Include="Common\Entities\TrisEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,11 +113,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Common\SuperTrisCell.xaml">
+    <Page Include="Common\UserControls\SuperTrisCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\TrisCell.xaml">
+    <Page Include="Common\UserControls\TrisCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

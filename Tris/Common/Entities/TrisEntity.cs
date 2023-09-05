@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tris.Common.Interfaces;
 
-namespace Tris.Common
+namespace Tris.Common.Entities
 {
-    public class TrisEntity : CellEntityBase
+    public class TrisEntity : CellEntityBase , ITrisEntity
     {
         private string _text = String.Empty;
 

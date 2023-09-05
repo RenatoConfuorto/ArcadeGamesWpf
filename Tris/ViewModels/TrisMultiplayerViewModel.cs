@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tris.Common;
 using Core.Attributes;
 using Tris.Views;
+using Tris.Common.Entities;
 
 namespace Tris.ViewModels
 {

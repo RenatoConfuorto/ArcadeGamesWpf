@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tris.Common;
+using Tris.Common.Entities;
 
 namespace Tris.ViewModels
 {

@@ -13,6 +13,7 @@ using Core.Attributes;
 using Tris.Views;
 using System.Threading;
 using System.Windows;
+using Tris.Common.Entities;
 
 namespace Tris.ViewModels
 {

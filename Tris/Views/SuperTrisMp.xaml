@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tris.Views"
              xmlns:UserControls="clr-namespace:LIB.UserControls;assembly=LIB_Library"
-             xmlns:Entities="clr-namespace:Tris.Common"
+             xmlns:TrisControls="clr-namespace:Tris.Common.UserControls"
              d:Height="300" d:Width="300"
              mc:Ignorable="d" >
     <UserControl.Resources>
@@ -34,20 +34,21 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Entities:SuperTrisCell CellContent="{Binding .}"
+                    <TrisControls:SuperTrisCell CellContent="{Binding .}"
                                             Margin="10"
-                                            CellFontSize="70"
-                                            SubCellFontSize="10"
+                                            CellFontSize="175"
+                                            SubCellFontSize="35"
                                             SubCellWidth="65"
                                             SubCellHeight="65"
-                                            SubCellMargin="8"/>
+                                            SubCellMargin="10"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
         <UserControls:GameMessage GameOverText="{Binding GameOverMessage}"
                                   VisibilityTrigger="{Binding IsGameOver}"
-                                  VerticalAlignment="Center"/>
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
             <TextBlock Text="Super Tris"

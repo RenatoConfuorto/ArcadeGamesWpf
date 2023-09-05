@@ -5,10 +5,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tris.Common.Interfaces;
 
-namespace Tris.Common
+namespace Tris.Common.Entities
 {
-    public class SuperTrisEntity : CellEntityBase
+    public class SuperTrisEntity : CellEntityBase , ITrisEntity
     {
         public delegate void SuperTrisCellClicked(int CellId, int subCellId);
         public SuperTrisCellClicked MacroCellClicked;
@@ -38,7 +39,7 @@ namespace Tris.Common
 
         public bool IsCellClosed
         {
-            get => _isCellActive;
+            get => _isCellClosed;
             set => SetProperty(ref _isCellClosed, value);
         }
     }

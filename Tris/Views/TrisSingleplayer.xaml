@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tris.Views"
              xmlns:UserControls="clr-namespace:LIB.UserControls;assembly=LIB_Library"
-             xmlns:Entities="clr-namespace:Tris.Common"
+             xmlns:TrisControls="clr-namespace:Tris.Common.UserControls"
              d:Height="300" d:Width="300"
              mc:Ignorable="d" >
     <UserControl.Resources>
@@ -34,7 +34,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Entities:TrisCell CellContent="{Binding .}"
+                    <TrisControls:TrisCell CellContent="{Binding .}"
                                        Width="120"
                                        Height="120"
                                        Margin="15"

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tris.Common;
 using Core.Attributes;
 using Tris.Views;
+using Tris.Common.Entities;
 
 namespace Tris.ViewModels
 {
@@ -63,7 +64,20 @@ namespace Tris.ViewModels
         #region Protected Methods
         protected override void OnMacroCellClicked(int CellId, int SubCellId)
         {
-            
+            SuperTrisEntity entity = Cells.Where(c => c.CellId == CellId).FirstOrDefault();
+            if (String.IsNullOrEmpty(entity.Text))
+            {//nella macro cella non c'è il simbolo
+                //prendere la subCella
+                TrisEntity subCell = entity.SubCells.Where(sb => sb.CellId == SubCellId).FirstOrDefault();
+                if (String.IsNullOrEmpty(subCell.Text))
+                {
+                    subCell.Text = GetPlayerSymbol();
+                    CheckAndUpdateMacroCellStatus(CellId);
+
+                    ActivateMacroCell(SubCellId);
+                    turn++;
+                }
+            }
         }
         #endregion
     }
