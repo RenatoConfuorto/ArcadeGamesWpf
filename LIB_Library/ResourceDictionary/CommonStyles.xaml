@@ -6,6 +6,7 @@
         <ResourceDictionary Source="/Core;component/ResourceDictionary/CommonStyles.xaml"/>
         <ResourceDictionary Source="/LIB_Library;component/ResourceDictionary/CommonColors.xaml"/>
         <ResourceDictionary Source="/LIB_Library;component/ResourceDictionary/Geometries.xaml"/>
+        <ResourceDictionary Source="/LIB_Library;component/ResourceDictionary/ValueConverters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <FontFamily x:Key="PressStartP2P">/pack://application:,,,/LIB_Library;component/Fonts/#Press Start 2P Regular</FontFamily>
     
@@ -204,4 +205,79 @@
         </Style.Resources>
     </Style>
 
+    <Style TargetType="ProgressBar" x:Key="PlayerTimer">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{Binding TimerEnabled, Converter={StaticResource ProgressBarBorderBrushConverter}}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource TextColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="Value" Value="{Binding Time}"/>
+        <Setter Property="Minimum" Value="0"/>
+        <Setter Property="Maximum" Value="{Binding OriginalTime}"/>
+        <!--<Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="4"/>
+                        <Border Name="PART_Track" Background="{TemplateBinding Foreground}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                            <Rectangle Name="PART_Indicator" HorizontalAlignment="Left"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsIndeterminate" Value="false">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Indicator"
+                                                     Storyboard.TargetProperty="Width"
+                                                     To="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>-->
+        <!--<Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="4"/>
+                        <Border Name="PART_Track" Background="{TemplateBinding Foreground}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                            <Rectangle Name="PART_Indicator" HorizontalAlignment="Left"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsIndeterminate" Value="false">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Indicator"
+                                                     Storyboard.TargetProperty="Width"
+                                                     To="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>-->
+    </Style>
 </ResourceDictionary>

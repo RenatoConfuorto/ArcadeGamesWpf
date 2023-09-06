@@ -83,6 +83,7 @@
     <Compile Include="Constants\Cnst.cs" />
     <Compile Include="Constants\ViewNames.cs" />
     <Compile Include="Entities\CellEntityBase.cs" />
+    <Compile Include="Entities\TimerEntity.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Helpers\GameFoldersHelper.cs" />
     <Compile Include="Helpers\CommunicationHelper.cs" />
@@ -96,7 +97,11 @@
     <Compile Include="UserControls\IconButton.xaml.cs">
       <DependentUpon>IconButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Timer.xaml.cs">
+      <DependentUpon>Timer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserMng\UserManager.cs" />
+    <Compile Include="ValueConverters\ProgressBarBorderBrushConverter.cs" />
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="ViewModels\GameViewModelBase.cs" />
     <Compile Include="ViewModels\MessageBoxViewModel.cs" />
@@ -114,6 +119,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ResourceDictionary\ValueConverters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ResourceDictionary\CommonColors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,6 +142,10 @@
     <Page Include="UserControls\IconButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Timer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MessageBox.xaml">
       <Generator>MSBuild:Compile</Generator>
