@@ -19,6 +19,7 @@
           Style="{StaticResource GameBoard}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="830"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="300" MaxWidth="300"/>
         </Grid.ColumnDefinitions>
         
@@ -50,7 +51,38 @@
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"/>
 
-        <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="30 15 30 0">
+            <StackPanel>
+                <!--<ProgressBar Height="800"
+                             Style="{StaticResource PlayerTimer}"/>-->
+                <UserControls:Timer BorderBrush="{StaticResource TextColor}"
+                                    StartingTime="{Binding FirstPlayerTimer.OriginalTime}"
+                                    Time="{Binding FirstPlayerTimer.Time}"
+                                    TimerEnabled="{Binding FirstPlayerTimer.TimerEnabled}"
+                                    PlayerName="{Binding FirstPlayerTimer.PlayerName}"
+                                    Margin="5 0"
+                                    BorderThickness="1"
+                                    BarHeight="750"
+                                    Width="16"/>
+            </StackPanel>
+
+            <StackPanel Margin="8 0">
+                <!--<ProgressBar Height="750"
+                             Style="{StaticResource PlayerTimer}"/>-->
+                <UserControls:Timer BorderBrush="{StaticResource TextColor}"
+                                    StartingTime="{Binding SecondPlayerTimer.OriginalTime}"
+                                    Time="{Binding SecondPlayerTimer.Time}"
+                                    TimerEnabled="{Binding SecondPlayerTimer.TimerEnabled}"
+                                    PlayerName="{Binding SecondPlayerTimer.PlayerName}"
+                                    Margin="5 0"
+                                    BorderThickness="1"
+                                    BarHeight="750"
+                                    Width="16"/>
+    
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" VerticalAlignment="Stretch">
             <TextBlock Text="Super Tris"
                        Style="{StaticResource GameTitle}"/>
             <TextBlock Text="Ad ogni turno il giocatore può decidere di giocare liberamente in una delle macro celle attive (bordo rosso). 

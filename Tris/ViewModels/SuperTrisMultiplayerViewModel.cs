@@ -12,6 +12,8 @@ using Tris.Common;
 using Core.Attributes;
 using Tris.Views;
 using Tris.Common.Entities;
+using System.Timers;
+using LIB.Entities;
 
 namespace Tris.ViewModels
 {
@@ -19,49 +21,49 @@ namespace Tris.ViewModels
     public class SuperTrisMultiplayerViewModel : SuperTrisBaseModel
     {
         #region Private Fields
+        private TimerEntity _firstPlayerTimer;
+        private TimerEntity _secondPlayerTimer;
+        private int _playersTime = 300;
+        private Timer timer;
         #endregion
 
         #region Public Properties
+        public TimerEntity FirstPlayerTimer
+        {
+            get => _firstPlayerTimer;
+            set => SetProperty(ref _firstPlayerTimer, value);
+        }
+
+        public TimerEntity SecondPlayerTimer
+        {
+            get => _secondPlayerTimer;
+            set => SetProperty(ref _secondPlayerTimer, value);
+        }
         #endregion
 
         #region Constructor
-        public SuperTrisMultiplayerViewModel() : base(ViewNames.SuperTrisMultiplayer) 
-        { 
+        public SuperTrisMultiplayerViewModel() : base(ViewNames.SuperTrisMultiplayer)
+        {
         }
         #endregion
 
         #region Override Methods
+        public override void Dispose()
+        {
+            base.Dispose();
+            timer.Dispose();
+        }
         protected override void OnInitialized()
         {
+            if (timer != null) { timer.Dispose(); }
             base.OnInitialized();
-            
         }
         protected override void InitGame()
         {
-            base.InitGame(); 
+            base.InitGame();
+            InitPlayerTimers();
+            StartTimer();
         }
-        #endregion
-
-        #region Private Methods
-        //private void CloseGame(bool victory = false)
-        //{
-        //    if(victory)
-        //    {
-        //        string player = "X";
-        //        if(turn % 2 == 0)
-        //        {
-        //            player = "O";
-        //        }
-        //        GameOverMessage = $"{player} ha vinto !";
-        //    }
-        //    else
-        //    {
-        //        GameOverMessage = "Pareggio";
-        //    }
-        //    EndGame();
-        //}
-        #endregion
-        #region Protected Methods
         protected override void OnMacroCellClicked(int CellId, int SubCellId)
         {
             SuperTrisEntity entity = Cells.Where(c => c.CellId == CellId).FirstOrDefault();
@@ -71,13 +73,91 @@ namespace Tris.ViewModels
                 TrisEntity subCell = entity.SubCells.Where(sb => sb.CellId == SubCellId).FirstOrDefault();
                 if (String.IsNullOrEmpty(subCell.Text))
                 {
+                    StopTimer();
+
                     subCell.Text = GetPlayerSymbol();
                     CheckAndUpdateMacroCellStatus(CellId);
 
                     ActivateMacroCell(SubCellId);
                     turn++;
+                    StartTimer();
                 }
             }
+        }
+        #endregion
+        #region Private Methods
+        private void InitPlayerTimers()
+        {
+            FirstPlayerTimer = new TimerEntity()
+            {
+                PlayerName = "X",
+                OriginalTime = _playersTime,
+                Time = _playersTime,
+                TimerEnabled = false,
+            };
+            SecondPlayerTimer = new TimerEntity()
+            {
+                PlayerName = "O",
+                OriginalTime = _playersTime,
+                Time = _playersTime,
+                TimerEnabled = false,
+            };
+        }
+        private void StartTimer()
+        {
+            //abilitare il timer del giocatore
+            if (GetPlayerSymbol() == "X")
+            {
+                FirstPlayerTimer.TimerEnabled = true;
+                SecondPlayerTimer.TimerEnabled = false;
+            }
+            else
+            {
+                FirstPlayerTimer.TimerEnabled = false;
+                SecondPlayerTimer.TimerEnabled = true;
+            }
+
+            timer = new Timer(1000);
+            timer.Elapsed += TimerCallBack;
+            timer.Start();
+        }
+        private void StopTimer()
+        {
+            if (timer != null && timer.Enabled)
+            {
+                timer.Dispose();
+            }
+        }
+        private void TimerCallBack(Object source, ElapsedEventArgs e)
+        {
+            if (GetPlayerSymbol() == "X")
+            {
+                if (FirstPlayerTimer != null && FirstPlayerTimer.Time > 0)
+                {
+                    FirstPlayerTimer.Time--;
+                    if (FirstPlayerTimer.Time == 0) TimeRunOut(0);
+                }
+            }
+            else
+            {
+                if (SecondPlayerTimer != null && SecondPlayerTimer.Time > 0)
+                {
+                    SecondPlayerTimer.Time--;
+                    if (SecondPlayerTimer.Time == 0) TimeRunOut(1);
+                }
+            }
+        }
+        /// <summary>
+        /// One player has run out of time and the game is over
+        /// </summary>
+        /// <param name="player">Giocatore che ha perso 0 => player X, 1 => player O </param>
+        private void TimeRunOut(int player)
+        {
+            if (timer != null) timer.Dispose();
+            string message = player == 0 ? "O" : "X";
+            message += " Ha vinto \r\nTimeOut";
+            GameOverMessage = message;
+            EndGame();
         }
         #endregion
     }

@@ -52,7 +52,8 @@ namespace Tris.Common.UserControls
         public static readonly DependencyProperty CellFontSizeProperty =
             DependencyProperty.Register(nameof(CellFontSize),
                 typeof(double),
-                typeof(SuperTrisCell));
+                typeof(SuperTrisCell),
+                new PropertyMetadata((double)12));
 
         public double CellFontSize
         {
