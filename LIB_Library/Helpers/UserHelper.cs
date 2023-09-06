@@ -15,6 +15,7 @@ namespace LIB.Helpers
 {
     public class UserHelper
     {
+        public const int MONITORING_INTV = 10000; //ms => 10s
         public static bool CreateNewUser(User newUser, out string errorMessage)
         {
             bool result = false;

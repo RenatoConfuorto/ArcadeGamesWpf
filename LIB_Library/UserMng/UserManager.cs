@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Markup;
 
 namespace LIB.UserMng
@@ -37,6 +38,7 @@ namespace LIB.UserMng
 
         private UserManager() { }
         private User _currentUser;
+        private Timer _userMonitoringTimer;
 
         public User CurrentUser 
         {
@@ -53,6 +55,7 @@ namespace LIB.UserMng
                 CurrentUser = user;
                 string errorMessage;
                 UserHelper.UpdateUser(user, out errorMessage);
+                StartUserMonitoringTime();
                 return;
             }
         }
@@ -61,6 +64,7 @@ namespace LIB.UserMng
         {
             if (CurrentUser != null)
             {
+                StopUserMonitoringTime();
                 CurrentUser = null;
             }
         } 
@@ -91,6 +95,34 @@ namespace LIB.UserMng
         }
         #endregion
 
+        #region Private Methods
+        private void StartUserMonitoringTime()
+        {
+            if (_userMonitoringTimer != null)
+            {
+                _userMonitoringTimer.Stop();
+                _userMonitoringTimer.Dispose();
+            }
+            _userMonitoringTimer = new Timer(UserHelper.MONITORING_INTV);
+            _userMonitoringTimer.Elapsed += UserMonitoringTimerCallBack;
+            _userMonitoringTimer.Start();
+        }
 
+        private void StopUserMonitoringTime()
+        {
+            if(_userMonitoringTimer != null)
+            {
+                _userMonitoringTimer.Stop();
+                _userMonitoringTimer.Dispose();
+            }
+        }
+
+        private void UserMonitoringTimerCallBack(Object source, ElapsedEventArgs e)
+        {
+            CurrentUser.TotalActiveTime += TimeSpan.FromMilliseconds(UserHelper.MONITORING_INTV);
+            string errorMessage = String.Empty;
+            UserHelper.UpdateUser(CurrentUser, out errorMessage);
+        }
+        #endregion
     }
 }

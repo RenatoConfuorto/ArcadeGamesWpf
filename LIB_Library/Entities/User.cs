@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace LIB.Entities
 {
@@ -37,13 +38,19 @@ namespace LIB.Entities
             set => SetProperty(ref _lastConnected, value);
         }
 
-        private TimeSpan _totalActiveTime;
+        private TimeSpan _totalActiveTime = new TimeSpan();
+        [XmlIgnore]
         public TimeSpan TotalActiveTime
         {
             get => _totalActiveTime;
             set => SetProperty(ref _totalActiveTime, value);
         }
-
+        [XmlElement(nameof(TotalActiveTime))]
+        public long TotalActiveTimeTicks
+        {
+            get => TotalActiveTime.Ticks;
+            set => TotalActiveTime = new TimeSpan(value);
+        }
         private bool _isDefaultAccess;
         public bool IsDefaultAccess
         {
