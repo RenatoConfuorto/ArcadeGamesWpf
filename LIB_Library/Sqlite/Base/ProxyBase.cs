@@ -1,16 +1,14 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Core.Interfaces.DbBrowser;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Markup;
 
-namespace Core.Sqlite
+namespace LIB.Sqlite.Base
 {
-    public abstract class ProxyBase
+    public abstract class ProxyBase : IProxyBase
     {
         private string _connectionString;
         private SqliteConnection _connection;
@@ -32,11 +30,11 @@ namespace Core.Sqlite
                 ConnectionString = connectionString;
                 OpenConnection();
             }
-            catch(SqliteException sqlEx)
+            catch (SqliteException sqlEx)
             {
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -45,13 +43,13 @@ namespace Core.Sqlite
         public void OpenConnection()
         {
             Connection = new SqliteConnection(ConnectionString);
-            CreateTables();
             Connection.Open();
+            CreateTables();
         }
 
         public void CloseConnection()
         {
-            if(Connection != null) Connection.Close();
+            if (Connection != null) Connection.Close();
         }
 
         public int GetNextIntValue(string TableName, string FieldName)
@@ -91,6 +89,15 @@ namespace Core.Sqlite
             return result;
         }
 
-        public abstract void CreateTables();
+        private void CreateTables()
+        {
+            using (SqliteCommand command = Connection.CreateCommand())
+            {
+                command.CommandText = GetCreateTableIfExistsStatement();
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public abstract string GetCreateTableIfExistsStatement();
     }
 }
