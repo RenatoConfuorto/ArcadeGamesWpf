@@ -14,6 +14,7 @@ using Tris.Views;
 using Tris.Common.Entities;
 using System.Timers;
 using LIB.Entities;
+using static Tris.Common.Constants;
 
 namespace Tris.ViewModels
 {
@@ -24,7 +25,7 @@ namespace Tris.ViewModels
         private TimerEntity _firstPlayerTimer;
         private TimerEntity _secondPlayerTimer;
         private int _playersTime = 300;
-        private Timer timer;
+        private Timer timer; //TODO il timer non si stoppa se si pareggia
         #endregion
 
         #region Public Properties
@@ -64,6 +65,11 @@ namespace Tris.ViewModels
             InitPlayerTimers();
             StartTimer();
         }
+        protected override void EndGame()
+        {
+            if(timer != null) { timer.Dispose(); }
+            base.EndGame();
+        }
         protected override void OnMacroCellClicked(int CellId, int SubCellId)
         {
             SuperTrisEntity entity = Cells.Where(c => c.CellId == CellId).FirstOrDefault();
@@ -76,11 +82,12 @@ namespace Tris.ViewModels
                     StopTimer();
 
                     subCell.Text = GetPlayerSymbol();
-                    CheckAndUpdateMacroCellStatus(CellId);
-
-                    ActivateMacroCell(SubCellId);
-                    turn++;
-                    StartTimer();
+                    if (CheckAndUpdateMacroCellStatus(CellId))
+                    {
+                        ActivateMacroCell(SubCellId);
+                        turn++;
+                        StartTimer();
+                    }
                 }
             }
         }
@@ -90,14 +97,14 @@ namespace Tris.ViewModels
         {
             FirstPlayerTimer = new TimerEntity()
             {
-                PlayerName = "X",
+                PlayerName = Players.X.ToString(),
                 OriginalTime = _playersTime,
                 Time = _playersTime,
                 TimerEnabled = false,
             };
             SecondPlayerTimer = new TimerEntity()
             {
-                PlayerName = "O",
+                PlayerName = Players.O.ToString(),
                 OriginalTime = _playersTime,
                 Time = _playersTime,
                 TimerEnabled = false,
@@ -106,7 +113,7 @@ namespace Tris.ViewModels
         private void StartTimer()
         {
             //abilitare il timer del giocatore
-            if (GetPlayerSymbol() == "X")
+            if (GetPlayerSymbol() == Players.X.ToString())
             {
                 FirstPlayerTimer.TimerEnabled = true;
                 SecondPlayerTimer.TimerEnabled = false;
@@ -130,7 +137,7 @@ namespace Tris.ViewModels
         }
         private void TimerCallBack(Object source, ElapsedEventArgs e)
         {
-            if (GetPlayerSymbol() == "X")
+            if (GetPlayerSymbol() == Players.X.ToString())
             {
                 if (FirstPlayerTimer != null && FirstPlayerTimer.Time > 0)
                 {
@@ -154,7 +161,7 @@ namespace Tris.ViewModels
         private void TimeRunOut(int player)
         {
             if (timer != null) timer.Dispose();
-            string message = player == 0 ? "O" : "X";
+            string message = player == 0 ? Players.O.ToString() : Players.X.ToString();
             message += " Ha vinto \r\nTimeOut";
             GameOverMessage = message;
             EndGame();

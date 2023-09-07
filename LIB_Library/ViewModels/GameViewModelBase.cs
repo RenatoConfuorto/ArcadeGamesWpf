@@ -74,7 +74,7 @@ namespace LIB.ViewModels
             IsGameEnabled = true;
             IsGameOver = false;
         }
-        protected void EndGame()
+        protected virtual void EndGame()
         {
             IsGameEnabled = false;
             IsGameOver = true;

@@ -50,6 +50,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\Interfaces\ITrisEntity.cs" />
     <Compile Include="Common\UserControls\SuperTrisCell.xaml.cs">
       <DependentUpon>SuperTrisCell.xaml</DependentUpon>

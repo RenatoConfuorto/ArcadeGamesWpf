@@ -12,6 +12,7 @@ using Tris.Common;
 using Core.Attributes;
 using Tris.Views;
 using Tris.Common.Entities;
+using static Tris.Common.Constants;
 
 namespace Tris.ViewModels
 {
@@ -47,10 +48,10 @@ namespace Tris.ViewModels
         {
             if(victory)
             {
-                string player = "X";
+                string player = Players.X.ToString();
                 if(turn % 2 == 0)
                 {
-                    player = "O";
+                    player = Players.O.ToString();
                 }
                 GameOverMessage = $"{player} ha vinto !";
             }
@@ -69,11 +70,11 @@ namespace Tris.ViewModels
             {//la cella non è stata cliccata
                 if (turn % 2 == 0)
                 {
-                    entity.Text = "O";
+                    entity.Text = Players.O.ToString();
                 }
                 else
                 {
-                    entity.Text = "X";
+                    entity.Text = Players.X.ToString();
                 }
                 if (CheckVictory())
                 {

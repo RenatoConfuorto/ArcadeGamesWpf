@@ -14,6 +14,7 @@ using Tris.Views;
 using System.Threading;
 using System.Windows;
 using Tris.Common.Entities;
+using static Tris.Common.Constants;
 
 namespace Tris.ViewModels
 {
@@ -146,7 +147,7 @@ namespace Tris.ViewModels
 
         private void PlaceComputerSign(int cellIdx, out bool isSignPlaced)
         {
-            Cells[cellIdx].Text = "O";
+            Cells[cellIdx].Text = Players.O.ToString();
 
             isSignPlaced = true;
         }
@@ -159,7 +160,7 @@ namespace Tris.ViewModels
             TrisEntity entity = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
             if (String.IsNullOrEmpty(entity.Text))
             {
-                entity.Text = "X";
+                entity.Text = Players.X.ToString();
                 if (AfterSign())
                 {
                     isComputerTurn = true;

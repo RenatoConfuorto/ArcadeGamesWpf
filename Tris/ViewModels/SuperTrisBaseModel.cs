@@ -12,12 +12,14 @@ using Tris.Common;
 using Tris.Common.Entities;
 using Tris.Common.Interfaces;
 using Tris.Common.UserControls;
+using static Tris.Common.Constants;
 
 namespace Tris.ViewModels
 {
     public abstract class SuperTrisBaseModel : GameViewModelBase<SuperTrisEntity>
     {
         #region Private Fields
+        protected const int MACRO_SIGN_PLACED_WAIT_TIME = 400; //ms
         protected int turn;
         protected List<int[]> winningCombinations = new List<int[]>()
         {
@@ -114,8 +116,8 @@ namespace Tris.ViewModels
         }
         protected string GetPlayerSymbol()
         {
-            if (turn % 2 == 0) return "O";
-            else return "X";
+            if (turn % 2 == 0) return Players.O.ToString();
+            else return Players.X.ToString();
         }
         protected void ActivateMacroCell(int SubCellId)
         {
@@ -134,39 +136,49 @@ namespace Tris.ViewModels
                 foreach (SuperTrisEntity cell in Cells) if(!cell.IsCellClosed) cell.IsCellActive = true;
             }
         }
-
-        protected void CheckAndUpdateMacroCellStatus(int CellId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="CellId"></param>
+        /// <returns>true se il gioco può continuare</returns>
+        protected bool CheckAndUpdateMacroCellStatus(int CellId)
         {
+            
             string winningSymbol = String.Empty;
             SuperTrisEntity cell = Cells.Where(c => c.CellId == CellId).FirstOrDefault();
-            //controllare la grigli nella cella
+            //controllare la griglia nella cella
             if (CheckVictory(cell.SubCells, out winningSymbol))
             {
-                Thread.Sleep(400);
+                Thread.Sleep(MACRO_SIGN_PLACED_WAIT_TIME);
                 //posizionare il simbolo e chiudere la cella
                 cell.Text = winningSymbol;
                 cell.IsCellClosed = true;
                 //controllare la griglia principale
                 if(CheckVictory(Cells, out winningSymbol))
                 {
-                    GameOverMessage = $"{winningSymbol} ha vinto";
-                    EndGame();
+                    CloseGame($"{winningSymbol} ha vinto");
+                    return false;
                 }else if(Cells.Where(c => String.IsNullOrEmpty(c.Text)).Count() == 0)
                 {
-                    GameOverMessage = "Pareggio";
-                    EndGame();
+                    CloseGame("Pareggio");
+                    return false;
                 }
             }else if(cell.SubCells.Where(sb => String.IsNullOrEmpty(sb.Text)).Count() == 0)
             {
                 //pareggio, resettare la griglia
-                Thread.Sleep(400);
+                Thread.Sleep(MACRO_SIGN_PLACED_WAIT_TIME);
                 cell = InitMacroCell(CellId);
                 Cells[CellId] = cell;
                 NotifyPropertyChanged(nameof(Cells));
             }
+            return true;
         }
 
-
+        protected void CloseGame(string gameOverMessage)
+        {
+            GameOverMessage = gameOverMessage;
+            EndGame();
+        }
         #endregion
 
     }
