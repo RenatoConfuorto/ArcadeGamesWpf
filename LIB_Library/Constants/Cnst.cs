@@ -9,7 +9,8 @@ namespace LIB.Constants
     public class Cnst
     {
         #region User Data
-        public static readonly string ApplicationFolderDataName = "ArcadeMania";
+        public const string ApplicationFolderDataName = "ArcadeMania";
+        public const string UserFileName = "_user";
         public static readonly string ApplicationFolderDataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\{ApplicationFolderDataName}";
         public static readonly string ApplicationFolderUsers = $"{ApplicationFolderDataPath}\\Users";
         #endregion

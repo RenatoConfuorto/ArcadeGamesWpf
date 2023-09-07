@@ -143,8 +143,8 @@ namespace LIB.Helpers
                     User _user;
                     foreach (string directoryUser in directoryUsers)
                     {
-                        if (!File.Exists($"{directoryUser}\\_user")) continue;
-                        string userXML = File.ReadAllText($"{directoryUser}\\_user");
+                        if (!File.Exists($"{directoryUser}\\{Cnst.UserFileName}")) continue;
+                        string userXML = File.ReadAllText($"{directoryUser}\\{Cnst.UserFileName}");
                         _user = (User)XmlSerializerBase.DeserializeObjectFromString(userXML, typeof(User));
                         users.Add(_user);
                     }
@@ -158,7 +158,7 @@ namespace LIB.Helpers
         {
             bool result = false;
             string UserXml = XmlSerializerBase.SerializeObjectToString(user);
-            string userFilePath = UserFolderPath + "\\_user";
+            string userFilePath = UserFolderPath + $"\\{Cnst.UserFileName}";
             //if(File.Exists(userFilePath)) File.Delete(userFilePath);
             //File.Create(UserFolderPath + $"_user_{newUser.Name}");
             using (StreamWriter write = File.CreateText(userFilePath))
