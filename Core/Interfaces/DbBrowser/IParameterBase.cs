@@ -10,6 +10,8 @@ namespace Core.Interfaces.DbBrowser
     {
         object this[string key] { get; }
         void Add(string key, object value);
+        List<string> GetParametersKeys();
+        int Count();
         void RemoveAt(int index);
         void Remove(string key);
         void Clear();

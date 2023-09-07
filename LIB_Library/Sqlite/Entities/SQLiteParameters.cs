@@ -39,5 +39,14 @@ namespace LIB.Sqlite.Entities
         {
             parameters.Clear();
         }
+        public int Count()
+        {
+            return parameters.Count;
+        }
+
+        public List<string> GetParametersKeys()
+        {
+            return new List<string>(parameters.Keys);
+        }
     }
 }
