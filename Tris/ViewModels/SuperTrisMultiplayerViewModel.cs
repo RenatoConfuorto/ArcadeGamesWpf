@@ -65,6 +65,14 @@ namespace Tris.ViewModels
             InitPlayerTimers();
             StartTimer();
         }
+        protected override void MenageGameUsers()
+        {
+            base.MenageGameUsers();
+        }
+
+        protected override void SaveGameResults()
+        {
+        }
         protected override void EndGame()
         {
             if(timer != null) { timer.Dispose(); }

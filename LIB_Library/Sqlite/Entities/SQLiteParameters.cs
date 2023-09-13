@@ -14,6 +14,7 @@ namespace LIB.Sqlite.Entities
         public SQLiteParameters()
             : base()
         {
+            parameters = new Dictionary<string, object>();
         }
 
         public object this[string key]

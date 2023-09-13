@@ -11,6 +11,15 @@ namespace LIB.Entities.Data.Base
     {
         private bool _userHasWon;
 
+        public GameDataTrisBase(string gameGUID, 
+            string userName, 
+            DateTime gameDate,
+            bool userHasWon) 
+            : base(gameGUID, userName, gameDate)
+        {
+            UserHasWon = userHasWon;
+        }
+
         public bool UserHasWon
         {
             get => _userHasWon;

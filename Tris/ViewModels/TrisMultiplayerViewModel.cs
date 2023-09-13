@@ -41,6 +41,14 @@ namespace Tris.ViewModels
         {
             base.InitGame(); 
         }
+        protected override void MenageGameUsers()
+        {
+            base.MenageGameUsers();
+        }
+
+        protected override void SaveGameResults()
+        {
+        }
         #endregion
 
         #region Private Methods

@@ -106,8 +106,8 @@ namespace LIB.Sqlite.Base
                         command.Parameters.AddWithValue(key, parameters[key]);
                     }
                 }
-                command.ExecuteNonQuery();
-                return true;
+                int result = command.ExecuteNonQuery();
+                return result > 0;
             }
             catch(SQLiteException sqlEx)
             {
@@ -134,8 +134,8 @@ namespace LIB.Sqlite.Base
             {
                 SQLiteCommand command = Connection.CreateCommand();
                 command.CommandText = Statement;
-                command.ExecuteNonQuery();
-                return true;
+                int result = command.ExecuteNonQuery();
+                return result > 0;
             }
             catch (SQLiteException sqlEx)
             {
