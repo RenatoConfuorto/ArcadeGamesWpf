@@ -113,10 +113,15 @@
     <Compile Include="Communication\Messages\ConnectionConfirmed.cs" />
     <Compile Include="Communication\StateObject.cs" />
     <Compile Include="Constants\Cnst.cs" />
+    <Compile Include="Constants\DataManagment.cs" />
     <Compile Include="Constants\ViewNames.cs" />
     <Compile Include="Entities\CellEntityBase.cs" />
+    <Compile Include="Entities\Data\Base\GameDataTrisBase.cs" />
+    <Compile Include="Entities\Data\Tris\GameDataTrisMp.cs" />
+    <Compile Include="Entities\Data\Tris\GameDataTrisSp.cs" />
     <Compile Include="Entities\TimerEntity.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\Data\Base\GameDataBase.cs" />
     <Compile Include="Helpers\GameFoldersHelper.cs" />
     <Compile Include="Helpers\CommunicationHelper.cs" />
     <Compile Include="Helpers\MessageDialogHelper.cs" />

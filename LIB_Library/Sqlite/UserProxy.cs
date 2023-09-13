@@ -17,7 +17,17 @@ namespace LIB.Sqlite
 
         public override string GetCreateTableIfExistsStatement()
         {
-            return "";
+            return $@"CREATE TABLE IF NOT EXISTS TRIS_SP
+                        (
+	                        {DataManagment.GAME_DATA_TABLE_COMMON},
+	                        HAS_WON BOOL NOT NULL
+                        );
+                        CREATE TABLE IF NOT EXISTS TRIS_MP
+                        (
+	                        {DataManagment.GAME_DATA_TABLE_COMMON},
+	                        HAS_WON BOOL NOT NULL,
+	                        OPPONENT_NAME VARCHAR(255) NULL
+                        );";
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Core.Interfaces.DbBrowser;
-using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
