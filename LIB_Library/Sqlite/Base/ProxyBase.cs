@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using LIB.Sqlite.Entities;
 
 namespace LIB.Sqlite.Base
 {
@@ -120,6 +121,13 @@ namespace LIB.Sqlite.Base
             }
         }
 
+        public override bool Execute(string Statement, string parameterName, object parameterValue)
+        {
+            SQLiteParameters parameters = new SQLiteParameters();
+            parameters.Add(parameterName, parameterValue);
+            return Execute(Statement, parameters);
+        }
+
         public override bool Execute(string Statement)
         {
             try
@@ -168,6 +176,13 @@ namespace LIB.Sqlite.Base
                 MessageDialogHelper.ShowInfoMessage(ex.Message);
                 return null;
             }
+        }
+
+        public override IDataReader GetDataReader(string Statement, string parameterName, object parameterValue)
+        {
+            SQLiteParameters parameters = new SQLiteParameters();
+            parameters.Add(parameterName, parameterValue);
+            return GetDataReader(Statement, parameters);
         }
 
         public override IDataReader GetDataReader(string Statement) 

@@ -45,10 +45,12 @@ namespace Core.Proxy
         public abstract string GetCreateTableIfExistsStatement();
 
         public abstract bool Execute(string Statement, IParametersBase parameters);
+        public abstract bool Execute(string Statement, string parameterName, object parameterValue);
 
         public abstract bool Execute(string Statement);
 
         public abstract IDataReader GetDataReader(string Statement, IParametersBase parameters);
+        public abstract IDataReader GetDataReader(string Statement, string parameterName, object parameterValue);
 
         public abstract IDataReader GetDataReader(string Statement);
         #endregion

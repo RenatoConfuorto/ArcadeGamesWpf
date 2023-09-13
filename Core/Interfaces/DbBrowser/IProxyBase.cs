@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Core.Interfaces.DbBrowser
 {
@@ -12,9 +13,12 @@ namespace Core.Interfaces.DbBrowser
         void OpenConnection();
         void CloseConnection();
         int GetNextIntValue(string TableName, string FieldName);
+
         bool Execute(string Statement, IParametersBase parameters);
+        bool Execute(string Statement, string parameterName, object parameterValue);
         bool Execute(string Statement);
         IDataReader GetDataReader(string Statement, IParametersBase parameters);
+        IDataReader GetDataReader(string statement, string parameterName, object parameterValue);
         IDataReader GetDataReader(string Statement);
 
         int ConvertToInt(object value, int defaultValue = 0);
