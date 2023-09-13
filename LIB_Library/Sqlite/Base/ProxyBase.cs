@@ -1,7 +1,7 @@
 ﻿using Core.Helpers;
 using Core.Interfaces.DbBrowser;
 using Core.Proxy;
-using Microsoft.Data.Sqlite;
+using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,8 +14,8 @@ namespace LIB.Sqlite.Base
 {
     public abstract class ProxyBase : ProxyCore
     {
-        private SqliteConnection _connection;
-        protected SqliteConnection Connection
+        private SQLiteConnection _connection;
+        protected SQLiteConnection Connection
         {
             get => _connection;
             private set => _connection = value;
@@ -28,7 +28,7 @@ namespace LIB.Sqlite.Base
 
         public override void OpenConnection()
         {
-            Connection = new SqliteConnection(ConnectionString);
+            Connection = new SQLiteConnection($"Data Source ={ConnectionString}");
             Connection.Open();
             CreateTables();
         }
@@ -46,9 +46,9 @@ namespace LIB.Sqlite.Base
 
             try
             {
-                using (SqliteCommand command = new SqliteCommand(query, Connection))
+                using (SQLiteCommand command = new SQLiteCommand(query, Connection))
                 {
-                    using (SqliteDataReader reader = command.ExecuteReader())
+                    using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -68,7 +68,7 @@ namespace LIB.Sqlite.Base
                     //LogWriter.WriteLog($"Impossibile trovare un valore per il campo({FieldName}) nella tabella({TableName})");
                 }
             }
-            catch(SqliteException sqlEx)
+            catch(SQLiteException sqlEx)
             {
                 MessageDialogHelper.ShowInfoMessage(sqlEx.Message);
             }
@@ -82,7 +82,7 @@ namespace LIB.Sqlite.Base
 
         private void CreateTables()
         {
-            using (SqliteCommand command = Connection.CreateCommand())
+            using (SQLiteCommand command = Connection.CreateCommand())
             {
                 command.CommandText = GetCreateTableIfExistsStatement();
                 command.ExecuteNonQuery();
@@ -95,7 +95,7 @@ namespace LIB.Sqlite.Base
         {
             try
             {
-                SqliteCommand command = Connection.CreateCommand();
+                SQLiteCommand command = Connection.CreateCommand();
                 command.CommandText = Statement;
                 if(parameters.Count() > 0)
                 {
@@ -108,7 +108,7 @@ namespace LIB.Sqlite.Base
                 command.ExecuteNonQuery();
                 return true;
             }
-            catch(SqliteException sqlEx)
+            catch(SQLiteException sqlEx)
             {
                 MessageDialogHelper.ShowInfoMessage(sqlEx.Message);
                 return false;
@@ -124,12 +124,12 @@ namespace LIB.Sqlite.Base
         {
             try
             {
-                SqliteCommand command = Connection.CreateCommand();
+                SQLiteCommand command = Connection.CreateCommand();
                 command.CommandText = Statement;
                 command.ExecuteNonQuery();
                 return true;
             }
-            catch (SqliteException sqlEx)
+            catch (SQLiteException sqlEx)
             {
                 MessageDialogHelper.ShowInfoMessage(sqlEx.Message);
                 return false;
@@ -145,7 +145,7 @@ namespace LIB.Sqlite.Base
         {
             try
             {
-                SqliteCommand command = Connection.CreateCommand();
+                SQLiteCommand command = Connection.CreateCommand();
                 command.CommandText = Statement;
                 if (parameters.Count() > 0)
                 {
@@ -158,7 +158,7 @@ namespace LIB.Sqlite.Base
                 IDataReader reader = command.ExecuteReader();
                 return reader;
             }
-            catch (SqliteException sqlEx)
+            catch (SQLiteException sqlEx)
             {
                 MessageDialogHelper.ShowInfoMessage(sqlEx.Message);
                 return null;
@@ -174,12 +174,12 @@ namespace LIB.Sqlite.Base
         {
             try
             {
-                SqliteCommand command = Connection.CreateCommand();
+                SQLiteCommand command = Connection.CreateCommand();
                 command.CommandText = Statement;
                 IDataReader reader = command.ExecuteReader();
                 return reader;
             }
-            catch (SqliteException sqlEx)
+            catch (SQLiteException sqlEx)
             {
                 MessageDialogHelper.ShowInfoMessage(sqlEx.Message);
                 return null;

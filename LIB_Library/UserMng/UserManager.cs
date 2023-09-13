@@ -1,7 +1,11 @@
-﻿using Core.Entities;
+﻿using Core.Dependency;
+using Core.Entities;
 using Core.Helpers;
+using Core.Interfaces.DbBrowser;
+using LIB.Constants;
 using LIB.Entities;
 using LIB.Helpers;
+using LIB.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Markup;
+using Unity;
+using Unity.Resolution;
 
 namespace LIB.UserMng
 {
@@ -56,6 +62,7 @@ namespace LIB.UserMng
                 string errorMessage;
                 UserHelper.UpdateUser(user, out errorMessage);
                 StartUserMonitoringTime();
+                InitUserProxy();
                 return;
             }
         }
@@ -65,6 +72,7 @@ namespace LIB.UserMng
             if (CurrentUser != null)
             {
                 StopUserMonitoringTime();
+                CurrentUser.Proxy.CloseConnection();
                 CurrentUser = null;
             }
         } 
@@ -106,6 +114,11 @@ namespace LIB.UserMng
             _userMonitoringTimer = new Timer(UserHelper.MONITORING_INTV);
             _userMonitoringTimer.Elapsed += UserMonitoringTimerCallBack;
             _userMonitoringTimer.Start();
+        }
+        private void InitUserProxy()
+        {
+            IUnityContainer _container = UnityHelper.Current.GetLocalContainer();
+            CurrentUser.Proxy = new UserProxy(CurrentUser.Name);
         }
 
         private void StopUserMonitoringTime()
