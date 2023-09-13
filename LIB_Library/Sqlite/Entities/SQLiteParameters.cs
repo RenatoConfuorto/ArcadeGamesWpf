@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LIB.Sqlite.Entities
 {
-    public class SQLiteParameters : IParameterBase
+    public class SQLiteParameters : IParametersBase
     {
         private Dictionary<string, object> parameters;
 

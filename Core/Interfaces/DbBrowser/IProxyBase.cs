@@ -12,9 +12,9 @@ namespace Core.Interfaces.DbBrowser
         void OpenConnection();
         void CloseConnection();
         int GetNextIntValue(string TableName, string FieldName);
-        bool Execute(string Statement, IParameterBase parameters);
+        bool Execute(string Statement, IParametersBase parameters);
         bool Execute(string Statement);
-        IDataReader GetDataReader(string Statement, IParameterBase parameters);
+        IDataReader GetDataReader(string Statement, IParametersBase parameters);
         IDataReader GetDataReader(string Statement);
 
         int ConvertToInt(object value, int defaultValue = 0);

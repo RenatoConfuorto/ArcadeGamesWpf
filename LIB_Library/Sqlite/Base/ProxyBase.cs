@@ -1,5 +1,6 @@
 ﻿using Core.Helpers;
 using Core.Interfaces.DbBrowser;
+using Core.Proxy;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,9 @@ using System.Threading.Tasks;
 
 namespace LIB.Sqlite.Base
 {
-    public abstract class ProxyBase : IProxyBase
+    public abstract class ProxyBase : ProxyCore
     {
-        private string _connectionString;
         private SqliteConnection _connection;
-        protected string ConnectionString
-        {
-            get => _connectionString;
-            private set => _connectionString = value;
-        }
         protected SqliteConnection Connection
         {
             get => _connection;
@@ -27,35 +22,23 @@ namespace LIB.Sqlite.Base
         }
 
         public ProxyBase(string connectionString)
+            : base(connectionString)
         {
-            try
-            {
-                ConnectionString = connectionString;
-                OpenConnection();
-            }
-            catch (SqliteException sqlEx)
-            {
-
-            }
-            catch (Exception ex)
-            {
-
-            }
         }
 
-        public void OpenConnection()
+        public override void OpenConnection()
         {
             Connection = new SqliteConnection(ConnectionString);
             Connection.Open();
             CreateTables();
         }
 
-        public void CloseConnection()
+        public override void CloseConnection()
         {
             if (Connection != null) Connection.Close();
         }
 
-        public int GetNextIntValue(string TableName, string FieldName)
+        public override int GetNextIntValue(string TableName, string FieldName)
         {
             int result = 0;
 
@@ -71,7 +54,7 @@ namespace LIB.Sqlite.Base
                         {
                             if (reader["MAX"] != DBNull.Value)
                             {
-                                result = Convert.ToInt32(reader["MAX"]);
+                                result = ConvertToInt(reader["MAX"]);
                             }
                             else
                             {
@@ -107,9 +90,8 @@ namespace LIB.Sqlite.Base
         }
 
         #region Execcute query
-        public abstract string GetCreateTableIfExistsStatement();
 
-        public bool Execute(string Statement, IParameterBase parameters)
+        public override bool Execute(string Statement, IParametersBase parameters)
         {
             try
             {
@@ -138,7 +120,7 @@ namespace LIB.Sqlite.Base
             }
         }
 
-        public bool Execute(string Statement)
+        public override bool Execute(string Statement)
         {
             try
             {
@@ -159,7 +141,7 @@ namespace LIB.Sqlite.Base
             }
         }
 
-        public IDataReader GetDataReader(string Statement, IParameterBase parameters)
+        public override IDataReader GetDataReader(string Statement, IParametersBase parameters)
         {
             try
             {
@@ -188,7 +170,7 @@ namespace LIB.Sqlite.Base
             }
         }
 
-        public IDataReader GetDataReader(string Statement) 
+        public override IDataReader GetDataReader(string Statement) 
         {
             try
             {
@@ -208,157 +190,6 @@ namespace LIB.Sqlite.Base
                 return null;
             }
         }
-
-        #region GetData
-        public int ConvertToInt(object value, int defaultValue = 0)
-        {
-            if(value != null)
-            {
-                return Convert.ToInt32(value);
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-
-        public int? ConvertToNullableInt(object value)
-        {
-            if(value != null)
-            {
-                return Convert.ToInt32(value);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public long ConvertToLong(object value, long defaultValue = 0)
-        {
-            if(value != null)
-            {
-                return Convert.ToInt64(value);
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-
-        public long? ConvertToNullableLong(object value)
-        {
-            if (value != null)
-            {
-                return Convert.ToInt64(value);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public float ConvertToFloat(object value, float defaultValue = 0)
-        {
-            if (value != null)
-            {
-                return Convert.ToSingle(value);
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-
-        public float? ConvertToNullableFloat(object value)
-        {
-            if (value != null)
-            {
-                return Convert.ToSingle(value);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public double ConvertToDouble(object value, double defaultValue = 0)
-        {
-            if (value != null)
-            {
-                return Convert.ToDouble(value);
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-
-        public double? ConvertToNullableDouble(object value)
-        {
-            if (value != null)
-            {
-                return Convert.ToDouble(value);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public string ConvertToString(object value)
-        {
-            if (value != null)
-            {
-                return Convert.ToString(value);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public bool ConvertToBoolean(object value)
-        {
-            return Convert.ToBoolean(value);
-        }
-
-        public DateTime ConvertToDateTime(object value)
-        {
-            if (value != null)
-            {
-                return Convert.ToDateTime(value);
-            }
-            else
-            {
-                return DateTime.MinValue;
-            }
-        }
-
-        public DateTime? ConvertToNullableDateTime(object value)
-        {
-            if (value != null)
-            {
-                return Convert.ToDateTime(value);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public byte[] ConvertToBytes(object value)
-        {
-            if (value != null)
-            {
-                return value as byte[];
-            }
-            else
-            {
-                return null;
-            }
-        } 
-        #endregion
 
         #endregion
     }

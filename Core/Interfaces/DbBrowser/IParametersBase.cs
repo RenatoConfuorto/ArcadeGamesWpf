@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Interfaces.DbBrowser
 {
-    public interface IParameterBase
+    public interface IParametersBase
     {
         object this[string key] { get; }
         void Add(string key, object value);
