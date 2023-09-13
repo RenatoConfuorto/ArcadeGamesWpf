@@ -14,13 +14,15 @@ using System.Windows;
 using Unity;
 using Core.Helpers;
 
-namespace ArcadeGames
+namespace ArcadeGames.Views
 {
     /// <summary>
     /// Logica di interazione per App.xaml
     /// </summary>
     public partial class App : Application
     {
+        private SplashScreen splashScreen;
+
         private IUnityContainer _container;
         public IUnityContainer Container
         {
@@ -32,11 +34,15 @@ namespace ArcadeGames
         }
         public App()
         {
-            
+        }
+        public SplashScreen SplashScreen
+        {
+            set { splashScreen = value; }
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (splashScreen != null) splashScreen.Show(autoClose: true);
             FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
             {
                 DefaultValue = FindResource(typeof(Window))
