@@ -55,7 +55,7 @@ namespace LIB.ViewModels
         }
         public string MainUserName
         {
-            get => MainUser != null ? MainUser.Name : "Player 1";
+            get => MainUser != null ? MainUser.Name : "Giocatore 1";
         }
         #endregion
 
@@ -74,7 +74,7 @@ namespace LIB.ViewModels
         public override void Dispose()
         {
             base.Dispose();
-            InitGame();
+            //InitGame();
         }
         #endregion
 

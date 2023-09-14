@@ -26,13 +26,17 @@ namespace Tris.ViewModels
     public class TrisSingleplayerViewModel : TrisGameBaseModel
     {
         #region Private Fields
-        private bool isPlayerTurn = false;
+        private bool _isPlayerTurn = true;
         private Thread parallelThread = null;
         private GameDataTrisSp _gameResults;
         #endregion
 
         #region Public Properties
-        
+        public bool IsPlayerTurn
+        {
+            get => _isPlayerTurn;
+            set => SetProperty(ref _isPlayerTurn, value);
+        }
         #endregion
 
         #region Constructor
@@ -61,7 +65,7 @@ namespace Tris.ViewModels
 
                 }
             }
-            isPlayerTurn = true;
+            IsPlayerTurn = true;
         }
         protected override void MenageGameUsers()
         {
@@ -86,14 +90,14 @@ namespace Tris.ViewModels
         {
             if (victory)
             {
-                string player = "Giocatore";
-                if (!isPlayerTurn)
+                string player = MainUserName;
+                if (!IsPlayerTurn)
                 {
                     player = "Computer";
                 }
                 if(MainUser != null)
                 {
-                    _gameResults.UserHasWon = isPlayerTurn; //player has won if it's not the computer turn
+                    _gameResults.UserHasWon = IsPlayerTurn; //player has won if it's not the computer turn
                 }
                 GameOverMessage = $"{player} ha vinto !";
             }
@@ -167,7 +171,7 @@ namespace Tris.ViewModels
                 AfterSign();
 
 
-                isPlayerTurn = true;
+                IsPlayerTurn = true;
             }
             catch (Exception ex)
             {
@@ -185,7 +189,7 @@ namespace Tris.ViewModels
         #region Protected Methods
         protected override void OnCellClicked(int cellId)
         {
-            if (!isPlayerTurn) return;
+            if (!IsPlayerTurn) return;
             if (parallelThread != null) parallelThread.Abort();
             TrisEntity entity = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
             if (String.IsNullOrEmpty(entity.Text))
@@ -193,7 +197,7 @@ namespace Tris.ViewModels
                 entity.Text = Players.X.ToString();
                 if (AfterSign())
                 {
-                    isPlayerTurn = false;
+                    IsPlayerTurn = false;
                     parallelThread = new Thread(() =>
                     {
                         ComputerSign();
