@@ -26,12 +26,13 @@ namespace Tris.ViewModels
     public class TrisSingleplayerViewModel : TrisGameBaseModel
     {
         #region Private Fields
-        private bool isComputerTurn = false;
+        private bool isPlayerTurn = false;
         private Thread parallelThread = null;
         private GameDataTrisSp _gameResults;
         #endregion
 
         #region Public Properties
+        
         #endregion
 
         #region Constructor
@@ -60,7 +61,7 @@ namespace Tris.ViewModels
 
                 }
             }
-            isComputerTurn = false;
+            isPlayerTurn = true;
         }
         protected override void MenageGameUsers()
         {
@@ -86,13 +87,13 @@ namespace Tris.ViewModels
             if (victory)
             {
                 string player = "Giocatore";
-                if (isComputerTurn)
+                if (!isPlayerTurn)
                 {
                     player = "Computer";
                 }
                 if(MainUser != null)
                 {
-                    _gameResults.UserHasWon = !isComputerTurn; //player has won if it's not the computer turn
+                    _gameResults.UserHasWon = isPlayerTurn; //player has won if it's not the computer turn
                 }
                 GameOverMessage = $"{player} ha vinto !";
             }
@@ -166,7 +167,7 @@ namespace Tris.ViewModels
                 AfterSign();
 
 
-                isComputerTurn = false;
+                isPlayerTurn = true;
             }
             catch (Exception ex)
             {
@@ -184,7 +185,7 @@ namespace Tris.ViewModels
         #region Protected Methods
         protected override void OnCellClicked(int cellId)
         {
-            if (isComputerTurn) return;
+            if (!isPlayerTurn) return;
             if (parallelThread != null) parallelThread.Abort();
             TrisEntity entity = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
             if (String.IsNullOrEmpty(entity.Text))
@@ -192,7 +193,7 @@ namespace Tris.ViewModels
                 entity.Text = Players.X.ToString();
                 if (AfterSign())
                 {
-                    isComputerTurn = true;
+                    isPlayerTurn = false;
                     parallelThread = new Thread(() =>
                     {
                         ComputerSign();

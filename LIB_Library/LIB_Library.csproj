@@ -141,7 +141,7 @@
       <DependentUpon>Timer.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserMng\UserManager.cs" />
-    <Compile Include="ValueConverters\ProgressBarBorderBrushConverter.cs" />
+    <Compile Include="ValueConverters\ActivePlayerBrushConverter.cs" />
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="ViewModels\GameViewModelBase.cs" />
     <Compile Include="ViewModels\MessageBoxViewModel.cs" />

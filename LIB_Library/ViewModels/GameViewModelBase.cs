@@ -47,7 +47,15 @@ namespace LIB.ViewModels
         public User MainUser
         {
             get => _mainUser;
-            set => SetProperty(ref _mainUser, value);
+            set
+            {
+                SetProperty(ref _mainUser, value);
+                NotifyPropertyChanged(nameof(MainUserName));
+            }
+        }
+        public string MainUserName
+        {
+            get => MainUser != null ? MainUser.Name : "Player 1";
         }
         #endregion
 

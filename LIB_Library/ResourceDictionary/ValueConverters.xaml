@@ -2,5 +2,5 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:LocalConverter="clr-namespace:LIB.ValueConverters">
 
-    <LocalConverter:ProgressBarBorderBrushConverter x:Key="ProgressBarBorderBrushConverter"/>
+    <LocalConverter:ActivePlayerBrushConverter x:Key="ActivePlayerBrushConverter"/>
 </ResourceDictionary>
