@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static LIB.Entities.Data.Base.GameResults;
 
 namespace LIB.Entities.Data.Tris
 {
@@ -13,13 +14,13 @@ namespace LIB.Entities.Data.Tris
         private string _opponentName;
 
         public GameDataTrisMp(string userName, 
-            DateTime gameDate, 
-            bool userHasWon,
+            DateTime gameDate,
+            TrisResults gameResults,
             string opponentName) 
             : base(Cnst.GAME_GUID_TRIS_MP,
                   userName, 
                   gameDate, 
-                  userHasWon)
+                  gameResults)
         {
             OpponentName = opponentName;
         }

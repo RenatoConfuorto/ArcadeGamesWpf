@@ -19,6 +19,7 @@ using LIB.Entities;
 using LIB.Helpers;
 using LIB.UserMng;
 using LIB.Entities.Data.Tris;
+using static LIB.Entities.Data.Base.GameResults;
 
 namespace Tris.ViewModels
 {
@@ -72,7 +73,7 @@ namespace Tris.ViewModels
             base.MenageGameUsers();
             if(MainUser != null)
             {
-                _gameResults = new GameDataTrisSp(MainUser.Name, DateTime.Now, false);
+                _gameResults = new GameDataTrisSp(MainUser.Name, DateTime.Now, TrisResults.defeat);
                 MainUser.Proxy.SaveData(_gameResults);
             }
         }
@@ -97,13 +98,14 @@ namespace Tris.ViewModels
                 }
                 if(MainUser != null)
                 {
-                    _gameResults.UserHasWon = IsPlayerTurn; //player has won if it's not the computer turn
+                    if(IsPlayerTurn) _gameResults.GameResults = TrisResults.victory; //player has won if it's not the computer turn
                 }
                 GameOverMessage = $"{player} ha vinto !";
             }
             else
             {
                 GameOverMessage = "Pareggio";
+                _gameResults.GameResults = TrisResults.tie;
             }
             EndGame();
         }

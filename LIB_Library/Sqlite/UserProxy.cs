@@ -28,12 +28,12 @@ namespace LIB.Sqlite
             return $@"CREATE TABLE IF NOT EXISTS TRIS_SP
                         (
 	                        {DataManagment.GAME_DATA_TABLE_COMMON},
-	                        HAS_WON BOOL NOT NULL
+	                        GAME_RESULT SHORT_INT NOT NULL
                         );
                         CREATE TABLE IF NOT EXISTS TRIS_MP
                         (
 	                        {DataManagment.GAME_DATA_TABLE_COMMON},
-	                        HAS_WON BOOL NOT NULL,
+	                        GAME_RESULT SHORT_INT NOT NULL,
 	                        OPPONENT_NAME VARCHAR(255) NULL
                         );";
         }
@@ -92,18 +92,18 @@ namespace LIB.Sqlite
            ,GAME_GUID
            ,USER_NAME
            ,GAME_DATE
-           ,HAS_WON)
+           ,GAME_RESULT)
      VALUES (
              @GAME_ID
             ,@GAME_GUID
             ,@USER_NAME
             ,@GAME_DATE
-            ,@HAS_WON           
+            ,@GAME_RESULT           
             )";
 
             data.GameId = GetNextIntValue("TRIS_SP", "GAME_ID");
             SQLiteParameters parameters = GetBaseParameters(data);
-            parameters.Add("@HAS_WON", data.UserHasWon);
+            parameters.Add("@GAME_RESULT", (int)data.GameResults);
 
             result = Execute(Statement, parameters);
             return result;
@@ -111,12 +111,12 @@ namespace LIB.Sqlite
         private bool UpdateTrisSp(GameDataTrisSp data)
         {
             bool result = false;
-            string Statement = @"UPDATE TRIS_SP SET HAS_WON = @HAS_WON
+            string Statement = @"UPDATE TRIS_SP SET GAME_RESULT = @GAME_RESULT
                          WHERE GAME_ID = @GAME_ID;
                         ";
             SQLiteParameters parameters = new SQLiteParameters();
             parameters.Add("@GAME_ID", data.GameId);
-            parameters.Add("@HAS_WON", data.UserHasWon);
+            parameters.Add("@GAME_RESULT", (int)data.GameResults);
             result = Execute(Statement, parameters);
             return result;
         }

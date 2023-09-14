@@ -117,6 +117,7 @@
     <Compile Include="Constants\ViewNames.cs" />
     <Compile Include="Entities\CellEntityBase.cs" />
     <Compile Include="Entities\Data\Base\GameDataTrisBase.cs" />
+    <Compile Include="Entities\Data\Base\GameResults.cs" />
     <Compile Include="Entities\Data\Tris\GameDataTrisMp.cs" />
     <Compile Include="Entities\Data\Tris\GameDataTrisSp.cs" />
     <Compile Include="Entities\TimerEntity.cs" />
