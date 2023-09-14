@@ -54,8 +54,7 @@
                        Style="{StaticResource GameDesc}"/>
             <TextBlock Text="{Binding MainUserName}"
                        Foreground="{Binding IsPlayerTurn, Converter={StaticResource ActivePlayerBrushConverter}}"
-                       Margin="8 16"
-                       FontSize="18"/>
+                       Style="{StaticResource GamePlayerLabel}"/>
         </StackPanel>
     </Grid>
 </UserControl>

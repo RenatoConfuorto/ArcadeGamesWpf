@@ -81,7 +81,11 @@ namespace LIB.UserMng
         #region Static Methods
         public static User GetMainLoggedInUser()
         {
-            return MainLoggedUser.CurrentUser;
+            return MainLoggedUser != null ? MainLoggedUser.CurrentUser : null;
+        }
+        public static User GetSecondLoggedUser()
+        {
+            return SecondLoggedUser != null ? SecondLoggedUser.CurrentUser : null;
         }
         /// <summary>
         /// check if the given user is logged in

@@ -117,6 +117,11 @@
         <Setter Property="LineHeight" Value="24"/>
     </Style>
 
+    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" x:Key="GamePlayerLabel">
+        <Setter Property="Margin" Value="8 16"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+
     <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
         <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
         <Setter Property="Margin" Value="0 3"/>
