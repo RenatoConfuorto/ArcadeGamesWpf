@@ -70,6 +70,7 @@ namespace Tris.ViewModels
         #region Private Methods
         #endregion
         #region Protected Methods
+        protected abstract void OnMacroCellClosed(string PlayerSymbol);
         protected bool CheckVictory<T>(ObservableCollection<T> cells, out string winningSymbol) where T : ITrisEntity
         {
             winningSymbol = String.Empty;
@@ -153,6 +154,7 @@ namespace Tris.ViewModels
                 //posizionare il simbolo e chiudere la cella
                 cell.Text = winningSymbol;
                 cell.IsCellClosed = true;
+                OnMacroCellClosed(GetPlayerSymbol());
                 //controllare la griglia principale
                 if(CheckVictory(Cells, out winningSymbol))
                 {
@@ -174,7 +176,7 @@ namespace Tris.ViewModels
             return true;
         }
 
-        protected void CloseGame(string gameOverMessage)
+        protected virtual void CloseGame(string gameOverMessage)
         {
             GameOverMessage = gameOverMessage;
             EndGame();

@@ -37,7 +37,16 @@ namespace LIB.Sqlite
 	                        {DataManagment.GAME_DATA_TABLE_COMMON},
 	                        GAME_RESULT SHORT_INT NOT NULL,
 	                        OPPONENT_NAME VARCHAR(255) NULL
-                        );";
+                        );
+                        CREATE TABLE IF NOT EXISTS SUPER_TRIS_MP 
+                        (	
+	                        {DataManagment.GAME_DATA_TABLE_COMMON},
+                            GAME_RESULT INT NOT NULL, 
+	                        OPPONENT_NAME VARCHAR(255) NULL,
+	                        REMAINING_TIME INT NOT NULL,
+	                        CELLS_WON INT NOT NULL
+                        );
+                        ";
         }
 
         public bool SaveData(object data)
@@ -50,6 +59,9 @@ namespace LIB.Sqlite
                     break;
                 case GameDataTrisMp gameDataTrisMp:
                     result = SaveTrisMp(data as GameDataTrisMp);
+                    break;
+                case GameDataSuperTrisMp gameDataSuperTrisMp:
+                    result = SaveSuperTrisMp(data as GameDataSuperTrisMp);
                     break;
                 default:
                     MessageDialogHelper.ShowInfoMessage($"Il tipo passato non è gestito nel metodo {MethodInfo.GetCurrentMethod().Name}, ({data.GetType().FullName})");
@@ -68,6 +80,9 @@ namespace LIB.Sqlite
                     break;
                 case GameDataTrisMp gameDataTrisMp:
                     result = UpdateTrisMp(data as GameDataTrisMp);
+                    break;
+                case GameDataSuperTrisMp gameDataSuperTrisMp:
+                    result = UpdateSuperTrisMp(data as GameDataSuperTrisMp);
                     break;
                 default:
                     MessageDialogHelper.ShowInfoMessage($"Il tipo passato non è gestito nel metodo {MethodInfo.GetCurrentMethod().Name}, ({data.GetType().FullName})");
@@ -162,6 +177,55 @@ namespace LIB.Sqlite
                                 WHERE GAME_ID = @GAME_ID";
             SQLiteParameters parameters = new SQLiteParameters();
             parameters.Add("@GAME_RESULT", (int)data.GameResults);
+            parameters.Add("@GAME_ID", data.GameId);
+            result = Execute(Statement, parameters);
+            return result;
+        }
+        #endregion
+
+        #region SuperTrisMp
+        private bool SaveSuperTrisMp(GameDataSuperTrisMp data)
+        {
+            bool result = false;
+            string Statement = @"INSERT INTO SUPER_TRIS_MP (
+                            GAME_ID
+	                        ,GAME_GUID 
+	                        ,USER_NAME 
+	                        ,GAME_DATE 
+                            ,GAME_RESULT
+	                        ,OPPONENT_NAME 
+	                        ,REMAINING_TIME 
+	                        ,CELLS_WON) VALUES(
+                            @GAME_ID
+	                        ,@GAME_GUID 
+	                        ,@USER_NAME 
+	                        ,@GAME_DATE 
+                            ,@GAME_RESULT
+	                        ,@OPPONENT_NAME 
+	                        ,@REMAINING_TIME 
+	                        ,@CELLS_WON );";
+            data.GameId = GetNextIntValue("SUPER_TRIS_MP", GAME_ID);
+            SQLiteParameters parameters = GetBaseParameters(data);
+            parameters.Add("@GAME_RESULT", (int)data.GameResults);
+            parameters.Add("@OPPONENT_NAME", data.OpponentName);
+            parameters.Add("@REMAINING_TIME", data.RemainingTime);
+            parameters.Add("@CELLS_WON", data.CellsWon);
+            result = Execute(Statement, parameters);
+            return result;
+        }
+
+        private bool UpdateSuperTrisMp(GameDataSuperTrisMp data)
+        {
+            bool result = false;
+            string Statement = @"UPDATE SUPER_TRIS_MP SET
+                                GAME_RESULT = @GAME_RESULT,
+                                REMAINING_TIME = @REMAINING_TIME,
+                                CELLS_WON = @CELLS_WON
+                                WHERE GAME_ID = @GAME_ID";
+            SQLiteParameters parameters = new SQLiteParameters();
+            parameters.Add("@GAME_RESULT", (int)data .GameResults);
+            parameters.Add("@REMAINING_TIME", data.RemainingTime);
+            parameters.Add("@CELLS_WON", data.CellsWon);
             parameters.Add("@GAME_ID", data.GameId);
             result = Execute(Statement, parameters);
             return result;
