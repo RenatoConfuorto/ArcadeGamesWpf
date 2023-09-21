@@ -1,11 +1,22 @@
-﻿using LIB.Entities;
+﻿using Core.Attributes;
+using Core.Commands;
+using Core.Dependency;
+using Core.Helpers;
+using Core.Interfaces.ViewModels;
+using Core.ViewModels;
+using Core.Views;
+using LIB.Attributes;
+using LIB.Entities;
 using LIB.UserMng;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Unity;
 
 namespace LIB.ViewModels
 {
@@ -17,11 +28,14 @@ namespace LIB.ViewModels
         private bool _isGameOver = false;
         private string _gameOverMessage = String.Empty;
         private User _mainUser;
+        private string SettingsPopupName;
 
         private ObservableCollection<C> _cells;
         #endregion
 
-
+        #region Commands
+        public RelayCommand SettingsCommand { get; set; }
+        #endregion
 
         #region Public Properties
         public bool IsGameEnabled
@@ -62,13 +76,24 @@ namespace LIB.ViewModels
         #region Constructor
         public GameViewModelBase(string viewName, string parentView = null) : base(viewName, parentView)
         {
+            GetSettingsPopupName();
         }
         #endregion
 
         #region Override Methods
+        protected override void SetCommandExecutionStatus()
+        {
+            base.SetCommandExecutionStatus();
+        }
+        protected override void InitCommands()
+        {
+            base.InitCommands();
+            SettingsCommand = new RelayCommand(SettingsCommandExecute, SettingsCommandCanExecute);
+        }
         protected override void OnInitialized()
         {
             base.OnInitialized();
+            MenageGameUsers();
             InitGame();
         }
         public override void Dispose()
@@ -79,9 +104,50 @@ namespace LIB.ViewModels
         #endregion
 
         #region Private Methods
+        private void GetSettingsPopupName()
+        {
+            SettingsPopup attribute = this.GetType().GetCustomAttribute<SettingsPopup>();
+            if(attribute != null)
+            {
+                SettingsPopupName = attribute.PopupName;
+                SettingsCommand.RaiseCanExecuteChanged();
+            }
+        }
+        private void SettingsCommandExecute(object param)
+        {
+            IUnityContainer container = UnityHelper.Current.GetLocalContainer();
+            PopupViewModelBase settingsPopupViewModel = (PopupViewModelBase)container.Resolve<IViewModelBase>(SettingsPopupName);
+            object settingsPopupView = settingsPopupViewModel.GetType().GetCustomAttribute<ViewRef>();
+            if(settingsPopupView != null)
+            {
+                if(settingsPopupView is PopUp popWindow)
+                {
+                    //popWindow = new PopUp()
+                    //window.DataContext = settingsPopupViewModel;
+                    //window.ShowDialog();
+                    //PopupViewModelBase viewModel = window.DataContext as PopupViewModelBase;
+                    //if (viewModel.IsOperationConfirmed)
+                    //{
+                    //    OnSettingsReceied(viewModel.Settings);
+                    //    InitGame();
+                    //}
+                }
+            }
+            else
+            {
+                MessageDialogHelper.ShowInfoMessage($"Nessun Popup trovato con nome {SettingsPopupName}");
+            }
+        }
+        private bool SettingsCommandCanExecute(object param)
+        {
+            return String.IsNullOrEmpty(SettingsPopupName);
+        }
         #endregion
 
         #region Protected Methods
+        protected virtual void OnSettingsReceied(object settings)
+        {
+        }
         protected abstract ObservableCollection<C> GenerateGrid();
         protected abstract void SaveGameResults();
         protected virtual void MenageGameUsers()
