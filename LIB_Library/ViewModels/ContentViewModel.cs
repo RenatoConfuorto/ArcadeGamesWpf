@@ -14,8 +14,6 @@ namespace LIB.ViewModels
         #region Private Fields
         #endregion
 
-        
-
         #region Public Properties
         #endregion
 

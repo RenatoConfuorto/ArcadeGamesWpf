@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDependencies.cs" />
+    <Compile Include="Attributes\SettingsPopup.cs" />
     <Compile Include="Communication\Constants\CommunicationCnst.cs" />
     <Compile Include="Communication\Events\ClientDisconnectedEvent.cs" />
     <Compile Include="Communication\MessageBrokers\BrokerBase.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Entities\Data\Tris\GameDataSuperTrisMp.cs" />
     <Compile Include="Entities\Data\Tris\GameDataTrisMp.cs" />
     <Compile Include="Entities\Data\Tris\GameDataTrisSp.cs" />
+    <Compile Include="Entities\GameSettingBase.cs" />
     <Compile Include="Entities\TimerEntity.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Data\Base\GameDataBase.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="ViewModels\GameViewModelBase.cs" />
     <Compile Include="ViewModels\MessageBoxViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModelBase.cs" />
     <Compile Include="Views\MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
@@ -198,7 +201,6 @@
     <Resource Include="Images\thumbs.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Attributes\" />
     <Folder Include="Base\" />
     <Folder Include="Dependency\" />
     <Folder Include="Events\" />
