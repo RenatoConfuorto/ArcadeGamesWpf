@@ -82,6 +82,7 @@
     <Compile Include="Dependency\DependencyInjectionBase.cs" />
     <Compile Include="Dependency\UnityHelper.cs" />
     <Compile Include="Entities\NotifyerPropertyChangedBase.cs" />
+    <Compile Include="Events\ClosePopupEvent.cs" />
     <Compile Include="Events\ViewChangedEvent.cs" />
     <Compile Include="Helpers\AssemblyHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
@@ -95,7 +96,11 @@
     <Compile Include="Proxy\ProxyCore.cs" />
     <Compile Include="ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\NotBoolToVisibilityConverter.cs" />
+    <Compile Include="ViewModels\PopupViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\PopUp.xaml.cs">
+      <DependentUpon>PopUp.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -109,11 +114,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\PopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Constants\" />
     <Folder Include="Navigation\" />
-    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
