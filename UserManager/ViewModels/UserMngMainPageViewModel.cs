@@ -223,8 +223,8 @@ namespace UserManager.ViewModels
 
                 if(SecondUser != null)
                 {//rendere l'account secondary quello principale
-                    LIB.UserMng.UserManager.MainLoggedUser.UserLogIn(SecondUser);
                     LIB.UserMng.UserManager.SecondLoggedUser.UserLogOut();
+                    LIB.UserMng.UserManager.MainLoggedUser.UserLogIn(SecondUser);
                     MainUser = SecondUser;
                     SecondUser = null;
                 }

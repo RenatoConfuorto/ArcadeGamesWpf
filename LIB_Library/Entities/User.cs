@@ -1,4 +1,6 @@
 ﻿using Core.Entities;
+using Core.Interfaces.DbBrowser;
+using LIB.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,9 @@ namespace LIB.Entities
 {
     public class User : NotifyerPropertyChangedBase
     {
+        [XmlIgnore]
+        public UserProxy Proxy;
+
         private string _name;
         public string Name
         {

@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace LIB.ValueConverters
 {
-    public class ProgressBarBorderBrushConverter : IValueConverter
+    public class ActivePlayerBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

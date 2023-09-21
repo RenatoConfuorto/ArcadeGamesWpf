@@ -1,4 +1,5 @@
 ﻿using LIB.Entities;
+using LIB.UserMng;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,6 +16,7 @@ namespace LIB.ViewModels
         private bool _isGameEnabled = true;
         private bool _isGameOver = false;
         private string _gameOverMessage = String.Empty;
+        private User _mainUser;
 
         private ObservableCollection<C> _cells;
         #endregion
@@ -42,6 +44,19 @@ namespace LIB.ViewModels
             get => _cells;
             set => SetProperty(ref _cells, value);
         }
+        public User MainUser
+        {
+            get => _mainUser;
+            set
+            {
+                SetProperty(ref _mainUser, value);
+                NotifyPropertyChanged(nameof(MainUserName));
+            }
+        }
+        public string MainUserName
+        {
+            get => MainUser != null ? MainUser.Name : "Giocatore 1";
+        }
         #endregion
 
         #region Constructor
@@ -59,7 +74,7 @@ namespace LIB.ViewModels
         public override void Dispose()
         {
             base.Dispose();
-            InitGame();
+            //InitGame();
         }
         #endregion
 
@@ -68,16 +83,23 @@ namespace LIB.ViewModels
 
         #region Protected Methods
         protected abstract ObservableCollection<C> GenerateGrid();
+        protected abstract void SaveGameResults();
+        protected virtual void MenageGameUsers()
+        {
+            MainUser = UserManager.GetMainLoggedInUser();
+        }
         protected virtual void InitGame()
         {
             Cells = GenerateGrid();
             IsGameEnabled = true;
             IsGameOver = false;
+            MenageGameUsers();
         }
         protected virtual void EndGame()
         {
             IsGameEnabled = false;
             IsGameOver = true;
+            SaveGameResults();
         }
         #endregion
     }

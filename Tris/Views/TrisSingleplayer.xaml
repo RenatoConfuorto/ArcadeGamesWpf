@@ -52,6 +52,9 @@
                        Style="{StaticResource GameTitle}"/>
             <TextBlock Text="Allinea i simboli in verticale, orizzontale o in diagonale. Aspetta il computer per la sua mossa." 
                        Style="{StaticResource GameDesc}"/>
+            <TextBlock Text="{Binding MainUserName}"
+                       Foreground="{Binding IsPlayerTurn, Converter={StaticResource ActivePlayerBrushConverter}}"
+                       Style="{StaticResource GamePlayerLabel}"/>
         </StackPanel>
     </Grid>
 </UserControl>

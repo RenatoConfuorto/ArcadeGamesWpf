@@ -15,6 +15,11 @@ using System.Threading;
 using System.Windows;
 using Tris.Common.Entities;
 using static Tris.Common.Constants;
+using LIB.Entities;
+using LIB.Helpers;
+using LIB.UserMng;
+using LIB.Entities.Data.Tris;
+using static LIB.Entities.Data.Base.GameResults;
 
 namespace Tris.ViewModels
 {
@@ -22,16 +27,22 @@ namespace Tris.ViewModels
     public class TrisSingleplayerViewModel : TrisGameBaseModel
     {
         #region Private Fields
-        private bool isComputerTurn = false;
+        private bool _isPlayerTurn = true;
         private Thread parallelThread = null;
+        private GameDataTrisSp _gameResults;
         #endregion
 
         #region Public Properties
+        public bool IsPlayerTurn
+        {
+            get => _isPlayerTurn;
+            set => SetProperty(ref _isPlayerTurn, value);
+        }
         #endregion
 
         #region Constructor
-        public TrisSingleplayerViewModel() : base(ViewNames.TrisSingleplayer) 
-        { 
+        public TrisSingleplayerViewModel() : base(ViewNames.TrisSingleplayer)
+        {
         }
         #endregion
 
@@ -39,40 +50,62 @@ namespace Tris.ViewModels
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            
         }
+
         protected override void InitGame()
         {
             base.InitGame();
-            if(parallelThread != null)
+            if (parallelThread != null)
             {
                 try
                 {
                     parallelThread.Abort();
-                }catch(Exception ex) 
+                }
+                catch (Exception ex)
                 {
 
                 }
             }
-            isComputerTurn = false;
+            IsPlayerTurn = true;
+        }
+        protected override void MenageGameUsers()
+        {
+            base.MenageGameUsers();
+            if(MainUser != null)
+            {
+                _gameResults = new GameDataTrisSp(MainUser.Name, DateTime.Now, TrisResults.defeat);
+                MainUser.Proxy.SaveData(_gameResults);
+            }
+        }
+        protected override void SaveGameResults()
+        {
+            if(MainUser != null)
+            {
+                MainUser.Proxy.UpdateData(_gameResults);
+            }
         }
         #endregion
 
         #region Private Methods
         private void CloseGame(bool victory = false)
         {
-            if(victory)
+            if (victory)
             {
-                string player = "Giocatore";
-                if(isComputerTurn)
+                string player = MainUserName;
+                if (!IsPlayerTurn)
                 {
                     player = "Computer";
+                }
+                if(MainUser != null)
+                {
+                    if(IsPlayerTurn) _gameResults.GameResults = TrisResults.victory; //player has won if it's not the computer turn
                 }
                 GameOverMessage = $"{player} ha vinto !";
             }
             else
             {
                 GameOverMessage = "Pareggio";
+                _gameResults.GameResults = TrisResults.tie;
             }
             EndGame();
         }
@@ -98,7 +131,7 @@ namespace Tris.ViewModels
                 //isComputerTurn = true;
                 Thread.Sleep(500);
                 bool isSignPlaced = false;
-                for(int i = 0; i < winningCombinations.Count; i++)
+                for (int i = 0; i < winningCombinations.Count; i++)
                 {//controllare tutte le combinazioni vincenti per decidere dove inserire il segno
                     int[] combination = winningCombinations[i];
                     int a = combination[0];
@@ -111,13 +144,15 @@ namespace Tris.ViewModels
                     {
                         PlaceComputerSign(c, out isSignPlaced);
                         break;
-                    }else if (!String.IsNullOrEmpty(Cells[a].Text)
+                    }
+                    else if (!String.IsNullOrEmpty(Cells[a].Text)
                         && Cells[c].Text == Cells[a].Text &&
                         String.IsNullOrEmpty(Cells[b].Text))
                     {
                         PlaceComputerSign(b, out isSignPlaced);
                         break;
-                    }else if (!String.IsNullOrEmpty(Cells[b ].Text) &&
+                    }
+                    else if (!String.IsNullOrEmpty(Cells[b].Text) &&
                         Cells[c].Text == Cells[b].Text &&
                         String.IsNullOrEmpty(Cells[a].Text))
                     {
@@ -138,8 +173,9 @@ namespace Tris.ViewModels
                 AfterSign();
 
 
-                isComputerTurn = false;
-            }catch (Exception ex)
+                IsPlayerTurn = true;
+            }
+            catch (Exception ex)
             {
 
             }
@@ -155,15 +191,15 @@ namespace Tris.ViewModels
         #region Protected Methods
         protected override void OnCellClicked(int cellId)
         {
-            if (isComputerTurn) return;
-            if(parallelThread != null) parallelThread.Abort();
+            if (!IsPlayerTurn) return;
+            if (parallelThread != null) parallelThread.Abort();
             TrisEntity entity = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
             if (String.IsNullOrEmpty(entity.Text))
             {
                 entity.Text = Players.X.ToString();
                 if (AfterSign())
                 {
-                    isComputerTurn = true;
+                    IsPlayerTurn = false;
                     parallelThread = new Thread(() =>
                     {
                         ComputerSign();

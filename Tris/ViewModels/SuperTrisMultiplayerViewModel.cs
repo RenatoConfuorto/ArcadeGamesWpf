@@ -15,6 +15,9 @@ using Tris.Common.Entities;
 using System.Timers;
 using LIB.Entities;
 using static Tris.Common.Constants;
+using LIB.Entities.Data.Tris;
+using LIB.UserMng;
+using static LIB.Entities.Data.Base.GameResults;
 
 namespace Tris.ViewModels
 {
@@ -25,7 +28,10 @@ namespace Tris.ViewModels
         private TimerEntity _firstPlayerTimer;
         private TimerEntity _secondPlayerTimer;
         private int _playersTime = 300;
-        private Timer timer; //TODO il timer non si stoppa se si pareggia
+        private Timer timer;
+        private User _secondUser;
+        private GameDataSuperTrisMp _mainUserGameResult;
+        private GameDataSuperTrisMp _secondUserGameResult;
         #endregion
 
         #region Public Properties
@@ -39,6 +45,18 @@ namespace Tris.ViewModels
         {
             get => _secondPlayerTimer;
             set => SetProperty(ref _secondPlayerTimer, value);
+        }
+        public User SecondUser
+        {
+            get => _secondUser;
+            set
+            {
+                SetProperty(ref _secondUser, value);
+            }
+        }
+        public string SecondUserName
+        {
+            get => SecondUser != null ? SecondUser.Name : "Giocatore 2";
         }
         #endregion
 
@@ -65,10 +83,58 @@ namespace Tris.ViewModels
             InitPlayerTimers();
             StartTimer();
         }
+
         protected override void EndGame()
         {
             if(timer != null) { timer.Dispose(); }
             base.EndGame();
+        }
+        protected override void MenageGameUsers()
+        {
+            base.MenageGameUsers();
+            SecondUser = UserManager.GetSecondLoggedUser();
+            if (MainUser != null)
+            {
+                string opponent = SecondUser == null ? String.Empty : SecondUserName;
+                _mainUserGameResult = new GameDataSuperTrisMp(MainUserName, DateTime.Now, TrisResults.defeat, opponent, 0, 0);
+                MainUser.Proxy.SaveData(_mainUserGameResult);
+            }
+            if (SecondUser != null)
+            {
+                string opponent = MainUser == null ? String.Empty : MainUserName;
+                _secondUserGameResult = new GameDataSuperTrisMp(SecondUserName, DateTime.Now, TrisResults.defeat, opponent, 0, 0);
+                SecondUser.Proxy.SaveData(_secondUserGameResult);
+            }
+        }
+        protected override void SaveGameResults()
+        {
+            if (MainUser != null)
+            {
+                _mainUserGameResult.RemainingTime = FirstPlayerTimer.Time;
+                MainUser.Proxy.UpdateData(_mainUserGameResult);
+            }
+            if (SecondUser != null)
+            {
+                _secondUserGameResult.RemainingTime = SecondPlayerTimer.Time;
+                SecondUser.Proxy.UpdateData(_secondUserGameResult);
+            }
+        }
+        protected override void OnMacroCellClosed(string PlayerSymbol)
+        {
+            if(PlayerSymbol == Players.X.ToString())
+            {
+                if(MainUser != null)
+                {
+                    _mainUserGameResult.CellsWon++;
+                }
+            }
+            else if(PlayerSymbol == Players.O.ToString())
+            {
+                if (SecondUser != null)
+                {
+                    _secondUserGameResult.CellsWon++;
+                }
+            }
         }
         protected override void OnMacroCellClicked(int CellId, int SubCellId)
         {
@@ -90,6 +156,42 @@ namespace Tris.ViewModels
                     }
                 }
             }
+        }
+
+        protected override void CloseGame(string gameOverMessage)
+        {
+            if(gameOverMessage == "Pareggio")
+            {
+                if (MainUser != null) _mainUserGameResult.GameResults = TrisResults.tie;
+                if (SecondUser != null) _secondUserGameResult.GameResults = TrisResults.tie;
+            }
+            else
+            {
+                string player = GetPlayerSymbol();
+                if(player == Players.X.ToString())
+                {
+                    if(MainUser != null)
+                    {
+                        _mainUserGameResult.GameResults = TrisResults.victory;
+                    }
+                    if(SecondUser != null)
+                    {
+                        _secondUserGameResult.GameResults = TrisResults.defeat;
+                    }
+                }
+                else if(player == Players.O.ToString())
+                {
+                    if (MainUser != null)
+                    {
+                        _mainUserGameResult.GameResults = TrisResults.defeat;
+                    }
+                    if (SecondUser != null)
+                    {
+                        _secondUserGameResult.GameResults = TrisResults.victory;
+                    }
+                }
+            }
+            base.CloseGame(gameOverMessage);
         }
         #endregion
         #region Private Methods
