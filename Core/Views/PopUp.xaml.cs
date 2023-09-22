@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Unity;
+using Unity.Resolution;
 
 namespace Core.Views
 {
@@ -26,10 +27,17 @@ namespace Core.Views
     {
         private object popResult;
         public IViewModelBase viewModel { get; set; }
-        public PopUp(string ViewName)
+        public PopUp(string ViewName, object param = null)
         {
             IUnityContainer container = UnityHelper.Current.GetLocalContainer();
-            viewModel = container.Resolve<IViewModelBase>(ViewName);
+            if(param == null)
+            {
+                viewModel = container.Resolve<IViewModelBase>(ViewName);
+            }
+            else
+            {
+                viewModel = container.Resolve<IViewModelBase>(ViewName, new ParameterOverride("param", param));
+            }
             this.DataContext = viewModel;
             ((PopupViewModelBase)viewModel).closePopup += ClosePopup;
             InitializeComponent();
@@ -43,7 +51,7 @@ namespace Core.Views
 
         public new object Show()
         {
-            this.Show();
+            this.ShowDialog();
             return popResult;
         }
     }
