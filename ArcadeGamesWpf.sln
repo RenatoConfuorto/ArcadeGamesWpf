@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManager", "UserManager\UserManager.csproj", "{1A64B6B0-C698-48B1-8A94-F1ECD297AD0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryGame", "MemoryGame\MemoryGame.csproj", "{D94C2F83-FA54-454F-B2AB-54B2CB69589E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1A64B6B0-C698-48B1-8A94-F1ECD297AD0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A64B6B0-C698-48B1-8A94-F1ECD297AD0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A64B6B0-C698-48B1-8A94-F1ECD297AD0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D94C2F83-FA54-454F-B2AB-54B2CB69589E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D94C2F83-FA54-454F-B2AB-54B2CB69589E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D94C2F83-FA54-454F-B2AB-54B2CB69589E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D94C2F83-FA54-454F-B2AB-54B2CB69589E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,6 +22,7 @@
                         Command="{Binding TrisPageCommand}"
                         Content="Tris"/>
                 <Button Style="{StaticResource NavigationButton}"
+                        Command="{Binding MemoryPageCommand}"
                         Content="Memory Game"/>
                 <Button Style="{StaticResource NavigationButton}"
                         Content="Whack A Bug"/>

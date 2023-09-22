@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -24,5 +25,7 @@ namespace LIB.Constants
         public const string UserMngMainPage = "UserMngMainPage";
         public const string NewUserPage = "NewUserPage";
         public const string ManageUserView = "ManageUserView";
+        //Memory Game
+        public const string MemoryGameHomePage = "MemoryGameHomePage";
     }
 }

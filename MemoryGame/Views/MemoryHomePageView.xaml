@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="MemoryGame.Views.MemoryHomePageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MemoryGame.Views"
+             mc:Ignorable="d" 
+             Height="Auto" Width="Auto">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MemoryGame;component/ResourceDictionary/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource BgColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Margin="0 150 0 0">
+            <Image Source="/LIB_Library;component/Images/thumbs.png"/>
+            <Image Source="/LIB_Library;component/Images/logo.png"/>
+
+            <StackPanel>
+                <Button Style="{StaticResource NavigationButton}"
+                        Command="{Binding SingleplayerCommand}"
+                        Content="SinglePlayer"/>
+                <Button Style="{StaticResource NavigationButton}"
+                        Command="{Binding MultiplayerCommand}"
+                        Content="Multiplayer"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -20,6 +20,7 @@ namespace ArcadeGames.ViewModels
 
         #region Command
         public RelayCommand TrisPageCommand { get; set; }
+        public RelayCommand MemoryPageCommand { get; set; }
         public RelayCommand MultiPlayerCommand { get; set; }
         #endregion
 
@@ -35,6 +36,7 @@ namespace ArcadeGames.ViewModels
         {
             base.InitCommands();
             TrisPageCommand = new RelayCommand(TrisPageCommandExecute);
+            MemoryPageCommand = new RelayCommand(MemoryPageCommandExecute);
             MultiPlayerCommand = new RelayCommand(MultiPlayerCommandExecute);
         }
         #endregion
@@ -43,6 +45,10 @@ namespace ArcadeGames.ViewModels
         private void TrisPageCommandExecute(object param)
         {
             ChangeView(ViewNames.TrisHomePage);
+        }
+        private void MemoryPageCommandExecute(object param)
+        {
+            ChangeView(ViewNames.MemoryGameHomePage);
         }
         private void MultiPlayerCommandExecute(object param)
         {
