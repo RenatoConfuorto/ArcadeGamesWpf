@@ -8,6 +8,7 @@ namespace Tris.Common
 {
     public class Constants
     {
+        public const int SUPER_TRIS_DEFAULT_START_TIME = 300;
         public enum Players
         {
             X = 0,

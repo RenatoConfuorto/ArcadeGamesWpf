@@ -20,10 +20,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="830"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="300" MaxWidth="300"/>
+            <ColumnDefinition Width="450" MaxWidth="450"/>
         </Grid.ColumnDefinitions>
-        
+
         <ItemsControl Grid.Column="0" 
+                      VerticalAlignment="Top"
                       IsEnabled="{Binding IsGameEnabled}"
                       ItemsSource="{Binding Cells}">
             <ItemsControl.ItemsPanel>
@@ -78,18 +79,28 @@
                                     BorderThickness="1"
                                     BarHeight="750"
                                     Width="16"/>
-    
+
             </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Column="2" VerticalAlignment="Stretch">
-            <TextBlock Text="Super Tris"
-                       Style="{StaticResource GameTitle}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Super&#10;Tris"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource GameTitle}"/>
+                <UserControls:IconButton ToolTip="Impostazioni"
+                                         MaxHeight="100"
+                                         Command="{Binding SettingsCommand}"
+                                         Source="{StaticResource SettingsIcon}"/>
+            </StackPanel>
             <TextBlock Text="Ad ogni turno il giocatore può decidere di giocare liberamente in una delle macro celle attive (bordo rosso). 
-                       Quando si gioca in una delle griglie diventa attiva la macrocella corrispettiva della cella selezionata in precedenza. 
-                       Se un giocatore vince in una cella questa viene associata al suo simbolo, mentre se si pareggia la partita ricomincia in quella cella.
-                       Vince chi allinea tre simboli in tre macro celle." 
-                       Style="{StaticResource GameDesc}"/>
+                    Quando si gioca in una delle griglie diventa attiva la macrocella corrispettiva della cella selezionata in precedenza. 
+                    Se un giocatore vince in una cella questa viene associata al suo simbolo, mentre se si pareggia la partita ricomincia in quella cella.
+                    Vince chi allinea tre simboli in tre macro celle." 
+                    Style="{StaticResource GameDesc}"
+                       Width="300"
+                       HorizontalAlignment="Left"/>
+
         </StackPanel>
     </Grid>
 </UserControl>

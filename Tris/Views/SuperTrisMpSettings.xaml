@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Tris.Views.SuperTrisMpSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tris.Views"
+             mc:Ignorable="d" 
+             Height="Auto" Width="Auto">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Tris;component/ResourceDictionary/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid Background="{StaticResource BgColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <Label Grid.Row="0" Content="Impostazioni" FontSize="22"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 6">
+            <Label Content="Minuti"/>
+            <Button Content="-"
+                    Command="{Binding RemoveMinutes}"/>
+            <TextBox Text="{Binding Minutes}" IsReadOnly="True" Width="75" MinWidth="0" Margin="6 0"/>
+            <Button Content="+"
+                    Command="{Binding AddMinutes}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Content="Accetta"
+                    Command="{Binding OkCommand}"/>
+            <Button Content="Annulla"
+                    Command="{Binding CancelCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

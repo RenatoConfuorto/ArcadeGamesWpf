@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tris.ViewModels;
+using Tris.Views;
 
 namespace Tris
 {
@@ -18,6 +19,7 @@ namespace Tris
             AddDependency<IViewModelBase, TrisMultiplayerViewModel>(ViewNames.TrisMultiplayer);
             AddDependency<IViewModelBase, TrisSingleplayerViewModel>(ViewNames.TrisSingleplayer);
             AddDependency<IViewModelBase, SuperTrisMultiplayerViewModel>(ViewNames.SuperTrisMultiplayer);
+            AddDependency<IViewModelBase, SuperTrisSettingsViewModel>(ViewNames.SuperTrisMpSettings);
         }
     }
 }

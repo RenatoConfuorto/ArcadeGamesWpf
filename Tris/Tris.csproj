@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\Entities\SuperTrisSettings.cs" />
     <Compile Include="Common\Interfaces\ITrisEntity.cs" />
     <Compile Include="Common\UserControls\SuperTrisCell.xaml.cs">
       <DependentUpon>SuperTrisCell.xaml</DependentUpon>
@@ -76,11 +77,15 @@
     <Compile Include="ModuleDependencies.cs" />
     <Compile Include="Value Converters\SuperTrisBorderColorConverter.cs" />
     <Compile Include="ViewModels\SuperTrisBaseModel.cs" />
+    <Compile Include="ViewModels\SuperTrisSettingsViewModel.cs" />
     <Compile Include="ViewModels\TrisGameBaseModel.cs" />
     <Compile Include="ViewModels\TrisHomePageViewModel.cs" />
     <Compile Include="ViewModels\SuperTrisMultiplayerViewModel.cs" />
     <Compile Include="ViewModels\TrisSingleplayerViewModel.cs" />
     <Compile Include="ViewModels\TrisMultiplayerViewModel.cs" />
+    <Compile Include="Views\SuperTrisMpSettings.xaml.cs">
+      <DependentUpon>SuperTrisMpSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TrisHomePageView.xaml.cs">
       <DependentUpon>TrisHomePageView.xaml</DependentUpon>
     </Compile>
@@ -123,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResourceDictionary\CommonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SuperTrisMpSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

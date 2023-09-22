@@ -18,16 +18,18 @@ using static Tris.Common.Constants;
 using LIB.Entities.Data.Tris;
 using LIB.UserMng;
 using static LIB.Entities.Data.Base.GameResults;
+using LIB.Attributes;
 
 namespace Tris.ViewModels
 {
     [ViewRef(typeof(SuperTrisMp))]
+    [SettingsPopup(ViewNames.SuperTrisMpSettings)]
     public class SuperTrisMultiplayerViewModel : SuperTrisBaseModel
     {
         #region Private Fields
         private TimerEntity _firstPlayerTimer;
         private TimerEntity _secondPlayerTimer;
-        private int _playersTime = 300;
+        private SuperTrisSettings _settings = new SuperTrisSettings(Constants.SUPER_TRIS_DEFAULT_START_TIME);
         private Timer timer;
         private User _secondUser;
         private GameDataSuperTrisMp _mainUserGameResult;
@@ -80,6 +82,7 @@ namespace Tris.ViewModels
         protected override void InitGame()
         {
             base.InitGame();
+            if (timer != null) { timer.Dispose(); }
             InitPlayerTimers();
             StartTimer();
         }
@@ -157,7 +160,16 @@ namespace Tris.ViewModels
                 }
             }
         }
-
+        protected override GameSettingsBase PrepareDataForPopup()
+        {
+            if (timer.Enabled) timer.Stop();
+            return _settings;
+        }
+        protected override void OnPopupClosed()
+        {
+            base.OnPopupClosed();
+            if(!timer.Enabled && !IsGameOver)timer.Start(); //!IsGameOver means the timer is not disposed
+        }
         protected override void CloseGame(string gameOverMessage)
         {
             if(gameOverMessage == "Pareggio")
@@ -193,10 +205,18 @@ namespace Tris.ViewModels
             }
             base.CloseGame(gameOverMessage);
         }
+        protected override void OnSettingsReceied(object settings)
+        {
+            if(settings is SuperTrisSettings set)
+            {
+                settings = set;
+            }
+        }
         #endregion
         #region Private Methods
         private void InitPlayerTimers()
         {
+            int _playersTime = _settings.PlayersTime;
             FirstPlayerTimer = new TimerEntity()
             {
                 PlayerName = Players.X.ToString(),
