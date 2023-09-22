@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LIB.ViewModels
 {
     public class SettingsViewModelBase<T> : PopupViewModelBase
-        where T : GameSettingBase
+        where T : GameSettingsBase
     {
         #region Private fields
         private T _settings;
@@ -42,6 +42,13 @@ namespace LIB.ViewModels
         {
             base.InitCommands();
             
+        }
+        protected override void GetViewParameter()
+        {
+            if(ViewParam is T settings)
+            {
+                Settings = settings;
+            }
         }
         protected override object GetPopReturnData() => Settings;
         #endregion

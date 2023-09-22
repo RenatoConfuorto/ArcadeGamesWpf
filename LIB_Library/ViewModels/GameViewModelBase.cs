@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using Unity;
 
 namespace LIB.ViewModels
@@ -115,36 +116,31 @@ namespace LIB.ViewModels
         }
         private void SettingsCommandExecute(object param)
         {
-            IUnityContainer container = UnityHelper.Current.GetLocalContainer();
-            PopupViewModelBase settingsPopupViewModel = (PopupViewModelBase)container.Resolve<IViewModelBase>(SettingsPopupName);
-            object settingsPopupView = settingsPopupViewModel.GetType().GetCustomAttribute<ViewRef>();
-            if(settingsPopupView != null)
+            GameSettingsBase settings = PrepareDataForPopup();
+            PopUp popUp = new PopUp(SettingsPopupName, settings);
+            object popResult = popUp.Show();
+            OnPopupClosed();
+            if (popResult != null)
             {
-                if(settingsPopupView is PopUp popWindow)
-                {
-                    //popWindow = new PopUp()
-                    //window.DataContext = settingsPopupViewModel;
-                    //window.ShowDialog();
-                    //PopupViewModelBase viewModel = window.DataContext as PopupViewModelBase;
-                    //if (viewModel.IsOperationConfirmed)
-                    //{
-                    //    OnSettingsReceied(viewModel.Settings);
-                    //    InitGame();
-                    //}
-                }
-            }
-            else
-            {
-                MessageDialogHelper.ShowInfoMessage($"Nessun Popup trovato con nome {SettingsPopupName}");
+                OnSettingsReceied(popResult);
+                InitGame();
             }
         }
         private bool SettingsCommandCanExecute(object param)
         {
-            return String.IsNullOrEmpty(SettingsPopupName);
+            return !String.IsNullOrEmpty(SettingsPopupName);
         }
         #endregion
 
         #region Protected Methods
+        protected virtual GameSettingsBase PrepareDataForPopup()
+        {
+            return new GameSettingsBase();
+        }
+        protected virtual void OnPopupClosed()
+        {
+
+        }
         protected virtual void OnSettingsReceied(object settings)
         {
         }

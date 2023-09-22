@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LIB.Entities
 {
-    public class GameSettingBase : NotifyerPropertyChangedBase
+    public class GameSettingsBase : NotifyerPropertyChangedBase
     {
     }
 }

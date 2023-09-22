@@ -10,18 +10,19 @@ namespace LIB.Constants
 {
     public class ViewNames
     {
-        public static string MainWindow = "MainWindow";
-        public static string Home = "Home";
-        public static string MultiPlayerForm = "MultiPlayerForm";
-        public static string MultiPlayerLobby = "MultiPlayerLobby";
+        public const string MainWindow = "MainWindow";
+        public const string Home = "Home";
+        public const string MultiPlayerForm = "MultiPlayerForm";
+        public const string MultiPlayerLobby = "MultiPlayerLobby";
         //Tris
-        public static string TrisHomePage = "TrisHomePage";
-        public static string TrisMultiplayer = "TrisMultiplayer";
-        public static string TrisSingleplayer = "TrisSingleplayer";
-        public static string SuperTrisMultiplayer = "SuperTrisMultiPlayer";
+        public const string TrisHomePage = "TrisHomePage";
+        public const string TrisMultiplayer = "TrisMultiplayer";
+        public const string TrisSingleplayer = "TrisSingleplayer";
+        public const string SuperTrisMultiplayer = "SuperTrisMultiPlayer";
+        public const string SuperTrisMpSettings = "SuperTrisMpSettings";
         //User Manager
-        public static string UserMngMainPage = "UserMngMainPage";
-        public static string NewUserPage = "NewUserPage";
-        public static string ManageUserView = "ManageUserView";
+        public const string UserMngMainPage = "UserMngMainPage";
+        public const string NewUserPage = "NewUserPage";
+        public const string ManageUserView = "ManageUserView";
     }
 }
