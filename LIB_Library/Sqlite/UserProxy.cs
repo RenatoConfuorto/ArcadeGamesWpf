@@ -43,6 +43,7 @@ namespace LIB.Sqlite
 	                        {DataManagment.GAME_DATA_TABLE_COMMON},
                             GAME_RESULT INT NOT NULL, 
 	                        OPPONENT_NAME VARCHAR(255) NULL,
+                            STARTING_TIME INT NOT NULL,
 	                        REMAINING_TIME INT NOT NULL,
 	                        CELLS_WON INT NOT NULL
                         );
@@ -194,6 +195,7 @@ namespace LIB.Sqlite
 	                        ,GAME_DATE 
                             ,GAME_RESULT
 	                        ,OPPONENT_NAME 
+                            ,STARTING_TIME
 	                        ,REMAINING_TIME 
 	                        ,CELLS_WON) VALUES(
                             @GAME_ID
@@ -202,12 +204,14 @@ namespace LIB.Sqlite
 	                        ,@GAME_DATE 
                             ,@GAME_RESULT
 	                        ,@OPPONENT_NAME 
+                            ,@STARTING_TIME
 	                        ,@REMAINING_TIME 
 	                        ,@CELLS_WON );";
             data.GameId = GetNextIntValue("SUPER_TRIS_MP", GAME_ID);
             SQLiteParameters parameters = GetBaseParameters(data);
             parameters.Add("@GAME_RESULT", (int)data.GameResults);
             parameters.Add("@OPPONENT_NAME", data.OpponentName);
+            parameters.Add("@STARTING_TIME", data.StartingTime);
             parameters.Add("@REMAINING_TIME", data.RemainingTime);
             parameters.Add("@CELLS_WON", data.CellsWon);
             result = Execute(Statement, parameters);
@@ -219,11 +223,13 @@ namespace LIB.Sqlite
             bool result = false;
             string Statement = @"UPDATE SUPER_TRIS_MP SET
                                 GAME_RESULT = @GAME_RESULT,
+                                STARTING_TIME = @STARTING_TIME,
                                 REMAINING_TIME = @REMAINING_TIME,
                                 CELLS_WON = @CELLS_WON
                                 WHERE GAME_ID = @GAME_ID";
             SQLiteParameters parameters = new SQLiteParameters();
             parameters.Add("@GAME_RESULT", (int)data .GameResults);
+            parameters.Add("@STARTING_TIME", data.StartingTime);
             parameters.Add("@REMAINING_TIME", data.RemainingTime);
             parameters.Add("@CELLS_WON", data.CellsWon);
             parameters.Add("@GAME_ID", data.GameId);

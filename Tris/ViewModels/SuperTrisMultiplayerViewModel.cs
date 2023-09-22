@@ -231,6 +231,7 @@ namespace Tris.ViewModels
                 Time = _playersTime,
                 TimerEnabled = false,
             };
+            UpdateUsersData();
         }
         private void StartTimer()
         {
@@ -287,6 +288,19 @@ namespace Tris.ViewModels
             message += " Ha vinto \r\nTimeOut";
             GameOverMessage = message;
             EndGame();
+        }
+        private void UpdateUsersData()
+        {
+            if(MainUser != null)
+            {
+                _mainUserGameResult.StartingTime = _settings.PlayersTime;
+                MainUser.Proxy.UpdateData(_mainUserGameResult);
+            }
+            if(SecondUser != null)
+            {
+                _secondUserGameResult.StartingTime = _settings.PlayersTime;
+                SecondUser.Proxy.UpdateData(_secondUserGameResult);
+            }
         }
         #endregion
     }

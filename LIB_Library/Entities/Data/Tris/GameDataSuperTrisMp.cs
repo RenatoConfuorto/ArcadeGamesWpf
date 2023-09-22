@@ -12,6 +12,7 @@ namespace LIB.Entities.Data.Tris
     public class GameDataSuperTrisMp : GameDataTrisBase
     {
         private string _opponentName;
+        private int _startingTime;
         private int _remainingTime;
         private int _cellsWon;
         public GameDataSuperTrisMp(string userName, 
@@ -31,6 +32,11 @@ namespace LIB.Entities.Data.Tris
         {
             get => _opponentName;
             set => SetProperty(ref _opponentName, value);
+        }
+        public int StartingTime
+        {
+            get => _startingTime;
+            set => SetProperty(ref _startingTime, value);
         }
         public int RemainingTime
         {

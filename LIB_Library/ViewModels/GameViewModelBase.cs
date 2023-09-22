@@ -155,7 +155,7 @@ namespace LIB.ViewModels
             Cells = GenerateGrid();
             IsGameEnabled = true;
             IsGameOver = false;
-            MenageGameUsers();
+            //MenageGameUsers();
         }
         protected virtual void EndGame()
         {
