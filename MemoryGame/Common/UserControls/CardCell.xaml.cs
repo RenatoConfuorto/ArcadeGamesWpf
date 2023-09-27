@@ -66,7 +66,7 @@ namespace MemoryGame.Common.UserControls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            CellContent.cellClicked?.Invoke(CellContent.CellId);
         }
     }
 }

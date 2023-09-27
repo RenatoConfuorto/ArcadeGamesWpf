@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:UserControls="clr-namespace:LIB.UserControls;assembly=LIB_Library"
+             xmlns:MemoryControls="clr-namespace:MemoryGame.Common.UserControls"
              xmlns:local="clr-namespace:MemoryGame.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -13,8 +15,55 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
-    <Grid Background="{StaticResource BgColor}">
-        <Label Content="Memory Singleplayer"/>
+
+    <Grid Background="{StaticResource BgColor}"
+          Style="{StaticResource GameBoard}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="540"/>
+            <ColumnDefinition Width="240" MaxWidth="240"/>
+        </Grid.ColumnDefinitions>
+
+        <ItemsControl Grid.Column="0" 
+                      IsEnabled="{Binding IsGameEnabled}"
+                      ItemsSource="{Binding Cells}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel FlowDirection="LeftToRight"
+                               Width="540"
+                               Height="390"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <MemoryControls:CardCell CellContent="{Binding .}"
+                                             Margin="4 2"
+                                             CellWidth="125"
+                                             CellHeight="125"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <UserControls:GameMessage GameOverText="{Binding GameOverMessage}"
+                                  VisibilityTrigger="{Binding IsGameOver}"
+                                  VerticalAlignment="Center"/>
+
+        <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
+            <TextBlock Text="Memory"
+                       Style="{StaticResource GameTitle}"/>
+            <TextBlock Text="Abbina tutti i simboli uguali e gira tutte le carte" 
+                       Style="{StaticResource GameDesc}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Errori:"
+                           Style="{StaticResource GamePlayerLabel}"/>
+                <TextBlock Text="{Binding Errors}"
+                           Style="{StaticResource GamePlayerLabel}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Max:"
+                           Style="{StaticResource GamePlayerLabel}"/>
+                <TextBlock Text="{Binding MaxErrors}"
+                           Style="{StaticResource GamePlayerLabel}"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

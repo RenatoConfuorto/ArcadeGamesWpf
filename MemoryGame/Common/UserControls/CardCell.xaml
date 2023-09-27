@@ -16,14 +16,23 @@
     </UserControl.Resources>
     <Button Width="{Binding CellWidth, Mode=OneWay, ElementName=UcCardCell}"
             Height="{Binding CellHeight, Mode=OneWay, ElementName=UcCardCell}"
+            IsEnabled="{Binding CellContent.CardEnabled, Mode=OneWay, ElementName=UcCardCell}"
             Background="Transparent"
+            Foreground="Transparent"
+            BorderBrush="Transparent"
+            Padding="0"
+            Margin="0"
+            MinWidth="0"
             Click="Button_Click">
         <Button.Content>
-            <Image Source="{Binding CellContent.CardTurned, 
-                Mode=OneWay, 
-                ElementName=UcCardCell,
-                Converter={StaticResource MemoryGameImageConverter},
-                ConverterParameter={Binding CellContent.CardType, Mode=OneWay, ElementName=UcCardCell}}"/>
+            <Image>
+                <Image.Source>
+                    <MultiBinding Converter="{StaticResource MemoryGameImageConverter}">
+                        <Binding ElementName="UcCardCell" Path="CellContent.CardTurned"/>
+                        <Binding ElementName="UcCardCell" Path="CellContent.CardType"/>
+                    </MultiBinding>
+                </Image.Source>
+            </Image>
         </Button.Content>
     </Button>
 </UserControl>

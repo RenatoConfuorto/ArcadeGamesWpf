@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static MemoryGame.Common.Constants;
 
@@ -21,9 +22,22 @@ namespace MemoryGame.ViewModels
     {
         #region Private Fields
         private MemorySingleplayerSettings _settings;
+        private List<CardEntity> _cellClicked = new List<CardEntity>(2);
+        private int _errors;
+        private int _maxErrors;
         #endregion
 
         #region Public Properties
+        public int Errors
+        {
+            get => _errors;
+            set => SetProperty(ref _errors, value);
+        }
+        public int MaxErrors
+        {
+            get => _maxErrors;
+            set => SetProperty(ref _maxErrors, value);
+        }
         #endregion
 
         #region Constructor
@@ -41,6 +55,11 @@ namespace MemoryGame.ViewModels
         {
             base.InitCommands();
         }
+        protected override void InitGame()
+        {
+            base.InitGame();
+            Errors = 0;
+        }
         protected override ObservableCollection<CardEntity> GenerateGrid()
         {
             ObservableCollection<CardEntity> result = new ObservableCollection<CardEntity>();
@@ -57,6 +76,7 @@ namespace MemoryGame.ViewModels
                         CellId = cardId,
                         CardTurned = false,
                         CardType = cardType,
+                        CardEnabled = true,
                     };
                     cell.cellClicked += OnCellClicked;
                     result.Add(cell);
@@ -111,10 +131,57 @@ namespace MemoryGame.ViewModels
                         break;
                 }
             }
+            MaxErrors = _settings.ErrorsLimit;
         }
         private void OnCellClicked(int cellId)
         {
+            CardEntity cell = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
+            if (cell.CardTurned && _cellClicked.Count() >= 2) return;
+            cell.CardTurned = true;
+            _cellClicked.Add(cell);
 
+            CheckCardTurned();
+            if (CheckVictory())
+            {
+                GameOverMessage = "Vittoria";
+                EndGame();
+            }else if(Errors == _settings.ErrorsLimit)
+            {
+                GameOverMessage = "Sconfitta";
+                EndGame();
+            }
+        }
+
+        private void CheckCardTurned()
+        {
+            if(_cellClicked.Count() != 2) return;
+            else
+            {
+                if (_cellClicked[0].CardType == _cellClicked[1].CardType)
+                {
+                    _cellClicked[0].CardEnabled = false;
+                    _cellClicked[1].CardEnabled = false;
+                    _cellClicked.Clear();
+                }
+                else
+                {
+                    Errors++;
+                    //turn back cards async so UI updates
+                    Task.Run(() =>
+                    {
+                        IsGameEnabled = false;
+                        Thread.Sleep(WAIT_TIME_CARD_TURN_BACK);
+                        _cellClicked[0].CardTurned = false;
+                        _cellClicked[1].CardTurned = false;
+                        _cellClicked.Clear();
+                        IsGameEnabled = true;
+                    });
+                }
+            }
+        }
+        private bool CheckVictory()
+        {
+            return Cells.Where(c => c.CardTurned).Count() == _settings.CardsNumber;
         }
         #endregion
     }

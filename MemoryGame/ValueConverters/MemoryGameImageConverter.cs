@@ -11,7 +11,7 @@ using static MemoryGame.Common.Constants;
 
 namespace MemoryGame.ValueConverters
 {
-    public class MemoryGameImageConverter : IValueConverter
+    public class MemoryGameImageConverter : IMultiValueConverter
     {
         private string cardBackPath = Path.GetFullPath("Images\\back.png");
         private string cardAlienPath = Path.GetFullPath("Images\\alien.png");
@@ -20,19 +20,12 @@ namespace MemoryGame.ValueConverters
         private string cardRocketPath = Path.GetFullPath("Images\\rocket.png");
         private string cardSpaceshipPath = Path.GetFullPath("Images\\spaceship.png");
         private string cardTiktacPath = Path.GetFullPath("Images\\tiktac.png");
-        /// <summary>
-        /// </summary>
-        /// <param name="value">type => bool (the card is turned)</param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter">The type of card</param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             BitmapImage result = null;
             string ImagePath = cardBackPath;
-            if(value != null && value is bool isTurned)
+            if (values[0] != null && values[0] is bool isTurned)
             {
                 if (!isTurned)
                 {
@@ -40,9 +33,9 @@ namespace MemoryGame.ValueConverters
                 }
                 else
                 {
-                    if(parameter != null && parameter is CardTypes cardType)
+                    if (values[1] != null && values[1] is CardTypes cardType)
                     {
-                        switch(cardType)
+                        switch (cardType)
                         {
                             case CardTypes.alien:
                                 ImagePath = cardAlienPath;
@@ -77,7 +70,7 @@ namespace MemoryGame.ValueConverters
             return result;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

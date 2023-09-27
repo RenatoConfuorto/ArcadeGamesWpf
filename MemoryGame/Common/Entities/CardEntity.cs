@@ -13,6 +13,7 @@ namespace MemoryGame.Common.Entities
     {
         private CardTypes _cardType;
         private bool _cardTurned;
+        private bool _cardEnabled;
 
         public CardTypes CardType
         {
@@ -23,6 +24,11 @@ namespace MemoryGame.Common.Entities
         {
             get => _cardTurned;
             set => SetProperty(ref _cardTurned, value);
+        }
+        public bool CardEnabled
+        {
+            get => _cardEnabled;
+            set => SetProperty(ref _cardEnabled, value);
         }
     }
 }

@@ -97,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\alien.png" />
-    <Content Include="Images\back.png" />
+    <EmbeddedResource Include="Images\back.png" />
     <Content Include="Images\bug.png" />
     <Content Include="Images\duck.png" />
     <Content Include="Images\rocket.png" />
