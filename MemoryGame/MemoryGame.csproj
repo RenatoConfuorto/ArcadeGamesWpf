@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\ModulesAssemblies\Debug\MemoryGame.xml</DocumentationFile>
+    <NoWarn>CS0168;CS1591;</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,11 +48,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\Entities\CardEntity.cs" />
+    <Compile Include="Common\Entities\MemorySingleplayerSettings.cs" />
+    <Compile Include="Common\Interfaces\ICardEntity.cs" />
+    <Compile Include="Common\UserControls\CardCell.xaml.cs">
+      <DependentUpon>CardCell.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ModuleDependencies.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueConverters\MemoryGameImageConverter.cs" />
     <Compile Include="ViewModels\MemoryHomePageViewModel.cs" />
+    <Compile Include="ViewModels\MemorySingleplayerViewModel.cs" />
     <Compile Include="Views\MemoryHomePageView.xaml.cs">
       <DependentUpon>MemoryHomePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MemorySingleplayer.xaml.cs">
+      <DependentUpon>MemorySingleplayer.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -64,13 +76,12 @@
       <Name>LIB_Library</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Common\Entities\" />
-    <Folder Include="Common\Interfaces\" />
-    <Folder Include="Common\UserControls\" />
-    <Folder Include="ValueConverters\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Page Include="Common\UserControls\CardCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceDictionary\CommonStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,6 +90,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MemorySingleplayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\alien.png" />
+    <Content Include="Images\back.png" />
+    <Content Include="Images\bug.png" />
+    <Content Include="Images\duck.png" />
+    <Content Include="Images\rocket.png" />
+    <Content Include="Images\spaceship.png" />
+    <Content Include="Images\tiktac.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -27,5 +27,6 @@ namespace LIB.Constants
         public const string ManageUserView = "ManageUserView";
         //Memory Game
         public const string MemoryGameHomePage = "MemoryGameHomePage";
+        public const string MemorySingleplayer = "MemorySingleplayer";
     }
 }

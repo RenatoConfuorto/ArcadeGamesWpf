@@ -2,6 +2,7 @@
 using Core.Interfaces.ViewModels;
 using LIB.Constants;
 using MemoryGame.ViewModels;
+using MemoryGame.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace MemoryGame
         public override void InjectDependencies()
         {
             AddDependency<IViewModelBase, MemoryHomePageViewModel>(ViewNames.MemoryGameHomePage);
+            AddDependency<IViewModelBase, MemorySingleplayerViewModel>(ViewNames.MemorySingleplayer);
         }
     }
 }

@@ -42,6 +42,7 @@ namespace MemoryGame.ViewModels
         }
         private void SingleplayerCommandExecute(object param)
         {
+            ChangeView(ViewNames.MemorySingleplayer);
         }
         #endregion
     }
