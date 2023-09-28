@@ -122,7 +122,7 @@ namespace LIB.ViewModels
             OnPopupClosed();
             if (popResult != null)
             {
-                OnSettingsReceied(popResult);
+                OnSettingsReceived(popResult);
                 InitGame();
             }
         }
@@ -141,7 +141,7 @@ namespace LIB.ViewModels
         {
 
         }
-        protected virtual void OnSettingsReceied(object settings)
+        protected virtual void OnSettingsReceived(object settings)
         {
         }
         protected abstract ObservableCollection<C> GenerateGrid();

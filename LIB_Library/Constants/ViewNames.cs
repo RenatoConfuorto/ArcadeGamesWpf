@@ -28,5 +28,6 @@ namespace LIB.Constants
         //Memory Game
         public const string MemoryGameHomePage = "MemoryGameHomePage";
         public const string MemorySingleplayer = "MemorySingleplayer";
+        public const string MemorySingleplayerSettings = "MemorySingleplayerSettings";
     }
 }
