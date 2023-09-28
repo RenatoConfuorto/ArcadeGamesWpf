@@ -1,5 +1,6 @@
 ﻿using Core.Attributes;
 using Core.Commands;
+using LIB.Attributes;
 using LIB.Constants;
 using LIB.Entities;
 using LIB.ViewModels;
@@ -18,6 +19,7 @@ using static MemoryGame.Common.Constants;
 namespace MemoryGame.ViewModels
 {
     [ViewRef(typeof(MemorySingleplayer))]
+    [SettingsPopup(ViewNames.MemorySingleplayerSettings)]
     public class MemorySingleplayerViewModel : GameViewModelBase<CardEntity>
     {
         #region Private Fields
@@ -25,6 +27,11 @@ namespace MemoryGame.ViewModels
         private List<CardEntity> _cellClicked = new List<CardEntity>(2);
         private int _errors;
         private int _maxErrors;
+
+        //view dimensions
+        public double BoardWidth { get; set; }
+        public double BoardHeight { get; set; }
+        public double CellDim { get; set; }
         #endregion
 
         #region Public Properties
@@ -88,6 +95,24 @@ namespace MemoryGame.ViewModels
             result = new ObservableCollection<CardEntity>(result.OrderBy(c => random.Next()).ToList());
             return result;
         }
+        //settings
+        protected override GameSettingsBase PrepareDataForPopup()
+        {
+            return _settings;
+        }
+        protected override void OnPopupClosed()
+        {
+            base.OnPopupClosed();
+        }
+        protected override void OnSettingsReceived(object settings)
+        {
+            base.OnSettingsReceived(settings);
+            if(settings is MemorySingleplayerSettings newSettings)
+            {
+                _settings = newSettings;
+                InitUIDimensions();
+            }
+        }
 
         protected override void SaveGameResults()
         {
@@ -132,6 +157,34 @@ namespace MemoryGame.ViewModels
                 }
             }
             MaxErrors = _settings.ErrorsLimit;
+            InitUIDimensions();
+        }
+        private void InitUIDimensions()
+        {
+            switch (_settings.GameDifficulty)
+            {
+                case Difficulty.Easy:
+                    CellDim = 125.0d;
+                    BoardWidth = (CellDim + 8) * 4; //Margin = 4 2, 4 cells each row
+                    BoardHeight = (CellDim + 4) * 3;//Margin = 4 2, 3 cells each column
+                    break;
+                case Difficulty.Medium:
+                    CellDim = 110.0d;
+                    BoardWidth = (CellDim + 8) * 6; //Margin = 4 2, 6 cells each row
+                    BoardHeight = (CellDim + 4) * 4;//Margin = 4 2, 4 cells each column
+                    break;
+                case Difficulty.Hard:
+                    CellDim = 90.0d;
+                    BoardWidth = (CellDim + 8) * 8; //Margin = 4 2, 6 cells each row
+                    BoardHeight = (CellDim + 4) * 6;//Margin = 4 2, 4 cells each column
+                    break;
+                case Difficulty.Custom:
+                    //TODO
+                    break;
+            }
+            NotifyPropertyChanged(nameof(CellDim));
+            NotifyPropertyChanged(nameof(BoardWidth));
+            NotifyPropertyChanged(nameof(BoardHeight));
         }
         private void OnCellClicked(int cellId)
         {

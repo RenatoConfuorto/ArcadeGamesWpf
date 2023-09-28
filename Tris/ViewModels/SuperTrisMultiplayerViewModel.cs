@@ -205,7 +205,7 @@ namespace Tris.ViewModels
             }
             base.CloseGame(gameOverMessage);
         }
-        protected override void OnSettingsReceied(object settings)
+        protected override void OnSettingsReceived(object settings)
         {
             if(settings is SuperTrisSettings set)
             {
