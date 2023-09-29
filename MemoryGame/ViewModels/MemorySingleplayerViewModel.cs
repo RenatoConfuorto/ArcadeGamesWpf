@@ -110,6 +110,7 @@ namespace MemoryGame.ViewModels
             if(settings is MemorySingleplayerSettings newSettings)
             {
                 _settings = newSettings;
+                MaxErrors = _settings.ErrorsLimit;
                 InitUIDimensions();
             }
         }
@@ -124,7 +125,7 @@ namespace MemoryGame.ViewModels
         {
             if(diff == Difficulty.Custom)
             {
-                //TODO gestire il caso custom
+                //nel caso di impostazioni custom non c'è nulla da inizializzare
             }
             else
             {
@@ -161,27 +162,73 @@ namespace MemoryGame.ViewModels
         }
         private void InitUIDimensions()
         {
+            int cardsPerRow = 0;
+            int cardsPerColumn = 0;
+            void setDim(double _cardDim, int _cardsPerRow, int _cardsPerColumn)
+            {
+                CellDim = _cardDim;
+                cardsPerRow = _cardsPerRow;
+                cardsPerColumn = _cardsPerColumn;
+            }
             switch (_settings.GameDifficulty)
             {
                 case Difficulty.Easy:
-                    CellDim = 125.0d;
-                    BoardWidth = (CellDim + 8) * 4; //Margin = 4 2, 4 cells each row
-                    BoardHeight = (CellDim + 4) * 3;//Margin = 4 2, 3 cells each column
+                    setDim(125.0d, 4, 3);
+                    //CellDim = 125.0d;
+                    //BoardWidth = (CellDim + 8) * 4; //Margin = 4 2, 4 cells each row
+                    //BoardHeight = (CellDim + 4) * 3;//Margin = 4 2, 3 cells each column
                     break;
                 case Difficulty.Medium:
-                    CellDim = 110.0d;
-                    BoardWidth = (CellDim + 8) * 6; //Margin = 4 2, 6 cells each row
-                    BoardHeight = (CellDim + 4) * 4;//Margin = 4 2, 4 cells each column
+                    setDim(110.0d, 6, 4);
+                    //CellDim = 110.0d;
+                    //BoardWidth = (CellDim + 8) * 6; //Margin = 4 2, 6 cells each row
+                    //BoardHeight = (CellDim + 4) * 4;//Margin = 4 2, 4 cells each column
                     break;
                 case Difficulty.Hard:
-                    CellDim = 90.0d;
-                    BoardWidth = (CellDim + 8) * 8; //Margin = 4 2, 6 cells each row
-                    BoardHeight = (CellDim + 4) * 6;//Margin = 4 2, 4 cells each column
+                    setDim(90.0d, 8, 6);
+                    //CellDim = 90.0d;
+                    //BoardWidth = (CellDim + 8) * 8; //Margin = 4 2, 6 cells each row
+                    //BoardHeight = (CellDim + 4) * 6;//Margin = 4 2, 4 cells each column
                     break;
                 case Difficulty.Custom:
-                    //TODO
+                    switch (_settings.CardsNumber / 6)
+                    {
+                        case 2:
+                            setDim(125.0d, 4, 3);
+                            break;
+                        case 4:
+                            setDim(110.0d, 6, 4);
+                            break;
+                        case 6:
+                            setDim(100.0d, 9, 4);
+                            break;
+                        case 8:
+                            setDim(90.0d, 8, 6);
+                            break;
+                        case 10:
+                            setDim(80.0d, 10, 6);
+                            break;
+                        case 12:
+                            setDim(80.0d, 9, 8);
+                            break;
+                        case 14:
+                            setDim(60.0d, 12, 7);
+                            break;
+                        case 16:
+                            setDim(60.0d, 12, 8);
+                            break;
+                        case 18:
+                            setDim(60.0d, 12, 9);
+                            break;
+                        case 20:
+                            setDim(60.0d, 12, 10);
+                            break;
+                    }
                     break;
             }
+            BoardWidth = (CellDim + 8) * cardsPerRow;     //Margin = 4 2, 6 cells each row
+            BoardHeight = (CellDim + 4) * cardsPerColumn; //Margin = 4 2, 4 cells each column
+
             NotifyPropertyChanged(nameof(CellDim));
             NotifyPropertyChanged(nameof(BoardWidth));
             NotifyPropertyChanged(nameof(BoardHeight));

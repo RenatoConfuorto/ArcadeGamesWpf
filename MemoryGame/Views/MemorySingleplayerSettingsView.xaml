@@ -43,7 +43,7 @@
                     Padding="4"
                     CornerRadius="4">
                 <StackPanel>
-                    <Label Content="Coppie per carta"/>
+                    <Label Content="Carte per tipo"/>
                     <StackPanel Orientation="Horizontal">
                         <Button Content="-"
                                 Command="{Binding RemovePair}"/>
@@ -84,14 +84,23 @@
                     CornerRadius="4">
                     <StackPanel>
                         <Label Content="Errori Massimi"/>
-                        <TextBox Text="{Binding Settings.ErrorsLimit}" 
-                                 HorizontalAlignment="Left"
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="5-"
+                                Command="{Binding RemoveErrorLimitMultiple}"/>
+                            <Button Content="-"
+                                Command="{Binding RemoveErrorLimit}"/>
+                            <TextBox Text="{Binding ErrorsLimit}" 
                                  VerticalAlignment="Center"
                                  HorizontalContentAlignment="Center"
-                                 IsEnabled="{Binding IsDataEditable}" 
+                                 IsEnabled="{Binding IsDataEditable}"
                                  Width="75" 
                                  MinWidth="0" 
                                  Margin="6 0"/>
+                            <Button Content="+"
+                                Command="{Binding AddErrorLimit}"/>
+                            <Button Content="5+"
+                                Command="{Binding AddErrorLimitMultiple}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </StackPanel>
