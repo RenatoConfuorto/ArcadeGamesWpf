@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace LIB.Entities
 {
-    public class GameSettingsBase : NotifyerPropertyChangedBase
+    public class GameSettingsBase : NotifyerPropertyChangedBase, ICloneable
     {
+        public virtual object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

@@ -47,7 +47,7 @@ namespace LIB.ViewModels
         {
             if(ViewParam is T settings)
             {
-                Settings = settings;
+                Settings = (T)settings.Clone(); //Clone so the object isn't modified in the main view also
             }
         }
         protected override object GetPopReturnData() => Settings;
