@@ -3,6 +3,7 @@ using Core.Commands;
 using LIB.Attributes;
 using LIB.Constants;
 using LIB.Entities;
+using LIB.Entities.Data.Memory;
 using LIB.ViewModels;
 using MemoryGame.Common;
 using MemoryGame.Common.Entities;
@@ -11,9 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static LIB.Entities.Data.Base.GameEnums;
 using static MemoryGame.Common.Constants;
 
 namespace MemoryGame.ViewModels
@@ -23,10 +26,12 @@ namespace MemoryGame.ViewModels
     public class MemorySingleplayerViewModel : GameViewModelBase<CardEntity>
     {
         #region Private Fields
+        private GameDataMemorySp _gameDataMainUser;
         private MemorySingleplayerSettings _settings;
         private List<CardEntity> _cellClicked = new List<CardEntity>(2);
         private int _errors;
         private int _maxErrors;
+        private int _points;
 
         //view dimensions
         public double BoardWidth { get; set; }
@@ -38,24 +43,46 @@ namespace MemoryGame.ViewModels
         public int Errors
         {
             get => _errors;
-            set => SetProperty(ref _errors, value);
+            set
+            {
+                SetProperty(ref _errors, value);
+                if(MainUser != null)
+                {
+                    _gameDataMainUser.ErrorsNumber++;
+                }
+            }
         }
         public int MaxErrors
         {
             get => _maxErrors;
             set => SetProperty(ref _maxErrors, value);
         }
+        public int Points
+        {
+            get => _points;
+            set
+            {
+                SetProperty(ref _points, value);
+                if (MainUser != null)
+                {
+                    _gameDataMainUser.Points++;
+                }
+            }
+        }
         #endregion
 
         #region Constructor
         public MemorySingleplayerViewModel()
-            : base(ViewNames.MemorySingleplayer, ViewNames.MemoryGameHomePage) { }
+            : base(ViewNames.MemorySingleplayer, ViewNames.MemoryGameHomePage) 
+        {
+            //InitSettings(MemorySpDifficulty.Easy); //start the game on easy the first time
+        }
         #endregion
 
         #region Override Methods
         protected override void OnInitialized()
         {
-            InitSettings(Difficulty.Easy);
+            InitSettings(_settings == null ? MemorySpDifficulty.Easy : _settings.GameDifficulty);
             base.OnInitialized();
         }
         protected override void InitCommands()
@@ -66,6 +93,7 @@ namespace MemoryGame.ViewModels
         {
             base.InitGame();
             Errors = 0;
+            Points = 0;
         }
         protected override ObservableCollection<CardEntity> GenerateGrid()
         {
@@ -112,18 +140,49 @@ namespace MemoryGame.ViewModels
                 _settings = newSettings;
                 MaxErrors = _settings.ErrorsLimit;
                 InitUIDimensions();
+                if (MainUser != null)
+                {
+                    _gameDataMainUser = InitUserGameData(_settings, _gameDataMainUser.GameId);
+                    MainUser.Proxy.UpdateData(_gameDataMainUser);
+                }
+            }
+        }
+        protected override void MenageGameUsers()
+        {
+            base.MenageGameUsers();
+            if(MainUser != null)
+            {
+                _gameDataMainUser = InitUserGameData(_settings);
+                MainUser.Proxy.SaveData(_gameDataMainUser);
             }
         }
 
         protected override void SaveGameResults()
         {
+            if(MainUser != null)
+            {
+                MainUser.Proxy.UpdateData(_gameDataMainUser);
+            }
         }
         #endregion
 
         #region Private Methods
-        private void InitSettings(Difficulty diff)
+        private GameDataMemorySp InitUserGameData(MemorySingleplayerSettings settings, int? gameId = null)
         {
-            if(diff == Difficulty.Custom)
+            GameDataMemorySp result = new GameDataMemorySp(MainUserName,
+                                            DateTime.Now,
+                                            settings.CardsNumber,
+                                            settings.GameDifficulty,
+                                            settings.ErrorsLimit,
+                                            0,
+                                            0,
+                                            MemorySpResult.defeat);
+            if (gameId != null) result.GameId = (int)gameId;
+            return result;
+        }
+        private void InitSettings(MemorySpDifficulty diff)
+        {
+            if(diff == MemorySpDifficulty.Custom)
             {
                 //nel caso di impostazioni custom non c'è nulla da inizializzare
             }
@@ -131,7 +190,7 @@ namespace MemoryGame.ViewModels
             {
                 switch (diff)
                 {
-                    case Difficulty.Easy:
+                    case MemorySpDifficulty.Easy:
                         _settings = new MemorySingleplayerSettings()
                         {
                             GameDifficulty = diff,
@@ -139,7 +198,7 @@ namespace MemoryGame.ViewModels
                             ErrorsLimit = ERRORS_LIMIT_EASY
                         };
                         break;
-                    case Difficulty.Medium:
+                    case MemorySpDifficulty.Medium:
                         _settings = new MemorySingleplayerSettings()
                         {
                             GameDifficulty = diff,
@@ -147,7 +206,7 @@ namespace MemoryGame.ViewModels
                             ErrorsLimit = ERRORS_LIMIT_MEDIUM
                         };
                         break;
-                    case Difficulty.Hard:
+                    case MemorySpDifficulty.Hard:
                         _settings = new MemorySingleplayerSettings()
                         {
                             GameDifficulty = diff,
@@ -158,7 +217,14 @@ namespace MemoryGame.ViewModels
                 }
             }
             MaxErrors = _settings.ErrorsLimit;
+            //Update UI
             InitUIDimensions();
+            //update user data
+            //if (MainUser != null)
+            //{
+            //    _gameDataMainUser = InitUserGameData(_settings);
+            //    MainUser.Proxy.UpdateData(_gameDataMainUser);
+            //}
         }
         private void InitUIDimensions()
         {
@@ -172,25 +238,25 @@ namespace MemoryGame.ViewModels
             }
             switch (_settings.GameDifficulty)
             {
-                case Difficulty.Easy:
+                case MemorySpDifficulty.Easy:
                     setDim(125.0d, 4, 3);
                     //CellDim = 125.0d;
                     //BoardWidth = (CellDim + 8) * 4; //Margin = 4 2, 4 cells each row
                     //BoardHeight = (CellDim + 4) * 3;//Margin = 4 2, 3 cells each column
                     break;
-                case Difficulty.Medium:
+                case MemorySpDifficulty.Medium:
                     setDim(110.0d, 6, 4);
                     //CellDim = 110.0d;
                     //BoardWidth = (CellDim + 8) * 6; //Margin = 4 2, 6 cells each row
                     //BoardHeight = (CellDim + 4) * 4;//Margin = 4 2, 4 cells each column
                     break;
-                case Difficulty.Hard:
+                case MemorySpDifficulty.Hard:
                     setDim(90.0d, 8, 6);
                     //CellDim = 90.0d;
                     //BoardWidth = (CellDim + 8) * 8; //Margin = 4 2, 6 cells each row
                     //BoardHeight = (CellDim + 4) * 6;//Margin = 4 2, 4 cells each column
                     break;
-                case Difficulty.Custom:
+                case MemorySpDifficulty.Custom:
                     switch (_settings.CardsNumber / 6)
                     {
                         case 2:
@@ -262,6 +328,7 @@ namespace MemoryGame.ViewModels
                     _cellClicked[0].CardEnabled = false;
                     _cellClicked[1].CardEnabled = false;
                     _cellClicked.Clear();
+                    Points++;
                 }
                 else
                 {
@@ -281,7 +348,12 @@ namespace MemoryGame.ViewModels
         }
         private bool CheckVictory()
         {
-            return Cells.Where(c => c.CardTurned).Count() == _settings.CardsNumber;
+            bool victory = Cells.Where(c => c.CardTurned).Count() == _settings.CardsNumber;
+            if (victory && MainUser != null)
+            {
+                _gameDataMainUser.GameResult = MemorySpResult.victory;
+            }
+            return victory;
         }
         #endregion
     }

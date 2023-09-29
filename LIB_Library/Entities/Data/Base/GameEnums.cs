@@ -7,13 +7,26 @@ using System.Threading.Tasks;
 
 namespace LIB.Entities.Data.Base
 {
-    public class GameResults
+    public class GameEnums
     {
         public enum TrisResults
         {
             defeat = 0,
             victory = 1,
             tie = 2,
+        }
+
+        public enum MemorySpDifficulty
+        {
+            Easy = 0,
+            Medium = 1,
+            Hard = 2,
+            Custom = 3
+        }
+        public enum MemorySpResult
+        {
+            defeat = 0,
+            victory = 1,
         }
     }
 }

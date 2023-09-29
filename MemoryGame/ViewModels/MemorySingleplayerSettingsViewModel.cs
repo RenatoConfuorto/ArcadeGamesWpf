@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
+using static LIB.Entities.Data.Base.GameEnums;
 using static MemoryGame.Common.Constants;
 
 namespace MemoryGame.ViewModels
@@ -19,22 +20,22 @@ namespace MemoryGame.ViewModels
     {
         #region Private fields
         private const int MAX_CARD_PER_TYPE = 20;
-        private List<Tuple<string, Difficulty>> _difficulties = new List<Tuple<string, Difficulty>>()
+        private List<Tuple<string, MemorySpDifficulty>> _difficulties = new List<Tuple<string, MemorySpDifficulty>>()
         {
-            Tuple.Create("Facile", Difficulty.Easy),
-            Tuple.Create("Medio", Difficulty.Medium),
-            Tuple.Create("Difficile", Difficulty.Hard),
-            Tuple.Create("Personalizzato", Difficulty.Custom),
+            Tuple.Create("Facile", MemorySpDifficulty.Easy),
+            Tuple.Create("Medio", MemorySpDifficulty.Medium),
+            Tuple.Create("Difficile", MemorySpDifficulty.Hard),
+            Tuple.Create("Personalizzato", MemorySpDifficulty.Custom),
         };
         #endregion
 
         #region Public Properties
-        public List<Tuple<string, Difficulty>> Difficulties
+        public List<Tuple<string, MemorySpDifficulty>> Difficulties
         {
             get => _difficulties;
             set => SetProperty(ref _difficulties, value);
         }
-        public Difficulty SelectedDifficulty
+        public MemorySpDifficulty SelectedDifficulty
         {
             get => Settings.GameDifficulty;
             set
@@ -73,7 +74,7 @@ namespace MemoryGame.ViewModels
         }
         public bool IsDataEditable
         {
-            get => SelectedDifficulty == Difficulty.Custom;
+            get => SelectedDifficulty == MemorySpDifficulty.Custom;
         }
         #endregion
 
@@ -122,11 +123,11 @@ namespace MemoryGame.ViewModels
         #endregion
 
         #region Private Methods
-        private void OnDifficultyChanged(Difficulty diff)
+        private void OnDifficultyChanged(MemorySpDifficulty diff)
         {
             switch(diff)
             {
-                case Difficulty.Easy:
+                case MemorySpDifficulty.Easy:
                     Settings = new MemorySingleplayerSettings()
                     {
                         GameDifficulty = diff,
@@ -134,7 +135,7 @@ namespace MemoryGame.ViewModels
                         ErrorsLimit = ERRORS_LIMIT_EASY
                     };
                     break;
-                case Difficulty.Medium:
+                case MemorySpDifficulty.Medium:
                     Settings = new MemorySingleplayerSettings()
                     {
                         GameDifficulty = diff,
@@ -142,7 +143,7 @@ namespace MemoryGame.ViewModels
                         ErrorsLimit = ERRORS_LIMIT_MEDIUM
                     };
                     break;
-                case Difficulty.Hard:
+                case MemorySpDifficulty.Hard:
                     Settings = new MemorySingleplayerSettings()
                     {
                         GameDifficulty = diff,
@@ -150,7 +151,7 @@ namespace MemoryGame.ViewModels
                         ErrorsLimit = ERRORS_LIMIT_HARD
                     };
                     break;
-                case Difficulty.Custom:
+                case MemorySpDifficulty.Custom:
                     break;
             }
             NotifyPropertyChanged(nameof(CardsPerType));
@@ -161,17 +162,17 @@ namespace MemoryGame.ViewModels
         {
             CardsPerType += 2;
         }
-        private bool AddPairCanExecute(object param) => SelectedDifficulty == Difficulty.Custom && CardsPerType < MAX_CARD_PER_TYPE;
+        private bool AddPairCanExecute(object param) => SelectedDifficulty == MemorySpDifficulty.Custom && CardsPerType < MAX_CARD_PER_TYPE;
         private void RemovePairExecute(object param)
         {
             CardsPerType -= 2;
         }
-        private bool RemovePairCanExecute(object param) => SelectedDifficulty == Difficulty.Custom && CardsPerType > 2;
+        private bool RemovePairCanExecute(object param) => SelectedDifficulty == MemorySpDifficulty.Custom && CardsPerType > 2;
 
         private void AddErrorLimitExecute(object param) => ErrorsLimit++;
-        private bool AddErrorLimitCanExecute(object param) => SelectedDifficulty == Difficulty.Custom;
+        private bool AddErrorLimitCanExecute(object param) => SelectedDifficulty == MemorySpDifficulty.Custom;
         private void RemoveErrorLimitExecute(object param) => ErrorsLimit--;
-        private bool RemoveErrorLimitCanExecute(object param) => SelectedDifficulty == Difficulty.Custom && ErrorsLimit > 1;
+        private bool RemoveErrorLimitCanExecute(object param) => SelectedDifficulty == MemorySpDifficulty.Custom && ErrorsLimit > 1;
 
         private void AddErrorLimitMultipleExecute(object param) => ErrorsLimit+=5;
         private bool AddErrorLimitMultipleCanExecute(object param) => AddErrorLimitCanExecute(null);

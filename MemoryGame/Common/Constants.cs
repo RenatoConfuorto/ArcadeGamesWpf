@@ -9,13 +9,6 @@ namespace MemoryGame.Common
     public class Constants
     {
         public const int WAIT_TIME_CARD_TURN_BACK = 350; //time to wait before turning back the cards
-        public enum Difficulty
-        {
-            Easy = 0,
-            Medium = 1,
-            Hard = 2,
-            Custom = 3
-        }
 
         public enum CardTypes
         {

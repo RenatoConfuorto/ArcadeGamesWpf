@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static LIB.Entities.Data.Base.GameResults;
+using static LIB.Entities.Data.Base.GameEnums;
 
 namespace LIB.Entities.Data.Base
 {

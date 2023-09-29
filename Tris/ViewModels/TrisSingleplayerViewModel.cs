@@ -19,7 +19,7 @@ using LIB.Entities;
 using LIB.Helpers;
 using LIB.UserMng;
 using LIB.Entities.Data.Tris;
-using static LIB.Entities.Data.Base.GameResults;
+using static LIB.Entities.Data.Base.GameEnums;
 
 namespace Tris.ViewModels
 {

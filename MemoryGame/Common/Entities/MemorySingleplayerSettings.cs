@@ -5,17 +5,18 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using static LIB.Entities.Data.Base.GameEnums;
 using static MemoryGame.Common.Constants;
 
 namespace MemoryGame.Common.Entities
 {
     public class MemorySingleplayerSettings : GameSettingsBase
     {
-        private Difficulty _gameDifficulty;
+        private MemorySpDifficulty _gameDifficulty;
         private int _cardsNumber;
         private int _errorsLimit;
 
-        public Difficulty GameDifficulty
+        public MemorySpDifficulty GameDifficulty
         {
             get => _gameDifficulty;
             set => SetProperty(ref _gameDifficulty, value);

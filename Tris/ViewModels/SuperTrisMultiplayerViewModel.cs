@@ -17,7 +17,7 @@ using LIB.Entities;
 using static Tris.Common.Constants;
 using LIB.Entities.Data.Tris;
 using LIB.UserMng;
-using static LIB.Entities.Data.Base.GameResults;
+using static LIB.Entities.Data.Base.GameEnums;
 using LIB.Attributes;
 
 namespace Tris.ViewModels

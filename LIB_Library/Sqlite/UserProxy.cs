@@ -2,6 +2,7 @@
 using Core.Interfaces.DbBrowser;
 using LIB.Constants;
 using LIB.Entities.Data.Base;
+using LIB.Entities.Data.Memory;
 using LIB.Entities.Data.Tris;
 using LIB.Sqlite.Base;
 using LIB.Sqlite.Entities;
@@ -47,6 +48,16 @@ namespace LIB.Sqlite
 	                        REMAINING_TIME INT NOT NULL,
 	                        CELLS_WON INT NOT NULL
                         );
+                        CREATE TABLE IF NOT EXISTS MEMORY_SP
+                        (
+	                        {DataManagment.GAME_DATA_TABLE_COMMON},
+	                        CARDS_NUMBER INT NOT NULL,
+	                        GAME_DIFFICULTY TINYINT NOT NULL,
+	                        ERRORS_LIMIT INT NOT NULL,
+	                        ERRORS_NUMBER INT NOT NULL,
+	                        POINTS INT NOT NULL,
+	                        GAME_RESULT TINYINT NOT NULL
+                        )
                         ";
         }
 
@@ -56,13 +67,16 @@ namespace LIB.Sqlite
             switch (data)
             {
                 case GameDataTrisSp gameDataTrisSp:
-                    result = SaveTrisSp(data as GameDataTrisSp);
+                    result = SaveTrisSp(gameDataTrisSp);
                     break;
                 case GameDataTrisMp gameDataTrisMp:
-                    result = SaveTrisMp(data as GameDataTrisMp);
+                    result = SaveTrisMp(gameDataTrisMp);
                     break;
                 case GameDataSuperTrisMp gameDataSuperTrisMp:
-                    result = SaveSuperTrisMp(data as GameDataSuperTrisMp);
+                    result = SaveSuperTrisMp(gameDataSuperTrisMp);
+                    break;
+                case GameDataMemorySp gameDataMemorySp:
+                    result = SaveMemorySp(gameDataMemorySp);
                     break;
                 default:
                     MessageDialogHelper.ShowInfoMessage($"Il tipo passato non è gestito nel metodo {MethodInfo.GetCurrentMethod().Name}, ({data.GetType().FullName})");
@@ -77,13 +91,16 @@ namespace LIB.Sqlite
             switch (data)
             {
                 case GameDataTrisSp gameDataTrisSp:
-                    result = UpdateTrisSp(data as GameDataTrisSp);
+                    result = UpdateTrisSp(gameDataTrisSp);
                     break;
                 case GameDataTrisMp gameDataTrisMp:
-                    result = UpdateTrisMp(data as GameDataTrisMp);
+                    result = UpdateTrisMp(gameDataTrisMp);
                     break;
                 case GameDataSuperTrisMp gameDataSuperTrisMp:
-                    result = UpdateSuperTrisMp(data as GameDataSuperTrisMp);
+                    result = UpdateSuperTrisMp(gameDataSuperTrisMp);
+                    break;
+                case GameDataMemorySp gameDataMemorySp:
+                    UpdateMemorySp(gameDataMemorySp);
                     break;
                 default:
                     MessageDialogHelper.ShowInfoMessage($"Il tipo passato non è gestito nel metodo {MethodInfo.GetCurrentMethod().Name}, ({data.GetType().FullName})");
@@ -233,6 +250,71 @@ namespace LIB.Sqlite
             parameters.Add("@REMAINING_TIME", data.RemainingTime);
             parameters.Add("@CELLS_WON", data.CellsWon);
             parameters.Add("@GAME_ID", data.GameId);
+            result = Execute(Statement, parameters);
+            return result;
+        }
+        #endregion
+
+        #region Memory Sp
+        private bool SaveMemorySp(GameDataMemorySp data)
+        {
+            bool result = false;
+            string Statement = @"INSERT INTO MEMORY_SP
+                               (GAME_ID
+                               ,GAME_GUID
+                               ,USER_NAME
+                               ,GAME_DATE
+                               ,CARDS_NUMBER
+                               ,GAME_DIFFICULTY
+                               ,ERRORS_LIMIT
+                               ,ERRORS_NUMBER
+                               ,POINTS
+                               ,GAME_RESULT)
+                         VALUES
+                               (@GAME_ID
+                               ,@GAME_GUID
+                               ,@USER_NAME
+                               ,@GAME_DATE
+                               ,@CARDS_NUMBER
+                               ,@GAME_DIFFICULTY
+                               ,@ERRORS_LIMIT
+                               ,@ERRORS_NUMBER
+                               ,@POINTS
+                               ,@GAME_RESULT)";
+            data.GameId = GetNextIntValue("MEMORY_SP", GAME_ID);
+            SQLiteParameters parameters = GetBaseParameters(data);
+            parameters.Add("@CARDS_NUMBER", data.CardsNumber);
+            parameters.Add("@GAME_DIFFICULTY", (short)data.GameDifficulty);
+            parameters.Add("@ERRORS_LIMIT", data.ErrorsLimit);
+            parameters.Add("@ERRORS_NUMBER", data.ErrorsNumber);
+            parameters.Add("@POINTS", data.Points);
+            parameters.Add("@GAME_RESULT", (short)data.GameResult);
+            result = Execute(Statement, parameters);
+            return result;
+        }
+        private bool UpdateMemorySp(GameDataMemorySp data)
+        {
+            bool result = false;
+            string Statement = @"UPDATE MEMORY_SP 
+                                 SET GAME_DATE = @GAME_DATE
+                                ,CARDS_NUMBER = @CARDS_NUMBER
+                                ,GAME_DIFFICULTY = @GAME_DIFFICULTY
+                                ,ERRORS_LIMIT = @ERRORS_LIMIT
+                                ,ERRORS_NUMBER = @ERRORS_NUMBER
+                                ,POINTS = @POINTS
+                                ,GAME_RESULT = @GAME_RESULT
+                                 WHERE GAME_ID = @GAME_ID;
+                        ";
+            SQLiteParameters parameters = new SQLiteParameters();
+            parameters.Add("@GAME_ID", data.GameId);
+            parameters.Add("@GAME_DATE", data.GameDate);
+            parameters.Add("@CARDS_NUMBER", data.CardsNumber);
+            parameters.Add("@GAME_DIFFICULTY", (short)data.GameDifficulty);
+            parameters.Add("@ERRORS_LIMIT", data.ErrorsLimit);
+            parameters.Add("@ERRORS_NUMBER", data.ErrorsNumber);
+            parameters.Add("@POINTS", data.Points);
+            parameters.Add("@GAME_RESULT", (short)data.GameResult);
+
             result = Execute(Statement, parameters);
             return result;
         }
