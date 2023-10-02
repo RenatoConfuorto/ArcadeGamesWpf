@@ -119,6 +119,7 @@
     <Compile Include="Entities\CellEntityBase.cs" />
     <Compile Include="Entities\Data\Base\GameDataTrisBase.cs" />
     <Compile Include="Entities\Data\Base\GameEnums.cs" />
+    <Compile Include="Entities\Data\Memory\GameDataMemoryBase.cs" />
     <Compile Include="Entities\Data\Memory\GameDataMemorySp.cs" />
     <Compile Include="Entities\Data\Tris\GameDataSuperTrisMp.cs" />
     <Compile Include="Entities\Data\Tris\GameDataTrisMp.cs" />

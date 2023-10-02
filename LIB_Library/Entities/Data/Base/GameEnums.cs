@@ -23,7 +23,7 @@ namespace LIB.Entities.Data.Base
             Hard = 2,
             Custom = 3
         }
-        public enum MemorySpResult
+        public enum MemoryResult
         {
             defeat = 0,
             victory = 1,

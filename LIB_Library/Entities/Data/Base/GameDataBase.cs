@@ -16,6 +16,10 @@ namespace LIB.Entities.Data.Base
         private string _userName;
         private DateTime _gameDate;
 
+        public GameDataBase()
+        {
+        }
+
         public GameDataBase(string gameGUID, 
             string userName, 
             DateTime gameDate)

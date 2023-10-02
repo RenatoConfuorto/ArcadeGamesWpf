@@ -9,14 +9,13 @@ using static LIB.Entities.Data.Base.GameEnums;
 
 namespace LIB.Entities.Data.Memory
 {
-    public class GameDataMemorySp : GameDataBase
+    public class GameDataMemorySp : GameDataMemoryBase
     {
-        private int _cardsNumber;
         private MemorySpDifficulty _gameDifficulty;
         private int _errorsLimit;
-        private int _errorsNumber;
-        private int _points;
-        private MemorySpResult _gameResult;
+        public GameDataMemorySp()
+        {
+        }
         public GameDataMemorySp(string userName,
             DateTime gameDate,
             int cardsNumber,
@@ -24,20 +23,11 @@ namespace LIB.Entities.Data.Memory
             int errorsLimit,
             int errorsNumber,
             int point,
-            MemorySpResult gameResult) 
-            : base(Cnst.GAME_GUID_MEMORY_SP, userName, gameDate)
+            MemoryResult gameResult) 
+            : base(Cnst.GAME_GUID_MEMORY_SP, userName, gameDate, cardsNumber, errorsNumber, point, gameResult)
         {
-            CardsNumber = cardsNumber;
             GameDifficulty = gameDifficulty;
             ErrorsLimit = errorsLimit;
-            ErrorsNumber = errorsNumber;
-            Points = point;
-            GameResult = gameResult;
-        }
-        public int CardsNumber
-        {
-            get => _cardsNumber;
-            set => SetProperty(ref _cardsNumber, value);
         }
         public MemorySpDifficulty GameDifficulty
         {
@@ -48,21 +38,6 @@ namespace LIB.Entities.Data.Memory
         {
             get => _errorsLimit;
             set => SetProperty(ref _errorsLimit, value);
-        }
-        public int ErrorsNumber
-        {
-            get => _errorsNumber;
-            set => SetProperty(ref _errorsNumber, value);
-        }
-        public int Points
-        {
-            get => _points;
-            set => SetProperty(ref _points, value);
-        }
-        public MemorySpResult GameResult
-        {
-            get => _gameResult;
-            set => SetProperty(ref _gameResult, value);
         }
     }
 }

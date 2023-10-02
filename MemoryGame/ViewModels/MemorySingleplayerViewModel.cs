@@ -23,20 +23,13 @@ namespace MemoryGame.ViewModels
 {
     [ViewRef(typeof(MemorySingleplayer))]
     [SettingsPopup(ViewNames.MemorySingleplayerSettings)]
-    public class MemorySingleplayerViewModel : GameViewModelBase<CardEntity>
+    public class MemorySingleplayerViewModel : MemoryGameViewModelbase<MemorySingleplayerSettings, GameDataMemorySp>
     {
         #region Private Fields
-        private GameDataMemorySp _gameDataMainUser;
-        private MemorySingleplayerSettings _settings;
-        private List<CardEntity> _cellClicked = new List<CardEntity>(2);
         private int _errors;
         private int _maxErrors;
         private int _points;
 
-        //view dimensions
-        public double BoardWidth { get; set; }
-        public double BoardHeight { get; set; }
-        public double CellDim { get; set; }
         #endregion
 
         #region Public Properties
@@ -73,16 +66,15 @@ namespace MemoryGame.ViewModels
 
         #region Constructor
         public MemorySingleplayerViewModel()
-            : base(ViewNames.MemorySingleplayer, ViewNames.MemoryGameHomePage) 
+            : base(ViewNames.MemorySingleplayer) 
         {
-            //InitSettings(MemorySpDifficulty.Easy); //start the game on easy the first time
         }
         #endregion
 
         #region Override Methods
         protected override void OnInitialized()
         {
-            InitSettings(_settings == null ? MemorySpDifficulty.Easy : _settings.GameDifficulty);
+            InitSettings();
             base.OnInitialized();
         }
         protected override void InitCommands()
@@ -94,34 +86,6 @@ namespace MemoryGame.ViewModels
             base.InitGame();
             Errors = 0;
             Points = 0;
-        }
-        protected override ObservableCollection<CardEntity> GenerateGrid()
-        {
-            ObservableCollection<CardEntity> result = new ObservableCollection<CardEntity>();
-            CardEntity cell;
-            int noCardTypes = Enum.GetValues(typeof(CardTypes)).Length;
-            int CardsPerType = _settings.CardsNumber / noCardTypes;
-            int cardId = 0;
-            foreach(CardTypes cardType in Enum.GetValues(typeof(CardTypes)))
-            {
-                for(int i = 0; i < CardsPerType; i++)
-                {
-                    cell = new CardEntity()
-                    {
-                        CellId = cardId,
-                        CardTurned = false,
-                        CardType = cardType,
-                        CardEnabled = true,
-                    };
-                    cell.cellClicked += OnCellClicked;
-                    result.Add(cell);
-                    cardId++;
-                }
-            }
-            //casual order of the list
-            Random random = new Random();
-            result = new ObservableCollection<CardEntity>(result.OrderBy(c => random.Next()).ToList());
-            return result;
         }
         //settings
         protected override GameSettingsBase PrepareDataForPopup()
@@ -135,16 +99,10 @@ namespace MemoryGame.ViewModels
         protected override void OnSettingsReceived(object settings)
         {
             base.OnSettingsReceived(settings);
-            if(settings is MemorySingleplayerSettings newSettings)
+            if(settings is MemorySingleplayerSettings)
             {
-                _settings = newSettings;
                 MaxErrors = _settings.ErrorsLimit;
                 InitUIDimensions();
-                if (MainUser != null)
-                {
-                    _gameDataMainUser = InitUserGameData(_settings, _gameDataMainUser.GameId);
-                    MainUser.Proxy.UpdateData(_gameDataMainUser);
-                }
             }
         }
         protected override void MenageGameUsers()
@@ -164,10 +122,7 @@ namespace MemoryGame.ViewModels
                 MainUser.Proxy.UpdateData(_gameDataMainUser);
             }
         }
-        #endregion
-
-        #region Private Methods
-        private GameDataMemorySp InitUserGameData(MemorySingleplayerSettings settings, int? gameId = null)
+        protected override GameDataMemorySp InitUserGameData(MemorySingleplayerSettings settings, int? gameId = null)
         {
             GameDataMemorySp result = new GameDataMemorySp(MainUserName,
                                             DateTime.Now,
@@ -176,13 +131,14 @@ namespace MemoryGame.ViewModels
                                             settings.ErrorsLimit,
                                             0,
                                             0,
-                                            MemorySpResult.defeat);
+                                            MemoryResult.defeat);
             if (gameId != null) result.GameId = (int)gameId;
             return result;
         }
-        private void InitSettings(MemorySpDifficulty diff)
+        protected override void InitSettings()
         {
-            if(diff == MemorySpDifficulty.Custom)
+            MemorySpDifficulty diff = _settings == null ? MemorySpDifficulty.Easy : _settings.GameDifficulty;
+            if (diff == MemorySpDifficulty.Custom)
             {
                 //nel caso di impostazioni custom non c'è nulla da inizializzare
             }
@@ -217,79 +173,57 @@ namespace MemoryGame.ViewModels
                 }
             }
             MaxErrors = _settings.ErrorsLimit;
-            //Update UI
             InitUIDimensions();
-            //update user data
-            //if (MainUser != null)
-            //{
-            //    _gameDataMainUser = InitUserGameData(_settings);
-            //    MainUser.Proxy.UpdateData(_gameDataMainUser);
-            //}
         }
+        protected override void OnCellClicked(int cellId)
+        {
+            CardEntity cell = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
+            if (cell.CardTurned && _cellClicked.Count() >= 2) return;
+            cell.CardTurned = true;
+            _cellClicked.Add(cell);
+
+            switch (CheckCardTurned())
+            {
+                case -1:
+                    Errors++;
+                    if (Errors == _settings.ErrorsLimit)
+                    {
+                        GameOverMessage = "Sconfitta";
+                        EndGame();
+                    }
+                    break;
+                case 0:
+                    //prosegire
+                    break;
+                case 1:
+                    Points++;
+                    if (CheckVictory())
+                    {
+                        GameOverMessage = "Vittoria";
+                        EndGame();
+                    }
+                    break;
+            }
+        }
+        #endregion
+
+        #region Private Methods
+
         private void InitUIDimensions()
         {
-            int cardsPerRow = 0;
-            int cardsPerColumn = 0;
-            void setDim(double _cardDim, int _cardsPerRow, int _cardsPerColumn)
-            {
-                CellDim = _cardDim;
-                cardsPerRow = _cardsPerRow;
-                cardsPerColumn = _cardsPerColumn;
-            }
             switch (_settings.GameDifficulty)
             {
                 case MemorySpDifficulty.Easy:
                     setDim(125.0d, 4, 3);
-                    //CellDim = 125.0d;
-                    //BoardWidth = (CellDim + 8) * 4; //Margin = 4 2, 4 cells each row
-                    //BoardHeight = (CellDim + 4) * 3;//Margin = 4 2, 3 cells each column
                     break;
                 case MemorySpDifficulty.Medium:
                     setDim(110.0d, 6, 4);
-                    //CellDim = 110.0d;
-                    //BoardWidth = (CellDim + 8) * 6; //Margin = 4 2, 6 cells each row
-                    //BoardHeight = (CellDim + 4) * 4;//Margin = 4 2, 4 cells each column
                     break;
                 case MemorySpDifficulty.Hard:
                     setDim(90.0d, 8, 6);
-                    //CellDim = 90.0d;
-                    //BoardWidth = (CellDim + 8) * 8; //Margin = 4 2, 6 cells each row
-                    //BoardHeight = (CellDim + 4) * 6;//Margin = 4 2, 4 cells each column
                     break;
                 case MemorySpDifficulty.Custom:
-                    switch (_settings.CardsNumber / 6)
-                    {
-                        case 2:
-                            setDim(125.0d, 4, 3);
-                            break;
-                        case 4:
-                            setDim(110.0d, 6, 4);
-                            break;
-                        case 6:
-                            setDim(100.0d, 9, 4);
-                            break;
-                        case 8:
-                            setDim(90.0d, 8, 6);
-                            break;
-                        case 10:
-                            setDim(80.0d, 10, 6);
-                            break;
-                        case 12:
-                            setDim(80.0d, 9, 8);
-                            break;
-                        case 14:
-                            setDim(60.0d, 12, 7);
-                            break;
-                        case 16:
-                            setDim(60.0d, 12, 8);
-                            break;
-                        case 18:
-                            setDim(60.0d, 12, 9);
-                            break;
-                        case 20:
-                            setDim(60.0d, 12, 10);
-                            break;
-                    }
+                    SetCustomDimensions();
                     break;
             }
             BoardWidth = (CellDim + 8) * cardsPerRow;     //Margin = 4 2, 6 cells each row
@@ -299,59 +233,13 @@ namespace MemoryGame.ViewModels
             NotifyPropertyChanged(nameof(BoardWidth));
             NotifyPropertyChanged(nameof(BoardHeight));
         }
-        private void OnCellClicked(int cellId)
-        {
-            CardEntity cell = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
-            if (cell.CardTurned && _cellClicked.Count() >= 2) return;
-            cell.CardTurned = true;
-            _cellClicked.Add(cell);
-
-            CheckCardTurned();
-            if (CheckVictory())
-            {
-                GameOverMessage = "Vittoria";
-                EndGame();
-            }else if(Errors == _settings.ErrorsLimit)
-            {
-                GameOverMessage = "Sconfitta";
-                EndGame();
-            }
-        }
-
-        private void CheckCardTurned()
-        {
-            if(_cellClicked.Count() != 2) return;
-            else
-            {
-                if (_cellClicked[0].CardType == _cellClicked[1].CardType)
-                {
-                    _cellClicked[0].CardEnabled = false;
-                    _cellClicked[1].CardEnabled = false;
-                    _cellClicked.Clear();
-                    Points++;
-                }
-                else
-                {
-                    Errors++;
-                    //turn back cards async so UI updates
-                    Task.Run(() =>
-                    {
-                        IsGameEnabled = false;
-                        Thread.Sleep(WAIT_TIME_CARD_TURN_BACK);
-                        _cellClicked[0].CardTurned = false;
-                        _cellClicked[1].CardTurned = false;
-                        _cellClicked.Clear();
-                        IsGameEnabled = true;
-                    });
-                }
-            }
-        }
+        
         private bool CheckVictory()
         {
             bool victory = Cells.Where(c => c.CardTurned).Count() == _settings.CardsNumber;
             if (victory && MainUser != null)
             {
-                _gameDataMainUser.GameResult = MemorySpResult.victory;
+                _gameDataMainUser.GameResult = MemoryResult.victory;
             }
             return victory;
         }
