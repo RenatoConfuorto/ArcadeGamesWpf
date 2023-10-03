@@ -27,6 +27,7 @@ namespace LIB.Entities.Data.Base
         {
             defeat = 0,
             victory = 1,
+            tie = 2,
         }
     }
 }

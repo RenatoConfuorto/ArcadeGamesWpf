@@ -12,17 +12,12 @@ namespace MemoryGame.Common.Entities
     public class MemorySingleplayerSettings : MemorySettingsBase
     {
         private MemorySpDifficulty _gameDifficulty;
-        private int _errorsLimit;
 
         public MemorySpDifficulty GameDifficulty
         {
             get => _gameDifficulty;
             set => SetProperty(ref _gameDifficulty, value);
         }
-        public int ErrorsLimit
-        {
-            get => _errorsLimit;
-            set => SetProperty(ref _errorsLimit, value);
-        }
+        
     }
 }

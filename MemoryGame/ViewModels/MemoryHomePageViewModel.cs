@@ -39,6 +39,7 @@ namespace MemoryGame.ViewModels
         #region Private Methods
         private void MultiplayerCommandExecute(object param)
         {
+            ChangeView(ViewNames.MemoryMultiplayer);
         }
         private void SingleplayerCommandExecute(object param)
         {

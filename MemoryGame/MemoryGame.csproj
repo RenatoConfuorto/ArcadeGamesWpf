@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\Entities\CardEntity.cs" />
+    <Compile Include="Common\Entities\MemoryMultiplayerSettings.cs" />
+    <Compile Include="Common\Entities\MemoryMultiplayerUser.cs" />
     <Compile Include="Common\Entities\MemorySettingsBase.cs" />
     <Compile Include="Common\Entities\MemorySingleplayerSettings.cs" />
     <Compile Include="Common\Interfaces\ICardEntity.cs" />
@@ -58,12 +60,16 @@
     <Compile Include="ModuleDependencies.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueConverters\MemoryGameImageConverter.cs" />
-    <Compile Include="ViewModels\MemoryGameViewModelbase.cs" />
+    <Compile Include="ViewModels\MemoryGameViewModelBase.cs" />
     <Compile Include="ViewModels\MemoryHomePageViewModel.cs" />
+    <Compile Include="ViewModels\MemoryMultiplayerViewModel.cs" />
     <Compile Include="ViewModels\MemorySingleplayerSettingsViewModel.cs" />
     <Compile Include="ViewModels\MemorySingleplayerViewModel.cs" />
     <Compile Include="Views\MemoryHomePageView.xaml.cs">
       <DependentUpon>MemoryHomePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MemoryMultiplayer.xaml.cs">
+      <DependentUpon>MemoryMultiplayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MemorySingleplayer.xaml.cs">
       <DependentUpon>MemorySingleplayer.xaml</DependentUpon>
@@ -93,6 +99,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MemoryHomePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MemoryMultiplayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

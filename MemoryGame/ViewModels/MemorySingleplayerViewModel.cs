@@ -23,7 +23,7 @@ namespace MemoryGame.ViewModels
 {
     [ViewRef(typeof(MemorySingleplayer))]
     [SettingsPopup(ViewNames.MemorySingleplayerSettings)]
-    public class MemorySingleplayerViewModel : MemoryGameViewModelbase<MemorySingleplayerSettings, GameDataMemorySp>
+    public class MemorySingleplayerViewModel : MemoryGameViewModelBase<MemorySingleplayerSettings, GameDataMemorySp>
     {
         #region Private Fields
         private int _errors;
@@ -108,11 +108,11 @@ namespace MemoryGame.ViewModels
         protected override void MenageGameUsers()
         {
             base.MenageGameUsers();
-            if(MainUser != null)
-            {
-                _gameDataMainUser = InitUserGameData(_settings);
-                MainUser.Proxy.SaveData(_gameDataMainUser);
-            }
+            //if(MainUser != null)
+            //{
+            //    _gameDataMainUser = InitUserGameData(_settings);
+            //    MainUser.Proxy.SaveData(_gameDataMainUser);
+            //}
         }
 
         protected override void SaveGameResults()
@@ -122,9 +122,9 @@ namespace MemoryGame.ViewModels
                 MainUser.Proxy.UpdateData(_gameDataMainUser);
             }
         }
-        protected override GameDataMemorySp InitUserGameData(MemorySingleplayerSettings settings, int? gameId = null)
+        protected override GameDataMemorySp InitUserGameData(MemorySingleplayerSettings settings, string userName, int? gameId = null)
         {
-            GameDataMemorySp result = new GameDataMemorySp(MainUserName,
+            GameDataMemorySp result = new GameDataMemorySp(userName,
                                             DateTime.Now,
                                             settings.CardsNumber,
                                             settings.GameDifficulty,

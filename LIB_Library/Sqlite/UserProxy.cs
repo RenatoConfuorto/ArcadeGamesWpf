@@ -78,6 +78,8 @@ namespace LIB.Sqlite
                 case GameDataMemorySp gameDataMemorySp:
                     result = SaveMemorySp(gameDataMemorySp);
                     break;
+                case GameDataMemoryMp gameDataMemoryMp:
+                    break;
                 default:
                     MessageDialogHelper.ShowInfoMessage($"Il tipo passato non è gestito nel metodo {MethodInfo.GetCurrentMethod().Name}, ({data.GetType().FullName})");
                     break;
@@ -101,6 +103,8 @@ namespace LIB.Sqlite
                     break;
                 case GameDataMemorySp gameDataMemorySp:
                     UpdateMemorySp(gameDataMemorySp);
+                    break;
+                case GameDataMemoryMp gameDataMemoryMp:
                     break;
                 default:
                     MessageDialogHelper.ShowInfoMessage($"Il tipo passato non è gestito nel metodo {MethodInfo.GetCurrentMethod().Name}, ({data.GetType().FullName})");

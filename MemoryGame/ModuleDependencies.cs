@@ -18,6 +18,7 @@ namespace MemoryGame
             AddDependency<IViewModelBase, MemoryHomePageViewModel>(ViewNames.MemoryGameHomePage);
             AddDependency<IViewModelBase, MemorySingleplayerViewModel>(ViewNames.MemorySingleplayer);
             AddDependency<IViewModelBase, MemorySingleplayerSettingsViewModel>(ViewNames.MemorySingleplayerSettings);
+            AddDependency<IViewModelBase, MemoryMultiplayerViewModel>(ViewNames.MemoryMultiplayer);
         }
     }
 }

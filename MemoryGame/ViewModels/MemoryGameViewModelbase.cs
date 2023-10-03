@@ -15,7 +15,7 @@ using static MemoryGame.Common.Constants;
 
 namespace MemoryGame.ViewModels
 {
-    public abstract class MemoryGameViewModelbase<S, G> : GameViewModelBase<CardEntity>
+    public abstract class MemoryGameViewModelBase<S, G> : GameViewModelBase<CardEntity>
         where S : MemorySettingsBase, new()
         where G : GameDataMemoryBase, new()
     {
@@ -38,7 +38,7 @@ namespace MemoryGame.ViewModels
         #endregion
 
         #region Constructor
-        public MemoryGameViewModelbase(string ViewName)
+        public MemoryGameViewModelBase(string ViewName)
             : base(ViewName, ViewNames.MemoryGameHomePage)
         {
         }
@@ -103,7 +103,7 @@ namespace MemoryGame.ViewModels
                 _settings = newSettings;
                 if (MainUser != null)
                 {
-                    _gameDataMainUser = InitUserGameData(_settings, _gameDataMainUser.GameId);
+                    _gameDataMainUser = InitUserGameData(_settings, MainUserName, _gameDataMainUser.GameId);
                     MainUser.Proxy.UpdateData(_gameDataMainUser);
                 }
             }
@@ -113,7 +113,7 @@ namespace MemoryGame.ViewModels
             base.MenageGameUsers();
             if (MainUser != null)
             {
-                _gameDataMainUser = InitUserGameData(_settings);
+                _gameDataMainUser = InitUserGameData(_settings, MainUserName);
                 MainUser.Proxy.SaveData(_gameDataMainUser);
             }
         }
@@ -130,7 +130,7 @@ namespace MemoryGame.ViewModels
         #endregion
 
         #region Private Methods
-        protected virtual G InitUserGameData(S settings, int? gameId = null)
+        protected virtual G InitUserGameData(S settings, string username, int? gameId = null)
         {
             return new G();
         }

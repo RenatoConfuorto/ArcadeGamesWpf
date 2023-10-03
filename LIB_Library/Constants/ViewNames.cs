@@ -6,6 +6,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
+using System.Windows.Markup;
 
 namespace LIB.Constants
 {
@@ -29,5 +30,6 @@ namespace LIB.Constants
         public const string MemoryGameHomePage = "MemoryGameHomePage";
         public const string MemorySingleplayer = "MemorySingleplayer";
         public const string MemorySingleplayerSettings = "MemorySingleplayerSettings";
+        public const string MemoryMultiplayer = "MemoryMultiplayer";
     }
 }

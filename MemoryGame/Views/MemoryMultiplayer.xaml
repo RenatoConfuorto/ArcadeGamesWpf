@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="MemoryGame.Views.MemoryMultiplayer"
+             x:Name="MemoryMp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:UserControls="clr-namespace:LIB.UserControls;assembly=LIB_Library"
+             xmlns:MemoryControls="clr-namespace:MemoryGame.Common.UserControls"
+             xmlns:local="clr-namespace:MemoryGame.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MemoryGame;component/ResourceDictionary/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource BgColor}"
+          Style="{StaticResource GameBoard}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="400" MaxWidth="400"/>
+        </Grid.ColumnDefinitions>
+
+        <ItemsControl Grid.Column="0" 
+                      IsEnabled="{Binding IsGameEnabled}"
+                      ItemsSource="{Binding Cells}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel FlowDirection="LeftToRight"
+                               x:Name="GameBoard"
+                               Width="{Binding BoardWidth}"
+                               Height="{Binding BoardHeight}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <MemoryControls:CardCell CellContent="{Binding .}"
+                                             Margin="4 2"
+                                             CellWidth="{Binding DataContext.CellDim, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                                             CellHeight="{Binding DataContext.CellDim,  RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <UserControls:GameMessage GameOverText="{Binding GameOverMessage}"
+                                  MaxWidth="{Binding Width, ElementName=GameBoard}"
+                                  VisibilityTrigger="{Binding IsGameOver}"
+                                  VerticalAlignment="Center"/>
+
+        <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Memory - MP"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource GameTitle}"/>
+                <UserControls:IconButton ToolTip="Impostazioni"
+                                         MaxHeight="100"
+                                         Command="{Binding SettingsCommand}"
+                                         Source="{StaticResource SettingsIcon}"/>
+            </StackPanel>
+            <TextBlock Text="Abbina tutti i simboli uguali e gira tutte le carte" 
+                       Style="{StaticResource GameDesc}"
+                       Width="220"
+                       HorizontalAlignment="Left"/>
+            <StackPanel>
+                <StackPanel.Resources>
+                    <sys:Double x:Key="NameWidth">175</sys:Double>
+                    <sys:Double x:Key="NumbersWidth">100</sys:Double>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource GamePlayerLabel}">
+                        <Setter Property="Margin" Value="5 10"/>
+                    </Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource GamePlayerLabel}" x:Key="PlayerGridText">
+                        <Setter Property="Margin" Value="5 10"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CanPlay}" Value="False">
+                                <!--<Setter Property="TextDecorations" Value="Strikethrough"/>-->
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+
+                <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0 0 0 1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Max Errori:"/>
+                        <TextBlock Text="{Binding ErrorsLimit}"/>
+                    </StackPanel>
+                </Border>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Giocatore"     
+                               Width="{StaticResource NameWidth}"/>
+                    <TextBlock Text="Pt."
+                               Width="{StaticResource NumbersWidth}"/>
+                    <TextBlock Text="E."
+                               Width="{StaticResource NumbersWidth}"/>
+                </StackPanel>
+
+                <ItemsControl ItemsSource="{Binding Users}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}"
+                                               Style="{StaticResource PlayerGridText}"
+                                           Foreground="{Binding IsActive, Converter={StaticResource ActivePlayerBrushConverter}}"
+                                           Width="{StaticResource NameWidth}"/>
+                                    <TextBlock Text="{Binding Points}"
+                                               Style="{StaticResource PlayerGridText}"
+                                           Foreground="{Binding IsActive, Converter={StaticResource ActivePlayerBrushConverter}}"
+                                           Width="{StaticResource NumbersWidth}"/>
+                                    <TextBlock Text="{Binding Errors}"
+                                               Style="{StaticResource PlayerGridText}"
+                                           Foreground="{Binding IsActive, Converter={StaticResource ActivePlayerBrushConverter}}"
+                                           Width="{StaticResource NumbersWidth}"/>
+                                </StackPanel>
+                                <Border BorderThickness="0 2 0 0"
+                                        BorderBrush="{StaticResource BorderColor}"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding CanPlay, Converter={StaticResource NotBoolToVisibilityConverter}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
