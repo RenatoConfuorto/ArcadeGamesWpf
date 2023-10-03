@@ -63,6 +63,7 @@
     <Compile Include="ViewModels\MemoryGameViewModelBase.cs" />
     <Compile Include="ViewModels\MemoryHomePageViewModel.cs" />
     <Compile Include="ViewModels\MemoryMultiplayerViewModel.cs" />
+    <Compile Include="ViewModels\MemoryMultiplayerSettingsViewModel.cs" />
     <Compile Include="ViewModels\MemorySingleplayerSettingsViewModel.cs" />
     <Compile Include="ViewModels\MemorySingleplayerViewModel.cs" />
     <Compile Include="Views\MemoryHomePageView.xaml.cs">
@@ -73,6 +74,9 @@
     </Compile>
     <Compile Include="Views\MemorySingleplayer.xaml.cs">
       <DependentUpon>MemorySingleplayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MemoryMultiplayerSettingsView.xaml.cs">
+      <DependentUpon>MemoryMultiplayerSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MemorySingleplayerSettingsView.xaml.cs">
       <DependentUpon>MemorySingleplayerSettingsView.xaml</DependentUpon>
@@ -109,6 +113,10 @@
     <Page Include="Views\MemorySingleplayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MemoryMultiplayerSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MemorySingleplayerSettingsView.xaml">
       <SubType>Designer</SubType>

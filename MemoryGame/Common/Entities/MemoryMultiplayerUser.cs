@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MemoryGame.Common.Entities
 {
-    public class MemoryMultiplayerUser : NotifyerPropertyChangedBase
+    public class MemoryMultiplayerUser : NotifyerPropertyChangedBase, ICloneable
     {
         public User _user;
         private string _name;
@@ -18,6 +18,7 @@ namespace MemoryGame.Common.Entities
         private int _points = 0;
         public bool _isActive;
         public bool _canPlay;
+        public MemoryMultiplayerUser() { }
         public MemoryMultiplayerUser(string name) 
         {
             _name = name;
@@ -65,6 +66,11 @@ namespace MemoryGame.Common.Entities
             Points = 0;
             IsActive = false;
             CanPlay = true;
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

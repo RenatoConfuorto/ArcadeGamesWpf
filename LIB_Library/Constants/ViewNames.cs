@@ -31,5 +31,6 @@ namespace LIB.Constants
         public const string MemorySingleplayer = "MemorySingleplayer";
         public const string MemorySingleplayerSettings = "MemorySingleplayerSettings";
         public const string MemoryMultiplayer = "MemoryMultiplayer";
+        public const string MemoryMultiplayerSettings = "MemoryMultiplayerSettings";
     }
 }

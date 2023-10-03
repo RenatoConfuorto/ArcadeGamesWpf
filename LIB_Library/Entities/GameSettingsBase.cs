@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,9 @@ namespace LIB.Entities
     {
         public virtual object Clone()
         {
-            return this.MemberwiseClone();
+            string objectString = XmlSerializerBase.SerializeObjectToString(this);
+            return XmlSerializerBase.DeserializeObjectFromString(objectString, this.GetType());
+            //return this.MemberwiseClone();
         }
     }
 }

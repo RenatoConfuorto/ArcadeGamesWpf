@@ -89,7 +89,7 @@ namespace MemoryGame.ViewModels
 
         #region Constructor
         public MemorySingleplayerSettingsViewModel(object param)
-            : base(ViewNames.SuperTrisMpSettings, param)
+            : base(ViewNames.MemorySingleplayerSettings, param)
         {
         }
         #endregion

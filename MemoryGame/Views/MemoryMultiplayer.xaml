@@ -22,7 +22,7 @@
           Style="{StaticResource GameBoard}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="400" MaxWidth="400"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
         <ItemsControl Grid.Column="0" 
@@ -65,20 +65,16 @@
                        Style="{StaticResource GameDesc}"
                        Width="220"
                        HorizontalAlignment="Left"/>
-            <StackPanel>
+            <StackPanel MaxWidth="400"
+                        HorizontalAlignment="Left">
                 <StackPanel.Resources>
-                    <sys:Double x:Key="NameWidth">175</sys:Double>
+                    <sys:Double x:Key="NameWidth">225</sys:Double>
                     <sys:Double x:Key="NumbersWidth">100</sys:Double>
                     <Style TargetType="TextBlock" BasedOn="{StaticResource GamePlayerLabel}">
                         <Setter Property="Margin" Value="5 10"/>
                     </Style>
                     <Style TargetType="TextBlock" BasedOn="{StaticResource GamePlayerLabel}" x:Key="PlayerGridText">
                         <Setter Property="Margin" Value="5 10"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding CanPlay}" Value="False">
-                                <!--<Setter Property="TextDecorations" Value="Strikethrough"/>-->
-                            </DataTrigger>
-                        </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
 
@@ -92,8 +88,10 @@
                     <TextBlock Text="Giocatore"     
                                Width="{StaticResource NameWidth}"/>
                     <TextBlock Text="Pt."
+                               ToolTip="Punteggio"
                                Width="{StaticResource NumbersWidth}"/>
                     <TextBlock Text="E."
+                               ToolTip="Errori"
                                Width="{StaticResource NumbersWidth}"/>
                 </StackPanel>
 
