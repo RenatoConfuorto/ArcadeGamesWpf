@@ -24,7 +24,7 @@ namespace MemoryGame.ViewModels
     public class MemoryMultiplayerViewModel : MemoryGameViewModelBase<MemoryMultiplayerSettings, GameDataMemoryMp>
     {
         #region Game Constants
-        public const int CARDS_NUMBER_DEFAULT = 12;
+        public const int CARDS_NUMBER_DEFAULT = 60;
         public const int ERRORS_LIMIT_DEFAULT = 20;
         public const bool ERRORS_LIMIT_ENABLED_DEFAULT = true;
         #endregion
@@ -63,7 +63,6 @@ namespace MemoryGame.ViewModels
         #region Override Methods
         protected override void OnInitialized()
         {
-            InitSettings(); //TODO questo resetta le impostazioni se si riavvia
             base.OnInitialized();
         }
         protected override void InitCommands()
@@ -100,22 +99,23 @@ namespace MemoryGame.ViewModels
             {
                 //_gameDataMainUser = InitUserGameData(_settings, MainUserName);
                 //MainUser.Proxy.SaveData(_gameDataMainUser);
-                Users.Add(new MemoryMultiplayerUser(MainUser));
+                if(IsUserNotPresentInList(MainUserName) && Users.Count == 0) Users.Add(new MemoryMultiplayerUser(MainUser));
+                // && Users.Count == 0 => controllare il numero di utenti in modo da non riaggiungerli se si riavvia
             }
             else
             {
-                Users.Add(new MemoryMultiplayerUser("Player 1"));
+                if(IsUserNotPresentInList("Player 1") && Users.Count == 0) Users.Add(new MemoryMultiplayerUser("Player 1"));
             }
             CurrentUser = Users[0];
 
             User secondaryUser = UserManager.GetSecondLoggedUser();
             if(secondaryUser != null)
             {
-                Users.Add(new MemoryMultiplayerUser(secondaryUser));
+                if(IsUserNotPresentInList(secondaryUser.Name) && Users.Count == 1) Users.Add(new MemoryMultiplayerUser(secondaryUser));
             }
             else
             {
-                Users.Add(new MemoryMultiplayerUser("Player 2"));
+                if(IsUserNotPresentInList("Player 2") && Users.Count == 1) Users.Add(new MemoryMultiplayerUser("Player 2"));
             }
         }
 
@@ -139,7 +139,7 @@ namespace MemoryGame.ViewModels
         }
         protected override void InitSettings()
         {
-            _settings = new MemoryMultiplayerSettings()
+            if(_settings == null) _settings = new MemoryMultiplayerSettings()
             {
                 CardsNumber = CARDS_NUMBER_DEFAULT,
                 ErrorsLimit = ERRORS_LIMIT_DEFAULT,
@@ -208,6 +208,10 @@ namespace MemoryGame.ViewModels
         #endregion
 
         #region Private Methods
+        private bool IsUserNotPresentInList(string userName)
+        {
+            return Users.Where(u => u.Name == userName).Count() == 0;
+        }
         private void CloseGame(string gameOverMessage)
         {
             GameOverMessage = gameOverMessage;

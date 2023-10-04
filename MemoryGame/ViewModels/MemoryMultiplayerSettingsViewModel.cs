@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
@@ -116,6 +117,7 @@ namespace MemoryGame.ViewModels
         public RelayCommand RemoveUserCommand { get; set; }
         public RelayCommand AddRegisterdUser { get; set; }
         public RelayCommand AddCreatedUser { get; set; }
+        public RelayCommand CasualOrderCommand { get; set; }
         #endregion
 
         #region Constructor
@@ -150,6 +152,7 @@ namespace MemoryGame.ViewModels
             RemoveUserCommand = new RelayCommand(RemoveUserCommandExecute, RemoveUserCommandCanExecute);
             AddRegisterdUser = new RelayCommand(AddRegisterdUserExecute, AddRegisterdUserCanExecute);
             AddCreatedUser = new RelayCommand(AddCreatedUserExecute, AddCreatedUserCanExecute);
+            CasualOrderCommand = new RelayCommand(CasualOrderCommandExecute);
         }
         protected override void SetCommandExecutionStatus()
         {
@@ -237,6 +240,11 @@ namespace MemoryGame.ViewModels
             SetCommandExecutionStatus();
         }
         private bool AddCreatedUserCanExecute(object param) => !String.IsNullOrEmpty(CreatedUser) && IsUserNotPresentInList(CreatedUser);
+        private void CasualOrderCommandExecute(object param)
+        {
+            Random rdm = new Random();
+            Users = new ObservableCollection<MemoryMultiplayerUser>(Users.OrderBy(u => rdm.Next()).ToList());
+        }
         #endregion
     }
 }

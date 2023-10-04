@@ -1005,5 +1005,256 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
+
+    <DrawingImage x:Key="DiceIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V152 H152 V0 H0 Z">
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="5.0469,34.1406,4.75,83.4219" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="9.7969,117.562,4.75,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="14.5469,122.609,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="24.3438,127.359,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="34.1406,132.406,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="43.9375,137.156,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="53.7344,142.203,10.0938,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="63.8281,146.953,24.3438,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="88.1719,142.203,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="97.9688,137.156,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="107.766,132.406,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="117.562,127.359,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="127.359,122.609,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="137.156,117.562,5.0469,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="142.203,34.1406,5.0469,83.4219" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="137.156,29.3906,5.0469,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="127.359,24.3438,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="117.562,19.5938,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="107.766,14.5469,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="97.9688,9.7969,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="88.1719,4.75,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="63.8281,0,24.3438,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="53.7344,4.75,10.0938,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="43.9375,9.7969,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="34.1406,14.5469,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="24.3438,19.5938,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="14.5469,24.3438,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="9.7969,29.3906,4.75,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="9.7969,34.1406,4.75,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="14.5469,39.1875,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="24.3438,43.9375,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="34.1406,48.9844,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="43.9375,53.7344,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="53.7344,58.7812,10.0938,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="63.8281,63.8281,4.75,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="68.5781,68.5781,5.0469,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="73.625,68.5781,4.75,78.375" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="137.156,34.1406,5.0469,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="127.359,39.1875,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="117.562,43.9375,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="107.766,48.9844,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="97.9688,53.7344,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="88.1719,58.7812,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="78.375,63.8281,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="19.5938,112.812,9.7969,4.75" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}" Geometry="F1 M152,152z M0,0z M29.3906,103.016L29.3906,112.812 24.3438,112.812 24.3438,107.766 19.5938,107.766 19.5938,112.812 14.5469,112.812 14.5469,97.9688 24.3438,97.9688 24.3438,103.016 29.3906,103.016z" />
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39.1875,97.9688,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}" Geometry="F1 M152,152z M0,0z M48.9844,88.1719L48.9844,97.9688 43.9375,97.9688 43.9375,93.2188 39.1875,93.2188 39.1875,97.9688 34.1406,97.9688 34.1406,83.4219 43.9375,83.4219 43.9375,88.1719 48.9844,88.1719z" />
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="58.7812,88.1719,9.7969,5.0469" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}" Geometry="F1 M152,152z M0,0z M68.5781,78.375L68.5781,88.1719 63.8281,88.1719 63.8281,83.4219 58.7812,83.4219 58.7812,88.1719 53.7344,88.1719 53.7344,73.625 63.8281,73.625 63.8281,78.375 68.5781,78.375z" />
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}" Geometry="F1 M152,152z M0,0z M93.2188,93.2188L93.2188,97.9688 83.4219,97.9688 83.4219,83.4219 88.1719,83.4219 88.1719,78.375 97.9688,78.375 97.9688,93.2188 93.2188,93.2188z" />
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}" Geometry="F1 M152,152z M0,0z M117.562,88.1719L107.766,88.1719 107.766,93.2188 103.016,93.2188 103.016,107.766 112.812,107.766 112.812,103.016 117.562,103.016 117.562,88.1719z" />
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}" Geometry="F1 M152,152z M0,0z M97.9688,132.406L97.9688,117.562 88.1719,117.562 88.1719,122.609 83.4219,122.609 83.4219,137.156 93.2188,137.156 93.2188,132.406 97.9688,132.406z" />
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}" Geometry="F1 M152,152z M0,0z M127.359,63.8281L127.359,58.7812 137.156,58.7812 137.156,73.625 132.406,73.625 132.406,78.375 122.609,78.375 122.609,63.8281 127.359,63.8281z" />
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}" Geometry="F1 M152,152z M0,0z M127.359,103.016L127.359,97.9688 137.156,97.9688 137.156,112.812 132.406,112.812 132.406,117.562 122.609,117.562 122.609,103.016 127.359,103.016z" />
+                <GeometryDrawing Brush="{Binding IconColor, RelativeSource={RelativeSource AncestorType={x:Type UserControls:IconButton}}}" Geometry="F1 M152,152z M0,0z M63.8281,29.3906L63.8281,24.3438 88.1719,24.3438 88.1719,29.3906 93.2188,29.3906 93.2188,39.1875 88.1719,39.1875 88.1719,43.9375 63.8281,43.9375 63.8281,39.1875 58.7812,39.1875 58.7812,29.3906 63.8281,29.3906z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
     <!--#endregion-->
 </ResourceDictionary>

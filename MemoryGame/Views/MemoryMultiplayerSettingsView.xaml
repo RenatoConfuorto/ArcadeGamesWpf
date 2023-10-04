@@ -103,13 +103,13 @@
         <StackPanel Grid.Row="1" Grid.RowSpan="3" Grid.Column="1"
                     Orientation="Horizontal"
                     VerticalAlignment="Top">
+            <StackPanel.Resources>
+                <Style TargetType="UserControls:IconButton">
+                    <Setter Property="MaxWidth" Value="100"/>
+                    <Setter Property="MaxHeight" Value="100"/>
+                </Style>
+            </StackPanel.Resources>
             <StackPanel>
-                <StackPanel.Resources>
-                    <Style TargetType="UserControls:IconButton">
-                        <Setter Property="MaxWidth" Value="100"/>
-                        <Setter Property="MaxHeight" Value="100"/>
-                    </Style>
-                </StackPanel.Resources>
                 <UserControls:IconButton ToolTip="Muovi su"
                                          Command="{Binding MoveUserUpCommand}"
                                          Source="{StaticResource ArrowUp}"/>
@@ -147,7 +147,18 @@
                 <Button Content="Aggiungi"
                         Command="{Binding AddCreatedUser}"
                         Margin="0 8"/>
+
+                <UserControls:IconButton ToolTip="Ordine Casuale"
+                                         Source="{StaticResource DiceIcon}"
+                                         Command="{Binding CasualOrderCommand}"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Top">
+                    <UserControls:IconButton.RenderTransform>
+                        <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                    </UserControls:IconButton.RenderTransform>
+                </UserControls:IconButton>
             </StackPanel>
+
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.ColumnSpan="2" 
