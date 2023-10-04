@@ -86,15 +86,25 @@ namespace MemoryGame.ViewModels
         }
         protected override void OnSettingsReceived(object settings)
         {
-            base.OnSettingsReceived(settings);
-            if (settings is MemoryMultiplayerSettings)
+            //base.OnSettingsReceived(settings);
+            if (settings is MemoryMultiplayerSettings gameSettings)
             {
+                _settings = gameSettings;
                 InitUIDimensions();
+                //aggiornare user data
+                foreach(MemoryMultiplayerUser user in Users)
+                {
+                    //inizializzare il proxy dato che viene perso durante il Clone
+                    user.InitUserProxy();
+                    user.InitGameDataFromSettings(gameSettings);
+                    //user.UpdateGameData();
+                }
             }
         }
         protected override void MenageGameUsers()
         {
-            base.MenageGameUsers();
+            //base.MenageGameUsers();
+            MainUser = UserManager.GetMainLoggedInUser();
             if (MainUser != null)
             {
                 //_gameDataMainUser = InitUserGameData(_settings, MainUserName);
@@ -128,23 +138,33 @@ namespace MemoryGame.ViewModels
         }
         protected override GameDataMemoryMp InitUserGameData(MemoryMultiplayerSettings settings, string userName, int? gameId = null)
         {
-            GameDataMemoryMp result = new GameDataMemoryMp(userName,
-                DateTime.Now,
-                settings.CardsNumber,
-                0,
-                0,
-                MemoryResult.defeat);
-            if (gameId != null) result.GameId = (int)gameId;
-            return result;
+            //GameDataMemoryMp result = new GameDataMemoryMp(userName,
+            //    DateTime.Now,
+            //    settings.CardsNumber,
+            //    0,
+            //    settings.ErrorsLimit,
+            //    0,
+            //    MemoryResult.defeat,
+            //    settings.Users.Count());
+            //if (gameId != null) result.GameId = (int)gameId;
+            //return result;
+            return null; //Per Memory Mp la gestione dei dati è gestita in modo differente
         }
         protected override void InitSettings()
         {
-            if(_settings == null) _settings = new MemoryMultiplayerSettings()
+            if (_settings == null)
             {
-                CardsNumber = CARDS_NUMBER_DEFAULT,
-                ErrorsLimit = ERRORS_LIMIT_DEFAULT,
-                IsErrorLimitEnabled = ERRORS_LIMIT_ENABLED_DEFAULT
-            };
+                _settings = new MemoryMultiplayerSettings()
+                {
+                    CardsNumber = CARDS_NUMBER_DEFAULT,
+                    ErrorsLimit = ERRORS_LIMIT_DEFAULT,
+                    IsErrorLimitEnabled = ERRORS_LIMIT_ENABLED_DEFAULT
+                };
+                foreach(MemoryMultiplayerUser user in Users)
+                {
+                    user.InitGameDataFromSettings(_settings);
+                }
+            }
 
             InitUIDimensions();
         }
@@ -191,6 +211,7 @@ namespace MemoryGame.ViewModels
                             gameOverMessage = "Pareggio (";
                             foreach(MemoryMultiplayerUser user in tieUsers)
                             {
+                                user._gameData.GameResult = MemoryResult.tie;
                                 gameOverMessage += $"{user.Name}, ";
                             }
                             gameOverMessage = gameOverMessage.Remove(gameOverMessage.Length - 2);
@@ -199,6 +220,7 @@ namespace MemoryGame.ViewModels
                         else
                         {
                             gameOverMessage = $"{winner.Name} ha vinto";
+                            winner._gameData.GameResult = MemoryResult.victory;
                         }
                         CloseGame(gameOverMessage);
                     }
@@ -214,6 +236,11 @@ namespace MemoryGame.ViewModels
         }
         private void CloseGame(string gameOverMessage)
         {
+            foreach(MemoryMultiplayerUser user in Users)
+            {
+                //user.UpdateGameData();
+                user.SaveGameData();
+            }
             GameOverMessage = gameOverMessage;
             EndGame();
         }
@@ -241,7 +268,7 @@ namespace MemoryGame.ViewModels
             bool victory = Cells.Where(c => c.CardTurned).Count() == _settings.CardsNumber;
             if (victory && MainUser != null)
             {
-                _gameDataMainUser.GameResult = MemoryResult.victory;
+                //_gameDataMainUser.GameResult = MemoryResult.victory;
             }
             return victory;
         }

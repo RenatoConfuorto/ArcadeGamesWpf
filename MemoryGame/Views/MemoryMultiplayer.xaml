@@ -47,7 +47,7 @@
         </ItemsControl>
 
         <UserControls:GameMessage GameOverText="{Binding GameOverMessage}"
-                                  MaxWidth="{Binding Width, ElementName=GameBoard}"
+                                  MaxWidth="{Binding BoardWidth}"
                                   VisibilityTrigger="{Binding IsGameOver}"
                                   VerticalAlignment="Center"/>
 

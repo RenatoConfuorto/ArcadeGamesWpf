@@ -57,7 +57,17 @@ namespace LIB.Sqlite
 	                        ERRORS_NUMBER INT NOT NULL,
 	                        POINTS INT NOT NULL,
 	                        GAME_RESULT TINYINT NOT NULL
-                        )
+                        );
+                        CREATE TABLE IF NOT EXISTS MEMORY_MP
+                        (
+	                        {DataManagment.GAME_DATA_TABLE_COMMON},
+	                        CARDS_NUMBER INT NOT NULL,
+	                        ERRORS_LIMIT INT NOT NULL,
+	                        ERRORS_NUMBER INT NOT NULL,
+	                        POINTS INT NOT NULL,
+	                        GAME_RESULT TINYINT NOT NULL,
+	                        OPPONENTS_NUMBER INT NOT NULL
+                        );
                         ";
         }
 
@@ -79,6 +89,7 @@ namespace LIB.Sqlite
                     result = SaveMemorySp(gameDataMemorySp);
                     break;
                 case GameDataMemoryMp gameDataMemoryMp:
+                    result = SaveMemoryMp(gameDataMemoryMp);
                     break;
                 default:
                     MessageDialogHelper.ShowInfoMessage($"Il tipo passato non è gestito nel metodo {MethodInfo.GetCurrentMethod().Name}, ({data.GetType().FullName})");
@@ -102,9 +113,10 @@ namespace LIB.Sqlite
                     result = UpdateSuperTrisMp(gameDataSuperTrisMp);
                     break;
                 case GameDataMemorySp gameDataMemorySp:
-                    UpdateMemorySp(gameDataMemorySp);
+                    result = UpdateMemorySp(gameDataMemorySp);
                     break;
                 case GameDataMemoryMp gameDataMemoryMp:
+                    result = UpdateMemoryMp(gameDataMemoryMp);
                     break;
                 default:
                     MessageDialogHelper.ShowInfoMessage($"Il tipo passato non è gestito nel metodo {MethodInfo.GetCurrentMethod().Name}, ({data.GetType().FullName})");
@@ -319,6 +331,67 @@ namespace LIB.Sqlite
             parameters.Add("@POINTS", data.Points);
             parameters.Add("@GAME_RESULT", (short)data.GameResult);
 
+            result = Execute(Statement, parameters);
+            return result;
+        }
+        #endregion
+
+        #region Memory Mp
+        private bool SaveMemoryMp(GameDataMemoryMp data)
+        {
+            bool result = false;
+            string Statement = @"INSERT INTO MEMORY_MP
+           (GAME_ID
+           ,GAME_GUID
+           ,USER_NAME
+           ,GAME_DATE
+           ,CARDS_NUMBER
+           ,ERRORS_LIMIT
+           ,ERRORS_NUMBER
+           ,POINTS
+           ,GAME_RESULT
+           ,OPPONENTS_NUMBER)
+             VALUES
+           (@GAME_ID
+           ,@GAME_GUID
+           ,@USER_NAME
+           ,@GAME_DATE
+           ,@CARDS_NUMBER
+           ,@ERRORS_LIMIT
+           ,@ERRORS_NUMBER
+           ,@POINTS
+           ,@GAME_RESULT
+           ,@OPPONENTS_NUMBER)";
+            data.GameId = GetNextIntValue("MEMORY_MP", GAME_ID);
+            SQLiteParameters parameters = GetBaseParameters(data);
+            parameters.Add("@CARDS_NUMBER", data.CardsNumber);
+            parameters.Add("@ERRORS_LIMIT", data.ErrorsLimit);
+            parameters.Add("@ERRORS_NUMBER", data.ErrorsNumber);
+            parameters.Add("@POINTS", data.Points);
+            parameters.Add("@GAME_RESULT", (short)data.GameResult);
+            parameters.Add("@OPPONENTS_NUMBER", data.OpponentsNumber);
+            result = Execute(Statement, parameters);
+            return result;
+        }
+        private bool UpdateMemoryMp(GameDataMemoryMp data)
+        {
+            bool result = false;
+            string Statement = @"UPDATE MEMORY_MP 
+                           SET CARDS_NUMBER = @CARDS_NUMBER 
+                              ,ERRORS_LIMIT = @ERRORS_LIMIT 
+                              ,ERRORS_NUMBER = @ERRORS_NUMBER 
+                              ,POINTS = @POINTS 
+                              ,GAME_RESULT = @GAME_RESULT 
+                              ,OPPONENTS_NUMBER = @OPPONENTS_NUMBER 
+                         WHERE GAME_ID = @GAME_ID;";
+            SQLiteParameters parameters = new SQLiteParameters();
+            parameters.Add("@CARDS_NUMBER", data.CardsNumber);
+            parameters.Add("@ERRORS_LIMIT", data.ErrorsLimit);
+            parameters.Add("@ERRORS_NUMBER", data.ErrorsNumber);
+            parameters.Add("@POINTS", data.Points);
+            parameters.Add("@GAME_RESULT", (short)data.GameResult);
+            parameters.Add("@OPPONENTS_NUMBER", data.OpponentsNumber);
+            parameters.Add("@GAME_ID", data.GameId);
             result = Execute(Statement, parameters);
             return result;
         }

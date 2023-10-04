@@ -12,6 +12,7 @@ namespace LIB.Entities.Data.Memory
     {
         private int _cardsNumber;
         private int _errorsNumber;
+        private int _errorsLimit;
         private int _points;
         private MemoryResult _gameResult;
         public GameDataMemoryBase()
@@ -22,12 +23,14 @@ namespace LIB.Entities.Data.Memory
             DateTime gameDate,
             int cardsNumber,
             int errorNumber,
+            int errorsLimit,
             int points,
             MemoryResult gameResult) 
             : base(gameGUID, userName, gameDate)
         {
             CardsNumber = cardsNumber;
             ErrorsNumber = errorNumber;
+            ErrorsLimit = errorsLimit;
             Points = points;
             GameResult = gameResult;
         }
@@ -52,6 +55,11 @@ namespace LIB.Entities.Data.Memory
         {
             get => _gameResult;
             set => SetProperty(ref _gameResult, value);
+        }
+        public int ErrorsLimit
+        {
+            get => _errorsLimit;
+            set => SetProperty(ref _errorsLimit, value);
         }
     }
 }

@@ -12,7 +12,6 @@ namespace LIB.Entities.Data.Memory
     public class GameDataMemorySp : GameDataMemoryBase
     {
         private MemorySpDifficulty _gameDifficulty;
-        private int _errorsLimit;
         public GameDataMemorySp()
         {
         }
@@ -24,20 +23,14 @@ namespace LIB.Entities.Data.Memory
             int errorsNumber,
             int point,
             MemoryResult gameResult) 
-            : base(Cnst.GAME_GUID_MEMORY_SP, userName, gameDate, cardsNumber, errorsNumber, point, gameResult)
+            : base(Cnst.GAME_GUID_MEMORY_SP, userName, gameDate, cardsNumber, errorsNumber, errorsLimit, point, gameResult)
         {
             GameDifficulty = gameDifficulty;
-            ErrorsLimit = errorsLimit;
         }
         public MemorySpDifficulty GameDifficulty
         {
             get => _gameDifficulty;
             set => SetProperty(ref _gameDifficulty, value);
-        }
-        public int ErrorsLimit
-        {
-            get => _errorsLimit;
-            set => SetProperty(ref _errorsLimit, value);
         }
     }
 }

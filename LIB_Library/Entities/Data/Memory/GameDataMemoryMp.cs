@@ -10,16 +10,26 @@ namespace LIB.Entities.Data.Memory
 {
     public class GameDataMemoryMp : GameDataMemoryBase
     {
+        private int _opponentsNumber;
         public GameDataMemoryMp() { }
 
         public GameDataMemoryMp(string userName, 
-            DateTime gameDate, 
-            int cardsNumber, 
-            int errorNumber, 
-            int points, 
-            GameEnums.MemoryResult gameResult) 
-            : base(Cnst.GAME_GUID_MEMORY_MP, userName, gameDate, cardsNumber, errorNumber, points, gameResult)
+            DateTime gameDate,
+            int cardsNumber,
+            int errorNumber,
+            int errorLimit,
+            int points,
+            GameEnums.MemoryResult gameResult,
+            int opponentsNumber)
+            : base(Cnst.GAME_GUID_MEMORY_MP, userName, gameDate, cardsNumber, errorNumber, errorLimit, points, gameResult)
         {
+            OpponentsNumber = opponentsNumber;
+        }
+
+        public int OpponentsNumber
+        {
+            get => _opponentsNumber;
+            set => SetProperty(ref _opponentsNumber, value);
         }
     }
 }
