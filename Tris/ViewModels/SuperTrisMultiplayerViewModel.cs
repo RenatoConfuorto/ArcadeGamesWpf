@@ -19,11 +19,13 @@ using LIB.Entities.Data.Tris;
 using LIB.UserMng;
 using static LIB.Entities.Data.Base.GameEnums;
 using LIB.Attributes;
+using LIB.Sounds;
 
 namespace Tris.ViewModels
 {
     [ViewRef(typeof(SuperTrisMp))]
     [SettingsPopup(ViewNames.SuperTrisMpSettings)]
+    [BackgroundMusic(SoundsManagment.TrisSoundTickingClock)]
     public class SuperTrisMultiplayerViewModel : SuperTrisBaseModel
     {
         #region Private Fields
@@ -151,6 +153,7 @@ namespace Tris.ViewModels
                     StopTimer();
 
                     subCell.Text = GetPlayerSymbol();
+                    PlaySound(SoundsManagment.TrisSoundPenWrite);
                     if (CheckAndUpdateMacroCellStatus(CellId))
                     {
                         ActivateMacroCell(SubCellId);
@@ -163,12 +166,14 @@ namespace Tris.ViewModels
         protected override GameSettingsBase PrepareDataForPopup()
         {
             if (timer.Enabled) timer.Stop();
+            SoundsManagment.PauseBackground();
             return _settings;
         }
         protected override void OnPopupClosed()
         {
             base.OnPopupClosed();
             if(!timer.Enabled && !IsGameOver)timer.Start(); //!IsGameOver means the timer is not disposed
+            SoundsManagment.ResumeBackground();
         }
         protected override void CloseGame(string gameOverMessage)
         {

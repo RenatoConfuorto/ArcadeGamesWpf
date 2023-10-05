@@ -16,6 +16,7 @@ namespace Tris.Common.Entities
             get => _playersTime;
             set => SetProperty(ref _playersTime, value);
         }
+        public SuperTrisSettings() { }
 
         public SuperTrisSettings(int time)
         {

@@ -1,5 +1,6 @@
 ﻿using Core.Helpers;
 using LIB.Constants;
+using LIB.Sounds;
 using LIB.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace Tris.ViewModels
         protected override void OnInitialized()
         {
             base.OnInitialized();
-
+            PlaySound(SoundsManagment.TrisSoundPenClickingTwice);
         }
         protected override void InitGame()
         {
@@ -86,6 +87,7 @@ namespace Tris.ViewModels
                     cells[b].Text == cells[c].Text)
                 {
                     winningSymbol = cells[a].Text;
+                    PlaySound(SoundsManagment.TrisSoundPenWriteLong);
                     return true;
                 }
             }
@@ -154,6 +156,7 @@ namespace Tris.ViewModels
                 //posizionare il simbolo e chiudere la cella
                 cell.Text = winningSymbol;
                 cell.IsCellClosed = true;
+                PlaySound(SoundsManagment.TrisSoundPenWriteLong);
                 OnMacroCellClosed(GetPlayerSymbol());
                 //controllare la griglia principale
                 if(CheckVictory(Cells, out winningSymbol))

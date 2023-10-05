@@ -20,6 +20,7 @@ using LIB.Helpers;
 using LIB.UserMng;
 using LIB.Entities.Data.Tris;
 using static LIB.Entities.Data.Base.GameEnums;
+using LIB.Sounds;
 
 namespace Tris.ViewModels
 {
@@ -183,8 +184,8 @@ namespace Tris.ViewModels
 
         private void PlaceComputerSign(int cellIdx, out bool isSignPlaced)
         {
-            Cells[cellIdx].Text = Players.O.ToString();
-
+            //Cells[cellIdx].Text = Players.O.ToString();
+            PlaceSign(cellIdx, Players.O);
             isSignPlaced = true;
         }
         #endregion
@@ -196,7 +197,8 @@ namespace Tris.ViewModels
             TrisEntity entity = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
             if (String.IsNullOrEmpty(entity.Text))
             {
-                entity.Text = Players.X.ToString();
+                //entity.Text = Players.X.ToString();
+                PlaceSign(entity.CellId, Players.X);
                 if (AfterSign())
                 {
                     IsPlayerTurn = false;
