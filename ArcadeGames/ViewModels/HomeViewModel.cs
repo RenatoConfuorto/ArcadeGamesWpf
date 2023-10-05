@@ -9,10 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Attributes;
 using ArcadeGames.Views;
+using LIB.Attributes;
+using LIB.Sounds;
 
 namespace ArcadeGames.ViewModels
 {
     [ViewRef(typeof(HomeView))]
+    [BackgroundMusic(SoundsManagment.MainBackground)]
     public class HomeViewModel : ContentViewModel
     {
         #region Private Fields
