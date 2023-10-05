@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDependencies.cs" />
+    <Compile Include="Attributes\BackgroundMusic.cs" />
     <Compile Include="Attributes\SettingsPopup.cs" />
     <Compile Include="Communication\Constants\CommunicationCnst.cs" />
     <Compile Include="Communication\Events\ClientDisconnectedEvent.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Navigation\NavigationServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sounds\SoundsManagment.cs" />
     <Compile Include="Sqlite\Base\ProxyBase.cs" />
     <Compile Include="Sqlite\Entities\SQLiteParameters.cs" />
     <Compile Include="Sqlite\UserProxy.cs" />
@@ -158,7 +160,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\logo.png" />
+    <Resource Include="Images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Fonts\PressStart2P-Regular.ttf" />
@@ -201,7 +205,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\thumbs.png" />
+    <Resource Include="Images\thumbs.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Base\" />
@@ -217,6 +223,38 @@
       <Project>{375e336e-3efc-40fe-88dd-6fe78a662ada}</Project>
       <Name>Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sounds\8-bit_baseBackground.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Memory\card-sounds-35956.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Memory\cardsound32562-37691.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Memory\flipcard-91468.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Memory\point_scored.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Memory\shuffle-cards-46455.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Tris\mixkit-pen-clicking-twice-2371.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Tris\mixkit-pen-marker-line-2998.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Tris\mixkit-short-pencil-writing-2376.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\Tris\wall-clock-ticks-quartz-clock-25480.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

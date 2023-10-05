@@ -1,9 +1,12 @@
 ﻿using Core.Interfaces.Navigation;
 using Core.Interfaces.ViewModels;
 using Core.ViewModels;
+using LIB.Attributes;
+using LIB.Sounds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +30,7 @@ namespace LIB.ViewModels
         protected override void OnInitialized()
         {
             base.OnInitialized();
+            InitBackgroundMusic();
         }
         public override void Dispose()
         {
@@ -35,6 +39,18 @@ namespace LIB.ViewModels
         #endregion
 
         #region Private Methods
+        private void InitBackgroundMusic()
+        {
+            BackgroundMusic attribute = this.GetType().GetCustomAttribute<BackgroundMusic>();
+            if(attribute != null)
+            {
+                SoundsManagment.ChangeBackground(attribute.BackgroundMusicName);
+            }
+            else
+            {
+                SoundsManagment.ChangeBackground(String.Empty);
+            }
+        }
         #endregion
 
         #region Protected Methods
