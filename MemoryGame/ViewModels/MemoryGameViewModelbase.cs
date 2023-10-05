@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static LIB.Entities.Data.Base.GameEnums;
 using static MemoryGame.Common.Constants;
+using LIB.Sounds;
 
 namespace MemoryGame.ViewModels
 {
@@ -24,6 +25,12 @@ namespace MemoryGame.ViewModels
         protected S _settings;
 
         protected List<CardEntity> _cellClicked = new List<CardEntity>(2);
+        protected List<string> _cardsSound = new List<string>()
+        {
+            SoundsManagment.MemorySoundCard_1,
+            SoundsManagment.MemorySoundCard_2,
+            SoundsManagment.MemorySoundCard_3
+        };
 
 
         //view dimensions
@@ -48,6 +55,7 @@ namespace MemoryGame.ViewModels
         protected override void OnInitialized()
         {
             InitSettings();
+            PlaySound(SoundsManagment.MemorySoundCardsShuffle);
             base.OnInitialized();
         }
         protected override void InitCommands()
@@ -201,6 +209,7 @@ namespace MemoryGame.ViewModels
                     _cellClicked[0].CardEnabled = false;
                     _cellClicked[1].CardEnabled = false;
                     _cellClicked.Clear();
+                    PlayCardFlip();
                     result = 1;
                 }
                 else
@@ -212,13 +221,22 @@ namespace MemoryGame.ViewModels
                         IsGameEnabled = false;
                         Thread.Sleep(WAIT_TIME_CARD_TURN_BACK);
                         _cellClicked[0].CardTurned = false;
+                        PlayCardFlip();
                         _cellClicked[1].CardTurned = false;
+                        PlayCardFlip();
                         _cellClicked.Clear();
                         IsGameEnabled = true;
                     });
                 }
             }
             return result;
+        }
+
+        protected void PlayCardFlip()
+        {
+            Random rdm = new Random();
+            string sound = _cardsSound[rdm.Next(_cardsSound.Count())];
+            PlaySound(sound);
         }
         #endregion
     }

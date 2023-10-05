@@ -124,13 +124,27 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\alien.png" />
-    <EmbeddedResource Include="Images\back.png" />
-    <Content Include="Images\bug.png" />
-    <Content Include="Images\duck.png" />
-    <Content Include="Images\rocket.png" />
-    <Content Include="Images\spaceship.png" />
-    <Content Include="Images\tiktac.png" />
+    <Content Include="Images\alien.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Images\back.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="Images\bug.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\duck.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\rocket.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\spaceship.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\tiktac.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
