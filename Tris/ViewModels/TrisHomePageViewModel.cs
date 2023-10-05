@@ -9,10 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Attributes;
 using Tris.Views;
+using LIB.Attributes;
+using LIB.Sounds;
 
 namespace Tris.ViewModels
 {
     [ViewRef(typeof(TrisHomePageView))]
+    [BackgroundMusic(SoundsManagment.MainBackground)]
     public class TrisHomePageViewModel : ContentViewModel
     {
         #region Private Fields
