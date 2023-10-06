@@ -1,9 +1,11 @@
 ﻿using Core.Helpers;
+using LIB.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -36,6 +38,7 @@ namespace LIB.Sounds
                 {
                     MediaPlayer player = new MediaPlayer();
                     player.Open(new Uri(Path.GetFullPath(soundPath)));
+                    player.Volume = Volume;
                     player.Play();
                 });
             }
@@ -51,6 +54,7 @@ namespace LIB.Sounds
         private static TimeSpan _currentPosition;
         private static string _newBackground;
         private static MediaPlayer _player;
+        private static double _volume = -1;
 
         private static string NewBackground
         {
@@ -72,11 +76,32 @@ namespace LIB.Sounds
             }
         }
 
+        public static double Volume
+        {
+            get
+            {
+                if(_volume < 0)
+                {
+                    SetVolume(GlobalSettings.GlobalVolume);
+                }
+                return _volume;
+            }
+            private set
+            {
+                _volume = value;
+                if(_player != null)
+                {
+                    _player.Volume = value;
+                }
+            }
+        }
+
         private static void StartBackground()
         {
             _player = new MediaPlayer();
             //_player.Load();
             _player.Open(new Uri(Path.GetFullPath(_currentBackground)));
+            _player.Volume = Volume;
             _player.MediaEnded += ResetBackgroundForLoop;
             _player.Play();
         }
@@ -86,7 +111,21 @@ namespace LIB.Sounds
             _player.Position = TimeSpan.Zero;
             _player.Play();
         }
+        public static void SetGlobalVolume(int NewVolume)
+        {
+            int _volume = SetVolume(NewVolume);
+            GlobalSettings.GlobalVolume = _volume;
+        }
+        private static int SetVolume(int NewVolume)
+        {
+            int _volume;
+            if (NewVolume < 0) _volume = 0;
+            else if (NewVolume > 100) _volume = 1;
+            else _volume = NewVolume;
 
+            Volume = _volume / 100d;
+            return _volume;
+        }
         public static void PauseBackground()
         {
             _currentPosition = _player.Position;

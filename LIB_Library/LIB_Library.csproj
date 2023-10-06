@@ -101,6 +101,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDependencies.cs" />
+    <Compile Include="Constants\DefaultSettings.cs" />
+    <Compile Include="Settings\ApplicationSettings.cs" />
     <Compile Include="Attributes\BackgroundMusic.cs" />
     <Compile Include="Attributes\SettingsPopup.cs" />
     <Compile Include="Communication\Constants\CommunicationCnst.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="Entities\TimerEntity.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Data\Base\GameDataBase.cs" />
+    <Compile Include="Settings\GlobalSettings.cs" />
     <Compile Include="Helpers\GameFoldersHelper.cs" />
     <Compile Include="Helpers\CommunicationHelper.cs" />
     <Compile Include="Helpers\MessageDialogHelper.cs" />
@@ -145,6 +148,9 @@
     </Compile>
     <Compile Include="UserControls\IconButton.xaml.cs">
       <DependentUpon>IconButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MainVolumeControl.xaml.cs">
+      <DependentUpon>MainVolumeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Timer.xaml.cs">
       <DependentUpon>Timer.xaml</DependentUpon>
@@ -194,6 +200,10 @@
     <Page Include="UserControls\IconButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MainVolumeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Timer.xaml">
       <SubType>Designer</SubType>
