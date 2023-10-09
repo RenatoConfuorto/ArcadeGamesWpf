@@ -1,9 +1,11 @@
 ﻿using Core.Attributes;
 using Core.Commands;
 using Core.Helpers;
+using LIB.Attributes;
 using LIB.Constants;
 using LIB.Entities;
 using LIB.Helpers;
+using LIB.Sounds;
 using LIB.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,7 @@ using UserManager.Views;
 namespace UserManager.ViewModels
 {
     [ViewRef(typeof(NewUserView))]
+    [BackgroundMusic(SoundsManagment.MainBackground)]
     public class NewUserViewModel : ContentViewModel
     {
         #region Private Fields

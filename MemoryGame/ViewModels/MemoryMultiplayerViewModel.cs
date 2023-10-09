@@ -16,6 +16,7 @@ using LIB.ValueConverters;
 using LIB.Helpers;
 using LIB.UserMng;
 using LIB.Attributes;
+using LIB.Sounds;
 
 namespace MemoryGame.ViewModels
 {
@@ -173,6 +174,7 @@ namespace MemoryGame.ViewModels
             CardEntity cell = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
             if (cell.CardTurned && _cellClicked.Count() >= 2) return;
             cell.CardTurned = true;
+            PlayCardFlip();
             _cellClicked.Add(cell);
 
             switch (CheckCardTurned())
@@ -200,6 +202,7 @@ namespace MemoryGame.ViewModels
                     break;
                 case 1:
                     CurrentUser.Points++;
+                    PlaySound(SoundsManagment.MemorySoundPointScored);
                     if (CheckUserVictory())
                     {
                         string gameOverMessage = String.Empty;

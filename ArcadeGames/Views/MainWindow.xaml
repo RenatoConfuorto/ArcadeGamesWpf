@@ -37,6 +37,9 @@
                         <UserControls:IconButton ToolTip="Indietro"
                                                  Source="{StaticResource ArrowLeft}"
                                                  Command="{Binding PreviousPageCommand}"/>
+                        <UserControls:IconButton ToolTip="Pagina principale"
+                                                 Source="{StaticResource HomeIcon}"
+                                                 Command="{Binding HomeCommand}"/>
                         <UserControls:IconButton ToolTip="Ricarica"
                                                  Source="{StaticResource ReloadIcon}"
                                                  Command="{Binding ReloadPageCommand}"/>
@@ -61,6 +64,9 @@
 
                     <StackPanel Grid.Column="2"
                                 Orientation="Horizontal">
+                        <UserControls:MainVolumeControl />
+                        <UserControls:IconButton ToolTip="Impostazioni"
+                                                 Source="{StaticResource SettingsIconGear}"/>
                         <UserControls:IconButton ToolTip="Esci"
                                                  Source="{StaticResource ShoutdownIcon}"
                                                  Command="{Binding ShoutDownCommand}"/>

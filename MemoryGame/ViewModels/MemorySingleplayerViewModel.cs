@@ -4,6 +4,7 @@ using LIB.Attributes;
 using LIB.Constants;
 using LIB.Entities;
 using LIB.Entities.Data.Memory;
+using LIB.Sounds;
 using LIB.ViewModels;
 using MemoryGame.Common;
 using MemoryGame.Common.Entities;
@@ -180,6 +181,7 @@ namespace MemoryGame.ViewModels
             CardEntity cell = Cells.Where(c => c.CellId == cellId).FirstOrDefault();
             if (cell.CardTurned && _cellClicked.Count() >= 2) return;
             cell.CardTurned = true;
+            PlayCardFlip();
             _cellClicked.Add(cell);
 
             switch (CheckCardTurned())
@@ -197,6 +199,7 @@ namespace MemoryGame.ViewModels
                     break;
                 case 1:
                     Points++;
+                    PlaySound(SoundsManagment.MemorySoundPointScored);
                     if (CheckVictory())
                     {
                         GameOverMessage = "Vittoria";

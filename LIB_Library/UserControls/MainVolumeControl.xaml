@@ -1,0 +1,238 @@
+﻿<UserControl x:Class="LIB.UserControls.MainVolumeControl"
+             x:Name="VolumeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LIB.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="SliderButtonStyle" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="Transparent" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderThumbStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Height" Value="14"/>
+            <Setter Property="Width" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Ellipse 
+            Name="Ellipse" 
+            Fill="{StaticResource TextColor}"
+            Stroke="{StaticResource TextColor}"
+            StrokeThickness="1" />
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource AccentColor}"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                            <!--<Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}"/>
+                            </Trigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="HorizontalSlider" TargetType="{x:Type Slider}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding Slider.MinHeight}"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TickBar 
+        Name="TopTick"
+        SnapsToDevicePixels="True" 
+        Placement="Top"
+        Fill="{StaticResource AccentColor}"
+        Height="4"
+        Visibility="Collapsed" />
+                <Border 
+        Name="TrackBackground"
+        Margin="0"
+        CornerRadius="2" 
+        Height="4"
+        Grid.Row="1"
+        Background="Transparent" 
+        BorderBrush="{StaticResource BorderColor}"
+        BorderThickness="1" />
+                <Track Grid.Row="1" Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton 
+            Style="{StaticResource SliderButtonStyle}"
+            Command="Slider.DecreaseLarge" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumbStyle}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton 
+            Style="{StaticResource SliderButtonStyle}"
+            Command="Slider.IncreaseLarge" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <TickBar 
+        Name="BottomTick"
+        SnapsToDevicePixels="True" 
+        Grid.Row="2"
+        Fill="{TemplateBinding Foreground}"
+        Placement="Bottom"
+        Height="4"
+        Visibility="Collapsed" />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="TickPlacement" Value="TopLeft">
+                    <Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="BottomRight">
+                    <Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="Both">
+                    <Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="VerticalSlider" TargetType="{x:Type Slider}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" MinWidth="{TemplateBinding Slider.MinWidth}"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TickBar 
+        Name="TopTick"
+        SnapsToDevicePixels="True" 
+        Placement="Left"
+        Fill="{StaticResource AccentColor}"
+        Width="4"
+        Visibility="Collapsed" />
+                <Border 
+        Name="TrackBackground"
+        Margin="0"
+        CornerRadius="2" 
+        Width="4"
+        Grid.Column="1"
+        Background="Transparent" 
+        BorderBrush="{StaticResource BorderColor}"
+        BorderThickness="1" />
+                <Track Grid.Column="1" Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton 
+            Style="{StaticResource SliderButtonStyle}"
+            Command="Slider.DecreaseLarge" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumbStyle}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton 
+            Style="{StaticResource SliderButtonStyle}"
+            Command="Slider.IncreaseLarge" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <TickBar 
+        Name="BottomTick"
+        SnapsToDevicePixels="True" 
+        Grid.Column="2"
+        Fill="{TemplateBinding Foreground}"
+        Placement="Right"
+        Width="4"
+        Visibility="Collapsed" />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="TickPlacement" Value="TopLeft">
+                    <Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="BottomRight">
+                    <Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="Both">
+                    <Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type Slider}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinWidth" Value="100" />
+                    <Setter Property="MinHeight" Value="21" />
+                    <Setter Property="Template" Value="{StaticResource HorizontalSlider}" />
+                </Trigger>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="MinWidth" Value="21" />
+                    <Setter Property="MinHeight" Value="100" />
+                    <Setter Property="Template" Value="{StaticResource VerticalSlider}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="local:IconButton">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="100"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVolumeDisabled, ElementName=VolumeControl, Mode=OneWay}" Value="True">
+                    <Setter Property="Source" Value="{StaticResource VolumeDisabledIcon}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsVolumeDisabled, ElementName=VolumeControl, Mode=OneWay}" Value="False">
+                    <Setter Property="Source" Value="{StaticResource VolumeIcon}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <local:IconButton ToolTip="Volume principale"
+                          x:Name="Button"
+                          Command="{Binding MainButtonClickCommand, ElementName=VolumeControl}"/>
+
+        <Popup IsOpen="{Binding IsOpen, ElementName=VolumeControl}" 
+               x:Name="VolumePopup"
+               StaysOpen="False"
+               Placement="Center" 
+               PlacementTarget="{Binding ElementName=Button}" 
+               VerticalOffset="160">
+            <Border BorderBrush="{StaticResource BorderColor}" Background="{StaticResource BgColor}" BorderThickness="1" CornerRadius="4" Padding="8 6">
+                <StackPanel Background="{StaticResource BgColor}">
+                    <Slider Orientation="Vertical"
+                            Value="{Binding Volume, ElementName=VolumeControl, Mode=TwoWay}"
+                            Width="25" 
+                            Height="120"  
+                            Minimum="0" 
+                            Maximum="100" 
+                            SmallChange="1" 
+                            LargeChange="10"
+                            />
+                    <local:IconButton ToolTip="Abilita/ Disabilita"
+                                      Command="{Binding SwitchEnabledVolumeStatusCommand, ElementName=VolumeControl, Mode=OneWay}"
+                                      VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <local:IconButton.LayoutTransform>
+                            <ScaleTransform ScaleX="0.6" ScaleY="0.6" CenterX="50" CenterY="50"/>
+                        </local:IconButton.LayoutTransform>
+                    </local:IconButton>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

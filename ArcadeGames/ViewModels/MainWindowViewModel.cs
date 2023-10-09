@@ -54,6 +54,7 @@ namespace ArcadeGames.ViewModels
         public RelayCommand UserManagerCommand { get; set; }
         public RelayCommand PreviousPageCommand { get; set; }
         public RelayCommand ReloadPageCommand { get; set; }
+        public RelayCommand HomeCommand { get; set; }   
         public RelayCommand ManageUserCommand { get; set; }
         #endregion
 
@@ -79,6 +80,7 @@ namespace ArcadeGames.ViewModels
             ShoutDownCommand = new RelayCommand(ShoutDownCommandExecute);
             PreviousPageCommand = new RelayCommand(PreviousPageCommandExecute, PreviousPageCommandCanExecute);
             ReloadPageCommand = new RelayCommand(ReloadPageCommandExecute);
+            HomeCommand = new RelayCommand(HomeCommandExecute, HomeCommandCanExecute);
             UserManagerCommand = new RelayCommand(UserManagerCommandExecute);
             ManageUserCommand = new RelayCommand(ManageUserCommandExecute);
         }
@@ -87,6 +89,7 @@ namespace ArcadeGames.ViewModels
             base.SetCommandExecutionStatus();
             PreviousPageCommand.RaiseCanExecuteChanged();
             ReloadPageCommand.RaiseCanExecuteChanged();
+            HomeCommand.RaiseCanExecuteChanged();
             ManageUserCommand.RaiseCanExecuteChanged();
         }
         #endregion
@@ -135,6 +138,12 @@ namespace ArcadeGames.ViewModels
             if (param == null) return;
             NavigateToView(ViewNames.ManageUserView, param);
         }
+
+        private void HomeCommandExecute(object param)
+        {
+            NavigateToView(ViewNames.Home);
+        }
+        private bool HomeCommandCanExecute(object param) => Navigation.CurrentView.ViewName != ViewNames.Home;
         #endregion
     }
 }

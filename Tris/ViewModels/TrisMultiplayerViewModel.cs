@@ -17,6 +17,8 @@ using LIB.Entities;
 using LIB.Entities.Data.Tris;
 using LIB.UserMng;
 using static LIB.Entities.Data.Base.GameEnums;
+using LIB.Attributes;
+using LIB.Sounds;
 
 namespace Tris.ViewModels
 {
@@ -158,11 +160,13 @@ namespace Tris.ViewModels
             {//la cella non è stata cliccata
                 if (turn % 2 == 0)
                 {
-                    entity.Text = Players.O.ToString();
+                    //entity.Text = Players.O.ToString();
+                    PlaceSign(entity.CellId, Players.O);
                 }
                 else
                 {
-                    entity.Text = Players.X.ToString();
+                    //entity.Text = Players.X.ToString();
+                    PlaceSign(entity.CellId, Players.X);
                 }
                 if (CheckVictory())
                 {

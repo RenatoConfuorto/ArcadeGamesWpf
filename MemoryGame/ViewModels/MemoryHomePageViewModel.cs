@@ -1,6 +1,8 @@
 ﻿using Core.Attributes;
 using Core.Commands;
+using LIB.Attributes;
 using LIB.Constants;
+using LIB.Sounds;
 using LIB.ViewModels;
 using MemoryGame.Views;
 using System;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 namespace MemoryGame.ViewModels
 {
     [ViewRef(typeof(MemoryHomePageView))]
+    [BackgroundMusic(SoundsManagment.MainBackground)]
     public class MemoryHomePageViewModel : ContentViewModel
     {
         #region Private Fields

@@ -7,6 +7,7 @@ using Core.ViewModels;
 using Core.Views;
 using LIB.Attributes;
 using LIB.Entities;
+using LIB.Sounds;
 using LIB.UserMng;
 using System;
 using System.Collections.Generic;
@@ -133,6 +134,10 @@ namespace LIB.ViewModels
         #endregion
 
         #region Protected Methods
+        protected void PlaySound(string sound)
+        {
+            SoundsManagment.PlaySoundSingle(sound);
+        }
         protected virtual GameSettingsBase PrepareDataForPopup()
         {
             return new GameSettingsBase();

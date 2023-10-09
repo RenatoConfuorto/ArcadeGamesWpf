@@ -1,5 +1,6 @@
 ﻿using Core.Helpers;
 using LIB.Constants;
+using LIB.Sounds;
 using LIB.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tris.Common;
 using Tris.Common.Entities;
+using static Tris.Common.Constants;
 
 namespace Tris.ViewModels
 {
@@ -42,7 +44,7 @@ namespace Tris.ViewModels
         protected override void OnInitialized()
         {
             base.OnInitialized();
-
+            PlaySound(SoundsManagment.TrisSoundPenClickingTwice);
         }
         protected override void InitGame()
         {
@@ -68,6 +70,14 @@ namespace Tris.ViewModels
         #endregion
 
         #region Private Methods
+        protected void PlaceSign(int cellId, Players player)
+        {
+            if(cellId < Cells.Count())
+            {
+                Cells[cellId].Text = player.ToString();
+                PlaySound(SoundsManagment.TrisSoundPenWrite);
+            }
+        }
         protected bool CheckVictory()
         {
             for (int i = 0; i < winningCombinations.Count; i++)
@@ -81,6 +91,7 @@ namespace Tris.ViewModels
                     Cells[a].Text == Cells[b].Text &&
                     Cells[b].Text == Cells[c].Text)
                 {
+                    PlaySound(SoundsManagment.TrisSoundPenWriteLong);
                     return true;
                 }
             }
