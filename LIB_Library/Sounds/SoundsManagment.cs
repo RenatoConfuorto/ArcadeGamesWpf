@@ -34,13 +34,13 @@ namespace LIB.Sounds
         {
             try
             {
-                Task.Run(() =>
-                {
                     MediaPlayer player = new MediaPlayer();
                     player.Open(new Uri(Path.GetFullPath(soundPath)));
                     player.Volume = Volume;
                     player.Play();
-                });
+                //Task.Run(() =>
+                //{
+                //});
             }
             catch (Exception ex)
             {
