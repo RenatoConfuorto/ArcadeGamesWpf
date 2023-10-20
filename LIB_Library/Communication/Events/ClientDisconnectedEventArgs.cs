@@ -6,5 +6,8 @@ using System.Threading.Tasks;
 
 namespace LIB.Communication.Events
 {
-    public delegate void ClientDisconnectedEvent();
+    public class ClientDisconnectedEventArgs : EventArgs
+    {
+
+    }
 }

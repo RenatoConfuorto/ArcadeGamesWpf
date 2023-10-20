@@ -101,21 +101,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDependencies.cs" />
+    <Compile Include="Communication\Events\LobbyInfoReceivedEventArgs.cs" />
+    <Compile Include="Communication\Events\LobbyInfoRequestedEventArgs.cs" />
+    <Compile Include="Communication\Events\NewOnlineUserEventArgs.cs" />
+    <Compile Include="Communication\Messages\LobbyInfoMessage.cs" />
+    <Compile Include="Communication\Messages\SendDataConfirmation.cs" />
+    <Compile Include="Communication\Messages\SendUpdatedUserList.cs" />
+    <Compile Include="Communication\Messages\SendUserNameToHost.cs" />
     <Compile Include="Constants\DefaultSettings.cs" />
+    <Compile Include="Entities\OnlineClient.cs" />
+    <Compile Include="Entities\OnlineUser.cs" />
     <Compile Include="Settings\ApplicationSettings.cs" />
     <Compile Include="Attributes\BackgroundMusic.cs" />
     <Compile Include="Attributes\SettingsPopup.cs" />
     <Compile Include="Communication\Constants\CommunicationCnst.cs" />
-    <Compile Include="Communication\Events\ClientDisconnectedEvent.cs" />
+    <Compile Include="Communication\Events\ClientDisconnectedEventArgs.cs" />
     <Compile Include="Communication\MessageBrokers\BrokerBase.cs" />
     <Compile Include="Communication\MessageBrokers\BrokerClient.cs" />
     <Compile Include="Communication\MessageBrokers\BrokerHost.cs" />
-    <Compile Include="Communication\Events\MessageReceivedEvent.cs" />
+    <Compile Include="Communication\Events\MessageReceivedEventArgs.cs" />
     <Compile Include="Communication\Messages\Base\MessageBase.cs" />
-    <Compile Include="Communication\Messages\ConnectionConfirmation.cs" />
-    <Compile Include="Communication\Messages\LobbyChatMessage.cs" />
-    <Compile Include="Communication\Messages\ConnectionConfirmed.cs" />
-    <Compile Include="Communication\StateObject.cs" />
     <Compile Include="Constants\Cnst.cs" />
     <Compile Include="Constants\DataManagment.cs" />
     <Compile Include="Constants\ViewNames.cs" />
@@ -173,7 +178,7 @@
   <ItemGroup>
     <Resource Include="Fonts\PressStart2P-Regular.ttf" />
     <None Include="app.config" />
-    <None Include="Communication\Messages\MessagesDefinition.xlsx" />
+    <None Include="Communication\MessagesDefinition.xlsx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

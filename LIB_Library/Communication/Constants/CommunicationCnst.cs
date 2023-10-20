@@ -9,10 +9,18 @@ namespace LIB.Communication.Constants
     public class CommunicationCnst
     {
         public const int DEFAULT_PORT = 8800;
+        public const int DEFAULT_BUFFER_SIZE = 10240;
         //public const int CONNECTION_TIMEOUT = 30000; //30s
-        public const int CONNECTION_MAX_TRIES = 30;
-        public const int CONNECTION_RETRY_WAIT = 3000; //3s
+        public const int CONNECTION_MAX_TRIES = 1200;
+        public const int CONNECTION_RETRY_WAIT = 100; //0.1s
         public const int CONNECTION_CHECK_INTERVAL = 500; //0.5s
+
+        #region Fields Length
+        public const int MULTIPLAYER_USERS_LIMIT = 5;
+        public const int USER_NAME_LENGTH = 20;
+        public const int HOST_IP_LENGTH = 20;
+        public const int ONLINE_USER_LENGTH = USER_NAME_LENGTH + 16;
+        #endregion
         public enum Mode
         {
             Host = 0,
@@ -28,18 +36,11 @@ namespace LIB.Communication.Constants
 
         public enum Messages
         {
-            ConnectionConfirmation = 1000,
-            ConnectionConfirmed = 1001,
-            LobbyLogin = 1002,
-            LobbyInfo = 1003,
-            LobbyChatMessage = 1004
+            SendDataConfirmation = 1000,
+            SendUserNameToHost = 1001,
+            LobbyInfoMessage = 1002,
+            SendUpdatedUserList = 1003
         }
 
-        struct Test
-        {
-            int valore1;
-            long valore2;
-            char valore3;
-        }
     }
 }

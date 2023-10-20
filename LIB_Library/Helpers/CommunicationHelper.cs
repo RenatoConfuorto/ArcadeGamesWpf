@@ -1,5 +1,7 @@
 ﻿using LIB.Communication.Constants;
 using LIB.Communication.Events;
+using LIB.Communication.Messages;
+using LIB.Communication.Messages.Base;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,10 +9,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static LIB.Communication.Constants.CommunicationCnst;
 
 namespace LIB.Helpers
 {
@@ -34,12 +38,14 @@ namespace LIB.Helpers
             }
             return result;
         }
+        #region Serialize / Deserialize
+        #region OLD METHOD
         /// <summary>
         /// Serialize an object into byte array
         /// </summary>
         /// <param name="obj">object to serialize</param>
         /// <returns></returns>
-        public static byte[] SerializeObject(object obj)
+        /*public static byte[] SerializeObject(object obj)
         {
             if(obj == null)
             {
@@ -65,7 +71,35 @@ namespace LIB.Helpers
             {
                 return bf.Deserialize(ms);
             }
+        }*/
+        #endregion
+
+        #region New Method
+        /// <summary>
+        /// Serialize a message into byte array
+        /// </summary>
+        /// <param name="obj">object to serialize</param>
+        /// <returns></returns>
+        public static byte[] SerializeObject<T>(T obj)
+            where T : MessageBase
+        {
+            return obj.Serialize();
         }
+        /// <summary>
+        /// Deserialize byte array into a message
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static T DeserializeObject<T>(byte[] data)
+            where T : MessageBase , new()
+        {
+            T result = new T();
+            result.Deserialize(data);
+            return result;
+        }
+        #endregion
+        #endregion
         /// <summary>
         /// Create a new socket
         /// </summary>
@@ -87,6 +121,55 @@ namespace LIB.Helpers
                 return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0);
             }
             catch (SocketException) { return false; }
+        }
+        /// <summary>
+        /// set a string into a char array
+        /// </summary>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="fieldLength"></param>
+        public static void SetString(ref char[] field, string value, int fieldLength)
+        {
+            SetArray(ref field, value, fieldLength);
+            //field = new char[fieldLength];
+            //for (int i = 0; i < fieldLength; i++)
+            //{
+            //    char element;
+            //    if (i < value.Count())
+            //    {
+            //        element = value.ElementAt(i);
+            //    }
+            //    else
+            //    {
+            //        element = new char();
+            //    }
+            //    field[i] = element;
+            //}
+        }
+        /// <summary>
+        /// Set an array keeping the same length
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="fieldLength"></param>
+        public static void SetArray<T>(ref T[] field, IEnumerable<T> value, int fieldLength)
+            where T : new()
+        {
+            field = new T[fieldLength];
+            for(int i = 0; i < fieldLength; i++)
+            {
+                T element;
+                if(i < value.Count())
+                {
+                    element = value.ElementAt(i);
+                }
+                else
+                {
+                    element = new T();
+                }
+                field[i] = element;
+            }
         }
     }
 }
