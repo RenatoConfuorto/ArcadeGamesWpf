@@ -22,7 +22,7 @@ namespace LIB.Communication.Messages
         }
         public SendUserNameToHost() { }
         public SendUserNameToHost(string userName)
-            :base(CommunicationCnst.Messages.SendUserNameToHost, new Guid(), CommunicationCnst.MessageType.ClientToHost)
+            :base(CommunicationCnst.Messages.SendUserNameToHost, new Guid()/*, CommunicationCnst.MessageType.ClientToHost*/)
         {
             this.UserName = userName;
         }
@@ -34,7 +34,7 @@ namespace LIB.Communication.Messages
             using (BinaryWriter br = new BinaryWriter(ms))
             {
                 br.Write(MessageCode);
-                br.Write((short)MessageType);
+                //br.Write((short)MessageType);
                 br.Write(SenderId.ToByteArray());
                 br.Write(_userName);
 
@@ -50,7 +50,7 @@ namespace LIB.Communication.Messages
                 using (BinaryReader br = new BinaryReader(ms))
                 {
                     this.MessageCode = br.ReadInt32();
-                    this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
+                    //this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
                     this.SenderId = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
                     this._userName = br.ReadChars(32);
                 }

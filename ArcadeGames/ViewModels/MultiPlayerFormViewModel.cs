@@ -3,10 +3,12 @@ using Core.Attributes;
 using Core.Commands;
 using Core.Helpers;
 using LIB.Communication.Constants;
+using LIB.Communication.Events;
 using LIB.Communication.MessageBrokers;
 using LIB.Communication.Messages;
 using LIB.Communication.Messages.Base;
 using LIB.Constants;
+using LIB.Entities;
 using LIB.Helpers;
 using LIB.ViewModels;
 using System;
@@ -26,6 +28,7 @@ namespace ArcadeGames.ViewModels
         #region Private Fields
         private string _localIp;
         private string _remoteIp;
+        private string _userName;
         #endregion
 
         #region Command
@@ -48,6 +51,15 @@ namespace ArcadeGames.ViewModels
                 SetCommandExecutionStatus();
             }
         }
+        public string UserName
+        {
+            get => _userName;
+            set
+            {
+                SetProperty(ref _userName, value);
+                SetCommandExecutionStatus();
+            }
+        }
         #endregion
 
         #region Constructor
@@ -63,22 +75,23 @@ namespace ArcadeGames.ViewModels
         protected override void InitCommands()
         {
             base.InitCommands();
-            CreateCommand = new RelayCommand(CreateCommandExecute);
+            CreateCommand = new RelayCommand(CreateCommandExecute, CreateCommandExecuteCanExecute);
             JoinCommand = new RelayCommand(JoinCommandExeucte, JoinCommandCanExecute);
             NotifyPropertyChanged(nameof(JoinCommand));
         }
         protected override void SetCommandExecutionStatus()
         {
             base.SetCommandExecutionStatus();
+            CreateCommand.RaiseCanExecuteChanged();
             JoinCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
         #region Private Methods
+        private bool IsValidUserName() => !String.IsNullOrEmpty(UserName);
         private void CreateCommandExecute(object param)
         {
-            BrokerHost broker = new BrokerHost();
-            broker.RunServer(CommunicationCnst.DEFAULT_PORT);
+            BrokerHost broker = new BrokerHost(_userName);
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
                 { "Mode", CommunicationCnst.Mode.Host },
@@ -86,44 +99,51 @@ namespace ArcadeGames.ViewModels
             };
             ChangeView(ViewNames.MultiPlayerLobby, parameters);
         }
+        private bool CreateCommandExecuteCanExecute(object parma) => IsValidUserName();
         private void JoinCommandExeucte(object param)
         {
             try
             {
                 Ping ping = new Ping();
                 PingReply pr = ping.Send(RemoteIp);
-                Task.Run(async () =>
+
+                if (pr.Status == IPStatus.Success)
                 {
-                    if (pr.Status == IPStatus.Success)
-                    {
-                        BrokerClient client = new BrokerClient();
-                        await client.RunClient(CommunicationCnst.DEFAULT_PORT, RemoteIp);
-                        if (client.IsConnectionOpen)
-                        {
-                            Dictionary<string, object> parameters = new Dictionary<string, object>()
-                            {
-                                { "Mode", CommunicationCnst.Mode.Client },
-                                { "Broker", client }
-                            };
-                            ChangeView(ViewNames.MultiPlayerLobby, parameters);
-                        }
-                        else
-                        {
-                            MessageDialogHelper.ShowInfoMessage("La connessione non è andata a buon fine");
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        MessageDialogHelper.ShowInfoMessage("Impossibile trovare l'host specificato");
-                    }
-                });
-            }catch(Exception ex)
+                    BrokerClient client = new BrokerClient(_userName);
+                    //TODO gestire il caso di connessione fallita
+                    client.LobbyInfoReceivedEvent += OnLobbyInfoReceived;
+                    client.RunClient(RemoteIp);
+                    
+                    //ChangeView(ViewNames.MultiPlayerLobby, parameters);
+                }
+                //else
+                //{
+                //    MessageDialogHelper.ShowInfoMessage("La connessione non è andata a buon fine");
+                //    return;
+                //}
+                else
+                {
+                    MessageDialogHelper.ShowInfoMessage("Impossibile trovare l'host specificato");
+                }
+            }
+            catch (Exception ex)
             {
                 MessageDialogHelper.ShowInfoMessage("Impossibile trovare l'host specificato\r\n" + ex.Message);
             }
         }
-        private bool JoinCommandCanExecute(object param) => !String.IsNullOrEmpty(RemoteIp);
+        private bool JoinCommandCanExecute(object param) => !String.IsNullOrEmpty(RemoteIp) && IsValidUserName();
+
+        private void OnLobbyInfoReceived(object sender, LobbyInfoReceivedEventArgs e)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            {
+                { "Mode", CommunicationCnst.Mode.Client },
+                { "Broker", sender },
+                { "HostIp", e.HostIp },
+                { "Users", e.Users }
+            };
+            ChangeView(ViewNames.MultiPlayerLobby, parameters);
+        }
         #endregion
     }
 }

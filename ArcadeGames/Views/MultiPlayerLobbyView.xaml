@@ -22,7 +22,9 @@
                     BorderBrush="{StaticResource TextColor}"
                     BorderThickness="1"
                     Margin="8 10"> <!--CHAT-->
-                
+                <StackPanel>
+                    
+                </StackPanel>
             </Border>
             <Border Grid.Row="1"
                     Grid.Column="0"
@@ -38,7 +40,31 @@
                     BorderBrush="{StaticResource TextColor}"
                     BorderThickness="1"
                     Margin="8 10"> <!--Corpo Lobby-->
-                
+                <StackPanel>
+                    <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0 0 0 1">
+                        <StackPanel Orientation="Horizontal" Margin="4 6">
+                            <Label Content="Ip partita: "/>
+                            <Label Content="{Binding HostIp}"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Label Content="Utenti"/>
+                    <ItemsControl ItemsSource="{Binding Users}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding UserName}" ToolTip="{Binding UserId}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                </StackPanel>
             </Border>
         </Grid>
     </Border>

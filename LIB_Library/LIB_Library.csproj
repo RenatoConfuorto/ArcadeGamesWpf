@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDependencies.cs" />
+    <Compile Include="Communication\Attributes\ArrayMaxSize.cs" />
     <Compile Include="Communication\Events\LobbyInfoReceivedEventArgs.cs" />
     <Compile Include="Communication\Events\LobbyInfoRequestedEventArgs.cs" />
     <Compile Include="Communication\Events\NewOnlineUserEventArgs.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Constants\DefaultSettings.cs" />
     <Compile Include="Entities\OnlineClient.cs" />
     <Compile Include="Entities\OnlineUser.cs" />
+    <Compile Include="Interfaces\Communication\IMessage.cs" />
     <Compile Include="Settings\ApplicationSettings.cs" />
     <Compile Include="Attributes\BackgroundMusic.cs" />
     <Compile Include="Attributes\SettingsPopup.cs" />
@@ -227,8 +229,8 @@
   <ItemGroup>
     <Folder Include="Base\" />
     <Folder Include="Dependency\" />
+    <Folder Include="Entities\Communication\" />
     <Folder Include="Events\" />
-    <Folder Include="Interfaces\Communication\" />
     <Folder Include="Interfaces\Navigation\" />
     <Folder Include="Interfaces\ViewModels\" />
     <Folder Include="MarkupExtensions\" />

@@ -1,5 +1,6 @@
 ﻿using LIB.Communication.Constants;
 using LIB.Helpers;
+using LIB.Interfaces.Communication;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,32 +16,36 @@ using static LIB.Communication.Constants.CommunicationCnst;
 namespace LIB.Communication.Messages.Base
 {
     [Serializable]
-    public class MessageBase
+    public class MessageBase : IMessage
     {
-        public Guid SenderId { get; set; }
         public int MessageCode { get; set; }
-        public MessageType MessageType { get; set; }
+        public Guid SenderId { get; set; }
+        //public MessageType MessageType { get; set; }
+
         public MessageBase() { }
-        public MessageBase(int messageCode, Guid senderId, MessageType messageType)
+        public MessageBase(int messageCode, Guid senderId)
+            :this()
         {
             this.MessageCode = messageCode;
             this.SenderId = senderId;
-            this.MessageType = messageType;
+            //this.MessageType = messageType;
         }
 
-        public MessageBase(CommunicationCnst.Messages messageCode, Guid senderId, MessageType messageType)
-            :this((int)messageCode, senderId, messageType)
+        public MessageBase(CommunicationCnst.Messages messageCode, Guid senderId)
+            :this((int)messageCode, senderId)
         {
         }
+
+        #region IMessage Interface
 
         #region Serialize / Deserialize
         public virtual byte[] Serialize()
         {
-            using(MemoryStream ms = new MemoryStream())
-            using(BinaryWriter br = new BinaryWriter(ms))
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter br = new BinaryWriter(ms))
             {
                 br.Write(MessageCode);
-                br.Write((short)MessageType);
+                //br.Write((short)MessageType);
                 br.Write(SenderId.ToByteArray());
 
                 return ms.ToArray();
@@ -55,7 +60,6 @@ namespace LIB.Communication.Messages.Base
                 using(BinaryReader br = new BinaryReader(ms))
                 {
                     this.MessageCode = br.ReadInt32();
-                    this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
                     this.SenderId = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
                 }
             }catch (Exception e)
@@ -63,6 +67,11 @@ namespace LIB.Communication.Messages.Base
 
             }
         }
+        #endregion
+
+        #region Private Methods
+        
+        #endregion
         #endregion
     }
 }

@@ -25,7 +25,7 @@ namespace LIB.Communication.Messages
         public SendUpdatedUserList() { }
 
         public SendUpdatedUserList(IEnumerable<OnlineUser> users)
-            :base(CommunicationCnst.Messages.SendUpdatedUserList, new Guid(), MessageType.HostToCliet)
+            :base(CommunicationCnst.Messages.SendUpdatedUserList, new Guid()/*, MessageType.HostToCliet*/)
         {
             Users = users.ToArray();
         }
@@ -37,7 +37,7 @@ namespace LIB.Communication.Messages
             using (BinaryWriter br = new BinaryWriter(ms))
             {
                 br.Write(MessageCode);
-                br.Write((short)MessageType);
+                //br.Write((short)MessageType);
                 br.Write(SenderId.ToByteArray());
 
                 for(int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
@@ -57,7 +57,7 @@ namespace LIB.Communication.Messages
                 using (BinaryReader br = new BinaryReader(ms))
                 {
                     this.MessageCode = br.ReadInt32();
-                    this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
+                    //this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
                     this.SenderId = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
 
                     List<OnlineUser> users = new List<OnlineUser>();

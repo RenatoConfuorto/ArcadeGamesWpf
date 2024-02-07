@@ -30,7 +30,7 @@ namespace LIB.Communication.Messages
 
         public LobbyInfoMessage() { }
         public LobbyInfoMessage(string hostIp, IEnumerable<OnlineUser> users)
-            :base(CommunicationCnst.Messages.LobbyInfoMessage, new Guid(), MessageType.HostToCliet)
+            :base(CommunicationCnst.Messages.LobbyInfoMessage, new Guid())
         {
             this.HostIp = hostIp;
             this.Users = users.ToArray(); 
@@ -43,7 +43,7 @@ namespace LIB.Communication.Messages
             using (BinaryWriter br = new BinaryWriter(ms))
             {
                 br.Write(MessageCode);
-                br.Write((short)MessageType);
+                //br.Write((short)MessageType);
                 br.Write(SenderId.ToByteArray());
                 br.Write(_hostIp);
 
@@ -64,7 +64,7 @@ namespace LIB.Communication.Messages
                 using (BinaryReader br = new BinaryReader(ms))
                 {
                     this.MessageCode = br.ReadInt32();
-                    this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
+                    //this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
                     this.SenderId = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
                     this._hostIp = br.ReadChars(HOST_IP_LENGTH);
                     //users

@@ -108,7 +108,7 @@ namespace LIB.Communication.MessageBrokers
 
             LocalUserId = receivedMessage.UserId;
 
-            //sned userName
+            //send userName
             SendUserNameToHost responseMessage = new SendUserNameToHost(this.UserName);
             byte[] responseData = CommunicationHelper.SerializeObject(responseMessage);
             SendMessage(socket, responseMessage);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Core.Commands
@@ -32,12 +33,18 @@ namespace Core.Commands
 
         public void Execute(object parameter)
         {
-            _execute.Invoke(parameter);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _execute.Invoke(parameter);
+            });
         }
 
         public void RaiseCanExecuteChanged()
         {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            });
         }
     }
 }

@@ -13,8 +13,8 @@ namespace LIB.Communication.Messages
     {
         public Guid UserId { get; set; }
         public SendDataConfirmation() { }
-        public SendDataConfirmation(Guid userId) 
-            : base(CommunicationCnst.Messages.SendDataConfirmation, new Guid(), CommunicationCnst.MessageType.HostToCliet)
+        public SendDataConfirmation(Guid userId)
+            : base(CommunicationCnst.Messages.SendDataConfirmation, new Guid()/*, CommunicationCnst.MessageType.HostToCliet*/)
         {
             this.UserId = userId;
         }
@@ -26,7 +26,7 @@ namespace LIB.Communication.Messages
             using (BinaryWriter br = new BinaryWriter(ms))
             {
                 br.Write(MessageCode);
-                br.Write((short)MessageType);
+                //br.Write((short)MessageType);
                 br.Write(SenderId.ToByteArray());
                 br.Write(UserId.ToByteArray());
 
@@ -42,7 +42,7 @@ namespace LIB.Communication.Messages
                 using (BinaryReader br = new BinaryReader(ms))
                 {
                     this.MessageCode = br.ReadInt32();
-                    this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
+                    //this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
                     this.SenderId = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
                     this.UserId = new Guid(br.ReadBytes(16));
                 }
