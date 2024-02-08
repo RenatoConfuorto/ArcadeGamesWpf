@@ -113,6 +113,7 @@
     <Compile Include="Entities\OnlineClient.cs" />
     <Compile Include="Entities\OnlineUser.cs" />
     <Compile Include="Entities\SerializableBase.cs" />
+    <Compile Include="Extensions\BinaryReaderExtensions.cs" />
     <Compile Include="Interfaces\Communication\IMessage.cs" />
     <Compile Include="Interfaces\Entities\ISerializableBase.cs" />
     <Compile Include="Settings\ApplicationSettings.cs" />

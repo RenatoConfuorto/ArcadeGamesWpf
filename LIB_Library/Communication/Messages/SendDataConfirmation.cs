@@ -1,12 +1,12 @@
 ﻿using LIB.Communication.Constants;
 using LIB.Communication.Messages.Base;
+using LIB.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static LIB.Communication.Constants.CommunicationCnst;
 
 namespace LIB.Communication.Messages
 {
@@ -44,8 +44,8 @@ namespace LIB.Communication.Messages
                 {
                     this.MessageCode    = br.ReadInt32();
                     //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId       = new Guid(br.ReadBytes(GUID_LENGTH)); //GUID is 16 bytes
-                    this.UserId         = new Guid(br.ReadBytes(GUID_LENGTH));
+                    this.SenderId       = br.ReadGuid(); //GUID is 16 bytes
+                    this.UserId         = br.ReadGuid();
                 }
             }
             catch (Exception e)

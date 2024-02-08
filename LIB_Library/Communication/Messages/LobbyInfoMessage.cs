@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static LIB.Helpers.CommunicationHelper;
 using static LIB.Communication.Constants.CommunicationCnst;
+using LIB.Extensions;
 
 namespace LIB.Communication.Messages
 {
@@ -65,7 +66,7 @@ namespace LIB.Communication.Messages
                 {
                     this.MessageCode    = br.ReadInt32();
                     //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId       = new Guid(br.ReadBytes(GUID_LENGTH)); //GUID is 16 bytes
+                    this.SenderId       = br.ReadGuid();
                     this._hostIp        = br.ReadChars(HOST_IP_LENGTH);
                     //users
                     List<OnlineUser> users = new List<OnlineUser>();

@@ -1,6 +1,7 @@
 ﻿using LIB.Communication.Constants;
 using LIB.Communication.Messages.Base;
 using LIB.Entities;
+using LIB.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +59,7 @@ namespace LIB.Communication.Messages
                 {
                     this.MessageCode    = br.ReadInt32();
                     //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId       = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
+                    this.SenderId       = br.ReadGuid();
 
                     List<OnlineUser> users = new List<OnlineUser>();
                     for(int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)

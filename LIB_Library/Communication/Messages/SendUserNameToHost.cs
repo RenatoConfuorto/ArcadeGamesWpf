@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static LIB.Helpers.CommunicationHelper;
 using static LIB.Communication.Constants.CommunicationCnst;
+using LIB.Extensions;
 
 namespace LIB.Communication.Messages
 {
@@ -51,7 +52,7 @@ namespace LIB.Communication.Messages
                 {
                     this.MessageCode    = br.ReadInt32();
                     //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId       = new Guid(br.ReadBytes(GUID_LENGTH));
+                    this.SenderId       = br.ReadGuid();
                     this._userName      = br.ReadChars(USER_NAME_LENGTH);
                 }
             }
