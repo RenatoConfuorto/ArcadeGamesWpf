@@ -38,24 +38,6 @@ namespace LIB.Communication.Messages
         }
 
         #region Serialize / Deserialize
-        //public override byte[] Serialize()
-        //{
-        //    using (MemoryStream ms = new MemoryStream())
-        //    using (BinaryWriter bw = new BinaryWriter(ms))
-        //    {
-        //        bw.Write(MessageCode);
-        //        //bw.Write((short)MessageType);
-        //        bw.Write(SenderId.ToByteArray());
-        //        bw.Write(_hostIp);
-
-        //        for(int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
-        //        {
-        //            bw.Write(Users[i].Serialize());
-        //        }
-
-        //        return ms.ToArray();
-        //    }
-        //}
 
         public override void SerializeData(BinaryWriter bw)
         {
@@ -73,25 +55,6 @@ namespace LIB.Communication.Messages
             this.HostIp = br.ReadString(HOST_IP_LENGTH);
             this.Users  = br.ReadObjectList<OnlineUser>(MULTIPLAYER_USERS_LIMIT).ToArray();
         }
-        //public override void Deserialize(byte[] data)
-        //{
-        //    try
-        //    {
-        //        using (MemoryStream ms = new MemoryStream(data))
-        //        using (BinaryReader br = new BinaryReader(ms))
-        //        {
-        //            this.MessageCode    = br.ReadInt32();
-        //            //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
-        //            this.SenderId       = br.ReadGuid();
-        //            this.HostIp         = br.ReadString(HOST_IP_LENGTH);
-        //            this.Users          = br.ReadObjectList<OnlineUser>(MULTIPLAYER_USERS_LIMIT).ToArray();
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-
-        //    }
-        //}
         #endregion
     }
 }
