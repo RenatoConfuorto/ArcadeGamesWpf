@@ -69,14 +69,15 @@ namespace LIB.Communication.Messages
                     this.SenderId       = br.ReadGuid();
                     this._hostIp        = br.ReadChars(HOST_IP_LENGTH);
                     //users
-                    List<OnlineUser> users = new List<OnlineUser>();
-                    for(int i =0; i < MULTIPLAYER_USERS_LIMIT; i++)
-                    {
-                        OnlineUser user = new OnlineUser();
-                        user.Deserialize(br.ReadBytes(user.GetSize()));
-                        users.Add(user);
-                    }
-                    SetArray(ref _users, users, MULTIPLAYER_USERS_LIMIT);
+                    //List<OnlineUser> users = new List<OnlineUser>();
+                    //for(int i =0; i < MULTIPLAYER_USERS_LIMIT; i++)
+                    //{
+                    //    OnlineUser user = new OnlineUser();
+                    //    user.Deserialize(br.ReadBytes(user.GetSize()));
+                    //    users.Add(user);
+                    //}
+                    //SetArray(ref _users, users, MULTIPLAYER_USERS_LIMIT);
+                    this.Users          = br.ReadObjectList<OnlineUser>(MULTIPLAYER_USERS_LIMIT).ToArray();
                 }
             }
             catch (Exception e)
