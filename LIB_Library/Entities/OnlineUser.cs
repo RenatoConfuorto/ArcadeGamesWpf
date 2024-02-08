@@ -12,7 +12,7 @@ using static LIB.Communication.Constants.CommunicationCnst;
 namespace LIB.Entities
 {
     [Serializable]
-    public class OnlineUser
+    public class OnlineUser : SerializableBase
     {
 
         ///set object byte length in case of modifications <length cref="ONLINE_USER_LENGTH"/>
@@ -26,7 +26,7 @@ namespace LIB.Entities
         public Guid UserId { get; set; }
 
         #region Serialize / Deserialize
-        public virtual byte[] Serialize()
+        public override byte[] Serialize()
         {
             using (MemoryStream ms = new MemoryStream())
             using (BinaryWriter br = new BinaryWriter(ms))
@@ -38,7 +38,7 @@ namespace LIB.Entities
             }
         }
 
-        public virtual void Deserialize(byte[] data)
+        public override void Deserialize(byte[] data)
         {
             try
             {

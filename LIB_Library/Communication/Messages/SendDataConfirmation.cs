@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static LIB.Communication.Constants.CommunicationCnst;
 
 namespace LIB.Communication.Messages
 {
@@ -41,10 +42,10 @@ namespace LIB.Communication.Messages
                 using (MemoryStream ms = new MemoryStream(data))
                 using (BinaryReader br = new BinaryReader(ms))
                 {
-                    this.MessageCode = br.ReadInt32();
-                    //this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
-                    this.UserId = new Guid(br.ReadBytes(16));
+                    this.MessageCode    = br.ReadInt32();
+                    //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
+                    this.SenderId       = new Guid(br.ReadBytes(GUID_LENGTH)); //GUID is 16 bytes
+                    this.UserId         = new Guid(br.ReadBytes(GUID_LENGTH));
                 }
             }
             catch (Exception e)

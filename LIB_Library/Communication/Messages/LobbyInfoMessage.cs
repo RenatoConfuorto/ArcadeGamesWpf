@@ -63,16 +63,16 @@ namespace LIB.Communication.Messages
                 using (MemoryStream ms = new MemoryStream(data))
                 using (BinaryReader br = new BinaryReader(ms))
                 {
-                    this.MessageCode = br.ReadInt32();
-                    //this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
-                    this._hostIp = br.ReadChars(HOST_IP_LENGTH);
+                    this.MessageCode    = br.ReadInt32();
+                    //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
+                    this.SenderId       = new Guid(br.ReadBytes(GUID_LENGTH)); //GUID is 16 bytes
+                    this._hostIp        = br.ReadChars(HOST_IP_LENGTH);
                     //users
                     List<OnlineUser> users = new List<OnlineUser>();
                     for(int i =0; i < MULTIPLAYER_USERS_LIMIT; i++)
                     {
                         OnlineUser user = new OnlineUser();
-                        user.Deserialize(br.ReadBytes(ONLINE_USER_LENGTH));
+                        user.Deserialize(br.ReadBytes(user.GetSize()));
                         users.Add(user);
                     }
                     SetArray(ref _users, users, MULTIPLAYER_USERS_LIMIT);

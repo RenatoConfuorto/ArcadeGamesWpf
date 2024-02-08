@@ -20,7 +20,7 @@ namespace LIB.Communication.Constants
         public const int MULTIPLAYER_USERS_LIMIT = 5;
         public const int USER_NAME_LENGTH = 20;
         public const int HOST_IP_LENGTH = 20;
-        public const int ONLINE_USER_LENGTH = USER_NAME_LENGTH + GUID_LENGTH;
+        //public const int ONLINE_USER_LENGTH = USER_NAME_LENGTH + GUID_LENGTH;
         #endregion
         public enum Mode
         {

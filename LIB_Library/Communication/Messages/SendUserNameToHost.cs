@@ -49,10 +49,10 @@ namespace LIB.Communication.Messages
                 using (MemoryStream ms = new MemoryStream(data))
                 using (BinaryReader br = new BinaryReader(ms))
                 {
-                    this.MessageCode = br.ReadInt32();
-                    //this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
-                    this._userName = br.ReadChars(32);
+                    this.MessageCode    = br.ReadInt32();
+                    //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
+                    this.SenderId       = new Guid(br.ReadBytes(GUID_LENGTH));
+                    this._userName      = br.ReadChars(USER_NAME_LENGTH);
                 }
             }
             catch (Exception e)

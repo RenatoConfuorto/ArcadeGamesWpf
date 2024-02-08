@@ -56,15 +56,15 @@ namespace LIB.Communication.Messages
                 using (MemoryStream ms = new MemoryStream(data))
                 using (BinaryReader br = new BinaryReader(ms))
                 {
-                    this.MessageCode = br.ReadInt32();
-                    //this.MessageType = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
+                    this.MessageCode    = br.ReadInt32();
+                    //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
+                    this.SenderId       = new Guid(br.ReadBytes(16)); //GUID is 16 bytes
 
                     List<OnlineUser> users = new List<OnlineUser>();
                     for(int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
                     {
                         OnlineUser user = new OnlineUser();
-                        user.Deserialize(br.ReadBytes(ONLINE_USER_LENGTH));
+                        user.Deserialize(br.ReadBytes(user.GetSize()));
                         users.Add(user);
                     }
                     Users = users.ToArray();
