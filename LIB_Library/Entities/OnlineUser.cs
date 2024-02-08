@@ -46,8 +46,8 @@ namespace LIB.Entities
                 using (MemoryStream ms = new MemoryStream(data))
                 using (BinaryReader br = new BinaryReader(ms))
                 {
-                    this.UserName   = br.ReadChars(USER_NAME_LENGTH).ToString();
-                    this.UserId     = br.ReadGuid();
+                    this.UserName   = br.ReadString(USER_NAME_LENGTH);
+                    this.UserId     = new Guid(br.ReadBytes(USER_NAME_LENGTH));
                 }
             }
             catch (Exception e)

@@ -53,7 +53,7 @@ namespace LIB.Communication.Messages
                     this.MessageCode    = br.ReadInt32();
                     //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
                     this.SenderId       = br.ReadGuid();
-                    this._userName      = br.ReadChars(USER_NAME_LENGTH);
+                    this.UserName       = br.ReadString(USER_NAME_LENGTH);
                 }
             }
             catch (Exception e)

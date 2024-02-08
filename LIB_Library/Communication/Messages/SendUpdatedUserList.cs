@@ -60,15 +60,6 @@ namespace LIB.Communication.Messages
                     this.MessageCode    = br.ReadInt32();
                     //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
                     this.SenderId       = br.ReadGuid();
-
-                    //List<OnlineUser> users = new List<OnlineUser>();
-                    //for(int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
-                    //{
-                    //    OnlineUser user = new OnlineUser();
-                    //    user.Deserialize(br.ReadBytes(user.GetSize()));
-                    //    users.Add(user);
-                    //}
-                    //Users = users.ToArray();
                     this.Users          = br.ReadObjectList<OnlineUser>(MULTIPLAYER_USERS_LIMIT).ToArray();
                 }
             }

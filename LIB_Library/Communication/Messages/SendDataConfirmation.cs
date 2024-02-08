@@ -44,7 +44,7 @@ namespace LIB.Communication.Messages
                 {
                     this.MessageCode    = br.ReadInt32();
                     //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId       = br.ReadGuid(); //GUID is 16 bytes
+                    this.SenderId       = br.ReadGuid();
                     this.UserId         = br.ReadGuid();
                 }
             }

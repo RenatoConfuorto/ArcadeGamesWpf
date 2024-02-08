@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
+using static LIB.Helpers.CommunicationHelper;
 
 namespace LIB.Extensions
 {
@@ -53,6 +54,21 @@ namespace LIB.Extensions
                 item = br.ReadObject<T>();
                 yield return item;
             }
+        }
+        /// <summary>
+        /// Reads a string of length <paramref name="StringLength"/> from the BinaryReader
+        /// </summary>
+        /// <param name="br"></param>
+        /// <param name="StringLength"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static string ReadString(this BinaryReader br, int StringLength)
+        {
+            if (StringLength <= 0)
+                throw new ArgumentException($"Invalid String length: <{StringLength}>");
+
+            char[] st = br.ReadChars(StringLength);
+            return new string(st);
         }
     }
 }
