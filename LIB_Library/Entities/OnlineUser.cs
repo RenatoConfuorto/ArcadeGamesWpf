@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Navigation;
 using static LIB.Helpers.CommunicationHelper;
 using static LIB.Communication.Constants.CommunicationCnst;
+using LIB.Extensions;
 
 namespace LIB.Entities
 {
@@ -45,8 +46,8 @@ namespace LIB.Entities
                 using (MemoryStream ms = new MemoryStream(data))
                 using (BinaryReader br = new BinaryReader(ms))
                 {
-                    this.UserName = br.ReadChars(USER_NAME_LENGTH).ToString();
-                    this.UserId = new Guid(br.ReadBytes(USER_NAME_LENGTH));
+                    this.UserName   = br.ReadChars(USER_NAME_LENGTH).ToString();
+                    this.UserId     = br.ReadGuid();
                 }
             }
             catch (Exception e)
