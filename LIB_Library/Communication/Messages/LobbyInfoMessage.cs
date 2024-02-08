@@ -43,10 +43,11 @@ namespace LIB.Communication.Messages
         {
             base.SerializeData(bw);
             bw.Write(_hostIp);
-            for (int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
-            {
-                bw.Write(Users[i].Serialize());
-            }
+            //for (int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
+            //{
+            //    bw.Write(Users[i].Serialize());
+            //}
+            bw.WriteObjectList(Users);
         }
 
         public override void DeserializeData(BinaryReader br)

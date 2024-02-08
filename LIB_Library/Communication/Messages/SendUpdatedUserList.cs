@@ -35,10 +35,11 @@ namespace LIB.Communication.Messages
         public override void SerializeData(BinaryWriter bw)
         {
             base.SerializeData(bw);
-            for (int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
-            {
-                bw.Write(Users[i].Serialize());
-            }
+            //for (int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
+            //{
+            //    bw.Write(Users[i].Serialize());
+            //}
+            bw.WriteObjectList(Users);
         }
 
         public override void DeserializeData(BinaryReader br)
