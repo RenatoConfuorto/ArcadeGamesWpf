@@ -2,11 +2,11 @@
 using Core.Attributes;
 using Core.Commands;
 using Core.Helpers;
-using LIB.Communication.Constants;
-using LIB.Communication.Events;
-using LIB.Communication.MessageBrokers;
-using LIB.Communication.Messages;
-using LIB.Communication.Messages.Base;
+using LIB_Com.Constants;
+using LIB_Com.Events;
+using LIB_Com.MessageBrokers;
+using LIB_Com.Messages;
+using LIB_Com.Messages.Base;
 using LIB.Constants;
 using LIB.Entities;
 using LIB.Helpers;

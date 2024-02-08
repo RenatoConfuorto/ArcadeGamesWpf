@@ -171,6 +171,10 @@
       <Project>{375e336e-3efc-40fe-88dd-6fe78a662ada}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LIB_Communication\LIB_Communication.csproj">
+      <Project>{afdd3787-7e7b-4ad4-82a0-9815981a0502}</Project>
+      <Name>LIB_Communication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LIB_Library\LIB_Library.csproj">
       <Project>{801b867b-ad2d-48f0-ab09-f292567878b4}</Project>
       <Name>LIB_Library</Name>

@@ -2,10 +2,10 @@
 using Core.Attributes;
 using Core.Commands;
 using Core.Helpers;
-using LIB.Communication.Constants;
-using LIB.Communication.Events;
-using LIB.Communication.Messages;
-using LIB.Communication.MessageBrokers;
+using LIB_Com.Constants;
+using LIB_Com.Events;
+using LIB_Com.Messages;
+using LIB_Com.MessageBrokers;
 using LIB.Constants;
 using LIB.Entities;
 using LIB.Helpers;
@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using LIB_Com.Entities;
 
 namespace ArcadeGames.ViewModels
 {
