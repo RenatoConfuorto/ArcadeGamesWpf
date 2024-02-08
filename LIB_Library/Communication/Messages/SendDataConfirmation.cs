@@ -21,18 +21,24 @@ namespace LIB.Communication.Messages
         }
 
         #region Serialize / Deserialize
-        public override byte[] Serialize()
-        {
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter br = new BinaryWriter(ms))
-            {
-                br.Write(MessageCode);
-                //br.Write((short)MessageType);
-                br.Write(SenderId.ToByteArray());
-                br.Write(UserId.ToByteArray());
+        //public override byte[] Serialize()
+        //{
+        //    using (MemoryStream ms = new MemoryStream())
+        //    using (BinaryWriter bw = new BinaryWriter(ms))
+        //    {
+        //        bw.Write(MessageCode);
+        //        //bw.Write((short)MessageType);
+        //        bw.Write(SenderId.ToByteArray());
+        //        bw.Write(UserId.ToByteArray());
 
-                return ms.ToArray();
-            }
+        //        return ms.ToArray();
+        //    }
+        //}
+
+        public override void SerializeData(BinaryWriter bw)
+        {
+            base.SerializeData(bw);
+            bw.Write(UserId.ToByteArray());
         }
 
         public override void Deserialize(byte[] data)
@@ -52,6 +58,12 @@ namespace LIB.Communication.Messages
             {
 
             }
+        }
+
+        public override void DeserializeData(BinaryReader br)
+        {
+            base.DeserializeData(br);
+            this.UserId = br.ReadGuid();
         }
         #endregion
     }

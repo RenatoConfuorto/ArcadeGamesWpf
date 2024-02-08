@@ -15,8 +15,6 @@ namespace LIB.Entities
     [Serializable]
     public class OnlineUser : SerializableBase
     {
-
-        ///set object byte length in case of modifications <length cref="ONLINE_USER_LENGTH"/>
         private char[] _userName = new char[USER_NAME_LENGTH];
 
         public string UserName

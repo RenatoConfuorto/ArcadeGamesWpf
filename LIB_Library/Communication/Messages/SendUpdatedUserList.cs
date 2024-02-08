@@ -32,41 +32,19 @@ namespace LIB.Communication.Messages
         }
 
         #region Serialize / Deserialize
-        public override byte[] Serialize()
+        public override void SerializeData(BinaryWriter bw)
         {
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter br = new BinaryWriter(ms))
+            base.SerializeData(bw);
+            for (int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
             {
-                br.Write(MessageCode);
-                //br.Write((short)MessageType);
-                br.Write(SenderId.ToByteArray());
-
-                for(int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
-                {
-                    br.Write(Users[i].Serialize());
-                }
-
-                return ms.ToArray();
+                bw.Write(Users[i].Serialize());
             }
         }
 
-        public override void Deserialize(byte[] data)
+        public override void DeserializeData(BinaryReader br)
         {
-            try
-            {
-                using (MemoryStream ms = new MemoryStream(data))
-                using (BinaryReader br = new BinaryReader(ms))
-                {
-                    this.MessageCode    = br.ReadInt32();
-                    //this.MessageType  = (CommunicationCnst.MessageType)br.ReadInt16();
-                    this.SenderId       = br.ReadGuid();
-                    this.Users          = br.ReadObjectList<OnlineUser>(MULTIPLAYER_USERS_LIMIT).ToArray();
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
+            base.DeserializeData(br);
+            this.Users  = br.ReadObjectList<OnlineUser>(MULTIPLAYER_USERS_LIMIT).ToArray();
         }
         #endregion
     }
