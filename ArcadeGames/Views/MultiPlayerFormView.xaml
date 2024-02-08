@@ -39,7 +39,7 @@
                 BorderThickness="1"
                 Padding="15 50">
             <StackPanel Margin="8">
-                <Label Content="Nome"/>
+                <Label Content="IP Locale"/>
                 <TextBox IsEnabled="False" Text="{Binding LocalIp}"/>
             </StackPanel>
         </Border>
@@ -50,8 +50,8 @@
                 BorderThickness="1"
                 Padding="15 50">
             <StackPanel Margin="8">
-                <Label Content="IP Locale"/>
-                <TextBox IsEnabled="True" Text="{Binding UserName}"/>
+                <Label Content="Nome"/>
+                <TextBox IsEnabled="{Binding IsUserNameEditable}" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Border>
 

@@ -19,6 +19,7 @@ using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using LIB.UserMng;
 
 namespace ArcadeGames.ViewModels
 {
@@ -29,6 +30,8 @@ namespace ArcadeGames.ViewModels
         private string _localIp;
         private string _remoteIp;
         private string _userName;
+        private User _loggedUser;
+        private bool _isUserNameEditable;
         #endregion
 
         #region Command
@@ -53,12 +56,23 @@ namespace ArcadeGames.ViewModels
         }
         public string UserName
         {
-            get => _userName;
+            get => LoggedUser == null ? _userName : LoggedUser.Name;
             set
             {
-                SetProperty(ref _userName, value);
+                if(LoggedUser == null)
+                    SetProperty(ref _userName, value);
                 SetCommandExecutionStatus();
             }
+        }
+        public User LoggedUser
+        {
+            get => _loggedUser;
+            set => SetProperty(ref _loggedUser, value);
+        }
+        public bool IsUserNameEditable
+        {
+            get => _isUserNameEditable;
+            set => SetProperty(ref _isUserNameEditable, value);
         }
         #endregion
 
@@ -70,6 +84,7 @@ namespace ArcadeGames.ViewModels
         protected override void OnInitialized()
         {
             base.OnInitialized();
+            InitMainLoggedUser();
             LocalIp = CommunicationHelper.GetLocalIpAddress().ToString();
         }
         protected override void InitCommands()
@@ -88,10 +103,18 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Private Methods
+        private void InitMainLoggedUser()
+        {
+            LoggedUser = UserManager.GetMainLoggedInUser();
+            IsUserNameEditable = LoggedUser == null; // Se non c'è utente loggato si può editare lo userName
+            NotifyPropertyChanged(nameof(UserName));
+        }
+
+        #region Commands Methods
         private bool IsValidUserName() => !String.IsNullOrEmpty(UserName);
         private void CreateCommandExecute(object param)
         {
-            BrokerHost broker = new BrokerHost(_userName);
+            BrokerHost broker = new BrokerHost(UserName);
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
                 { "Mode", CommunicationCnst.Mode.Host },
@@ -113,7 +136,7 @@ namespace ArcadeGames.ViewModels
                     //TODO gestire il caso di connessione fallita
                     client.LobbyInfoReceivedEvent += OnLobbyInfoReceived;
                     client.RunClient(RemoteIp);
-                    
+
                     //ChangeView(ViewNames.MultiPlayerLobby, parameters);
                 }
                 //else
@@ -143,7 +166,8 @@ namespace ArcadeGames.ViewModels
                 { "Users", e.Users }
             };
             ChangeView(ViewNames.MultiPlayerLobby, parameters);
-        }
+        } 
+        #endregion
         #endregion
     }
 }
