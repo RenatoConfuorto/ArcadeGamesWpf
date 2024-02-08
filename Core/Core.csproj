@@ -82,6 +82,7 @@
     <Compile Include="Dependency\DependencyInjectionBase.cs" />
     <Compile Include="Dependency\UnityHelper.cs" />
     <Compile Include="Entities\NotifyerPropertyChangedBase.cs" />
+    <Compile Include="Entities\SerializableBase.cs" />
     <Compile Include="Events\ClosePopupEvent.cs" />
     <Compile Include="Events\ViewChangedEvent.cs" />
     <Compile Include="Helpers\AssemblyHelper.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Helpers\XmlSerializer.cs" />
     <Compile Include="Interfaces\DbBrowser\IParametersBase.cs" />
     <Compile Include="Interfaces\DbBrowser\IProxyBase.cs" />
+    <Compile Include="Interfaces\Entities\ISerializableBase.cs" />
     <Compile Include="Interfaces\Navigation\INavigationService.cs" />
     <Compile Include="Interfaces\ViewModels\IViewModelBase.cs" />
     <Compile Include="MarkupExtensions\EmFontSize.cs" />
