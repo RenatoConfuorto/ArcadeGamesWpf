@@ -127,6 +127,19 @@ namespace LIB_Com.MessageBrokers
         }
         #endregion
 
+        public void SendToClients(object message)
+        {
+            foreach(OnlineClient client in clients)
+            {
+                Socket cs = client.socket;
+                if(cs != null &&
+                    cs.Connected)
+                {
+                    SendMessage(cs, message);
+                }
+            }
+        }
+
         //public bool IsSearchingConnection = false;
         //public ClientDisconnectedEvent ClientDisconnectedEvent;
         //public Socket ClientSocket;

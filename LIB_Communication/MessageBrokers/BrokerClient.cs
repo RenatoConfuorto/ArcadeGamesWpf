@@ -128,6 +128,13 @@ namespace LIB_Com.MessageBrokers
             StartReceive(socket);
         }
         #endregion
+
+        #region Send/Receive from host
+        public void SendToHost(object message)
+        {
+            SendMessage(_socket, message);
+        }
+        #endregion
         //public async Task<bool> RunClient(int port, string IpAddress)
         //{
         //    try

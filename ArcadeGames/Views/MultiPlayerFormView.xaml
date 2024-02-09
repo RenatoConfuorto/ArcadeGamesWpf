@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ArcadeGames.Views"
+             xmlns:Com_Cnst="clr-namespace:LIB_Com.Constants;assembly=LIB_Com"
              mc:Ignorable="d" >
     <Grid Background="{StaticResource BgColor}" HorizontalAlignment="Center" Margin="0 50 0 0">
         <Grid.Resources>
@@ -51,7 +52,9 @@
                 Padding="15 50">
             <StackPanel Margin="8">
                 <Label Content="Nome"/>
-                <TextBox IsEnabled="{Binding IsUserNameEditable}" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox IsEnabled="{Binding IsUserNameEditable}" 
+                         Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
+                         MaxLength="{x:Static Com_Cnst:CommunicationCnst.USER_NAME_LEN}"/>
             </StackPanel>
         </Border>
 

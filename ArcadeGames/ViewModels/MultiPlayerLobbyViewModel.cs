@@ -18,6 +18,10 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using LIB_Com.Entities;
+using LIB_Com.Messages.Base;
+using System.ComponentModel;
+using System.Windows.Threading;
+using System.Runtime.Remoting.Contexts;
 
 namespace ArcadeGames.ViewModels
 {
@@ -25,13 +29,15 @@ namespace ArcadeGames.ViewModels
     public class MultiPlayerLobbyViewModel : ContentViewModel
     {
         #region Private Fields
+        private Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
         private CommunicationCnst.Mode _userMode;
         private BrokerHost _brokerHost;
         private BrokerClient _brokerClient;
-        private ObservableCollection<OnlineUser> _users = new ObservableCollection<OnlineUser>();
+        private BindingList<OnlineUser> _users = new BindingList<OnlineUser>();
         private string _hostIp;
         private string _newMessageText;
         private bool _isLobbyChatEnabled = true; // TODO manage lobby chat enabled
+        private BindingList<LobbyChatMessage> _chatMessages = new BindingList<LobbyChatMessage>();
         #endregion
 
         #region Command
@@ -44,7 +50,7 @@ namespace ArcadeGames.ViewModels
             get => _hostIp;
             set => SetProperty(ref _hostIp, value);
         }
-        public ObservableCollection<OnlineUser> Users
+        public BindingList<OnlineUser> Users
         {
             get => _users;
             set => SetProperty(ref _users, value);
@@ -66,6 +72,11 @@ namespace ArcadeGames.ViewModels
                 SetProperty(ref _isLobbyChatEnabled, value);
                 SetCommandExecutionStatus();
             }
+        }
+        public BindingList<LobbyChatMessage> ChatMessages
+        {
+            get => _chatMessages;
+            set => SetProperty(ref _chatMessages, value);
         }
         #endregion
 
@@ -141,7 +152,7 @@ namespace ArcadeGames.ViewModels
                                 {
                                     if(tempObj is IEnumerable<OnlineUser> users)
                                     {
-                                        Users = new ObservableCollection<OnlineUser>(users);
+                                        Users = new BindingList<OnlineUser>(users.ToList());
                                     }
                                 }
                             }
@@ -164,14 +175,29 @@ namespace ArcadeGames.ViewModels
 
         #region Private Methods
         /// <summary>
-        /// Add a user to the Users ObservableCollection (avoiding the error if ObservableCollection is changed from diffrent thread)
+        /// Add a user to the Users BindingList (avoiding the error if BindingList is changed from diffrent thread)
         /// </summary>
         /// <param name="user"></param>
         private void AddUser(OnlineUser user)
         {
-            List<OnlineUser> users = Users.ToList();
-            users.Add(user);
-            Users = new ObservableCollection<OnlineUser>(users);
+            //List<OnlineUser> users = Users.ToList();
+            //users.Add(user);
+            //Users = new BindingList<OnlineUser>(users);
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                Users.Add(user);
+            });
+        }
+        private void AddMessage(LobbyChatMessage message)
+        {
+            //dispatcher.BeginInvoke((Action)(() =>
+            //{
+            //    ChatMessages.Add(message);
+            //}));
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                ChatMessages.Add(message);
+            });
         }
         #region Host Methods
         private void OnLobbyInfoRequestedEvent(object sender, LobbyInfoRequestedEventArgs e)
@@ -181,9 +207,10 @@ namespace ArcadeGames.ViewModels
 
         private void OnNewOnlineUserEvent(object sender, NewOnlineUserEventArgs e)
         {
-            List<OnlineUser> users = Users.ToList();
-            users.Add(e.NewUser);
-            Users = new ObservableCollection<OnlineUser>(users);
+            //List<OnlineUser> users = Users.ToList();
+            //users.Add(e.NewUser);
+            //Users = new BindingList<OnlineUser>(users);
+            AddUser(e.NewUser);
             //send new users list to clients
             foreach(OnlineClient client in _brokerHost.clients)
             {
@@ -196,11 +223,21 @@ namespace ArcadeGames.ViewModels
 
         #region Client Methods
 
+        #endregion
         private void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
         {
-
+            MessageBase message = (MessageBase)e.MessageReceived;
+            switch (message.MessageCode)
+            {
+                case (int)CommunicationCnst.Messages.LobbyChatMessage:
+                    HandleNewChatMessage(message as LobbyChatMessage);
+                    break;
+            }
         }
-        #endregion
+        private void HandleNewChatMessage(LobbyChatMessage message)
+        {
+            AddMessage(message);
+        }
         //private void OnClientDisconnected()
         //{
         //    //Task.Run(() =>  _brokerHost.StartListening(CommunicationCnst.DEFAULT_PORT));
@@ -211,9 +248,24 @@ namespace ArcadeGames.ViewModels
         #region Commands methods
         private void SendChatMessageExecute(object paran)
         {
-
+            LobbyChatMessage message = new LobbyChatMessage(null, NewMessageText);
+            //message.TextMessage = NewMessageText;
+            if (_userMode == CommunicationCnst.Mode.Client)
+            {
+                message.User = _brokerClient.User;
+                AddMessage(message);
+                _brokerClient.SendToHost(message);
+            }
+            else
+            {
+                message.User = _brokerHost.User;
+                AddMessage(message);
+                _brokerHost.SendToClients(message);
+            }
+            // Clean Message box
+            NewMessageText = String.Empty;
         }
-        private bool SendChatMessageCanExecute(object paran) => IsLobbyChatEnabled;
+        private bool SendChatMessageCanExecute(object paran) => IsLobbyChatEnabled && !String.IsNullOrWhiteSpace(NewMessageText);
         #endregion
     }
 }
