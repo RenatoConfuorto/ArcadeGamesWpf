@@ -26,12 +26,19 @@
                     
                 </StackPanel>
             </Border>
+            
             <Border Grid.Row="1"
                     Grid.Column="0"
                     BorderBrush="{StaticResource TextColor}"
                     BorderThickness="1"
-                    Margin="8 10"> <!--Test CHAT-->
-                
+                    Margin="8 10"> <!--TextBox CHAT-->
+                <TextBox>
+                    <TextBox.InputBindings>
+                        <KeyBinding
+                            Key="Enter"
+                            Command="{Binding SendChatMessage}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
             </Border>
 
             <Border Grid.Row="0"
@@ -40,31 +47,75 @@
                     BorderBrush="{StaticResource TextColor}"
                     BorderThickness="1"
                     Margin="8 10"> <!--Corpo Lobby-->
-                <StackPanel>
-                    <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0 0 0 1">
-                        <StackPanel Orientation="Horizontal" Margin="4 6">
-                            <Label Content="Ip partita: "/>
-                            <Label Content="{Binding HostIp}"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0"
+                            BorderThickness="0 0 0 1"
+                            BorderBrush="{StaticResource BorderColor}">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Utenti"
+                                       Grid.Column="0"
+                                       Margin="4 8"
+                                       Width="300"
+                                       HorizontalAlignment="Left"/>
+                                <Label Content="Squadra"
+                                       Grid.Column="1"
+                                       Margin="4 8"
+                                       Width="125"
+                                       HorizontalAlignment="Left"/>
+                            </Grid>
+                            <ItemsControl ItemsSource="{Binding Users}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Visibility="{Binding UserName, Converter={StaticResource OnlineUserVisibilityConverter}}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding UserName}" 
+                                                           ToolTip="{Binding UserId}"
+                                                           Grid.Column="0"
+                                                           FontSize="20"
+                                                           Margin="8 10"
+                                                           Width="300"
+                                                           HorizontalAlignment="Left"/>
+                                            <StackPanel Grid.Column="1"
+                                                        Width="125">
+                                                <ComboBox Width="75" MinWidth="75"
+                                                          Grid.Column="1"
+                                                          VerticalAlignment="Center"
+                                                          HorizontalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>
-                    </Border>
-                    
-                    <Label Content="Utenti"/>
-                    <ItemsControl ItemsSource="{Binding Users}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding UserName}" ToolTip="{Binding UserId}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    
-                </StackPanel>
+                    </Border> <!--LISTA UTENTI-->
+
+                    <StackPanel Grid.Row="1"> <!--OPZIONI PARTITA-->
+                        <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0 0 0 1">
+                            <StackPanel Orientation="Horizontal" Margin="4 6">
+                                <Label Content="Ip partita: "/>
+                                <Label Content="{Binding HostIp}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
             </Border>
         </Grid>
     </Border>

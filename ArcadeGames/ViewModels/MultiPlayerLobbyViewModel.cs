@@ -30,9 +30,12 @@ namespace ArcadeGames.ViewModels
         private BrokerClient _brokerClient;
         private ObservableCollection<OnlineUser> _users = new ObservableCollection<OnlineUser>();
         private string _hostIp;
+        private string _newMessageText;
+        private bool _isLobbyChatEnabled = true; // TODO manage lobby chat enabled
         #endregion
 
         #region Command
+        public RelayCommand SendChatMessage { get; set; }
         #endregion
 
         #region Public Properties
@@ -45,6 +48,24 @@ namespace ArcadeGames.ViewModels
         {
             get => _users;
             set => SetProperty(ref _users, value);
+        }
+        public string NewMessageText
+        {
+            get => _newMessageText;
+            set
+            {
+                SetProperty(ref _newMessageText, value);
+                SetCommandExecutionStatus();
+            }
+        }
+        public bool IsLobbyChatEnabled
+        {
+            get => _isLobbyChatEnabled;
+            set
+            {
+                SetProperty(ref _isLobbyChatEnabled, value);
+                SetCommandExecutionStatus();
+            }
         }
         #endregion
 
@@ -60,6 +81,12 @@ namespace ArcadeGames.ViewModels
         protected override void InitCommands()
         {
             base.InitCommands();
+            SendChatMessage = new RelayCommand(SendChatMessageExecute, SendChatMessageCanExecute);
+        }
+        protected override void SetCommandExecutionStatus()
+        {
+            base.SetCommandExecutionStatus();
+            SendChatMessage.RaiseCanExecuteChanged();
         }
         protected override void GetViewParameter()
         {
@@ -127,10 +154,6 @@ namespace ArcadeGames.ViewModels
                 }
             }
         }
-        protected override void SetCommandExecutionStatus()
-        {
-            base.SetCommandExecutionStatus();
-        }
         public override void Dispose()
         {
             _brokerHost?.Dispose();
@@ -164,7 +187,7 @@ namespace ArcadeGames.ViewModels
             //send new users list to clients
             foreach(OnlineClient client in _brokerHost.clients)
             {
-                if (e.NewUser.UserId == client.user.UserId) continue; //the new user will receive the LobbyInfoMessage whit the user list
+                if (e.NewUser.UserId == client.user.UserId) continue; //the new user will receive the LobbyInfoMessage with the user list
                 SendUpdatedUserList message = new SendUpdatedUserList(Users);
                 _brokerHost.SendMessage(client.socket, message);
             }
@@ -178,10 +201,19 @@ namespace ArcadeGames.ViewModels
 
         }
         #endregion
-        private void OnClientDisconnected()
+        //private void OnClientDisconnected()
+        //{
+        //    //Task.Run(() =>  _brokerHost.StartListening(CommunicationCnst.DEFAULT_PORT));
+        //}
+
+        #endregion
+
+        #region Commands methods
+        private void SendChatMessageExecute(object paran)
         {
-            //Task.Run(() =>  _brokerHost.StartListening(CommunicationCnst.DEFAULT_PORT));
+
         }
+        private bool SendChatMessageCanExecute(object paran) => IsLobbyChatEnabled;
         #endregion
     }
 }

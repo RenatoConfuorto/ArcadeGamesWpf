@@ -95,6 +95,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Programm.cs" />
+    <Compile Include="ValueConverters\OnlineUserVisibilityConverter.cs" />
     <Compile Include="ViewModels\MultiPlayerFormViewModel.cs" />
     <Compile Include="ViewModels\MultiPlayerLobbyViewModel.cs" />
     <Compile Include="Views\MultiPlayerFormView.xaml.cs">

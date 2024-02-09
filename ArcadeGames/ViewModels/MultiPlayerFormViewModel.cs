@@ -132,7 +132,7 @@ namespace ArcadeGames.ViewModels
 
                 if (pr.Status == IPStatus.Success)
                 {
-                    BrokerClient client = new BrokerClient(_userName);
+                    BrokerClient client = new BrokerClient(UserName);
                     //TODO gestire il caso di connessione fallita
                     client.LobbyInfoReceivedEvent += OnLobbyInfoReceived;
                     client.RunClient(RemoteIp);
