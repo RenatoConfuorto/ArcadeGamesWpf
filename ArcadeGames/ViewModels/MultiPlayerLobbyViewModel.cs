@@ -180,20 +180,17 @@ namespace ArcadeGames.ViewModels
         /// <param name="user"></param>
         private void AddUser(OnlineUser user)
         {
-            //List<OnlineUser> users = Users.ToList();
-            //users.Add(user);
-            //Users = new BindingList<OnlineUser>(users);
             App.Current.Dispatcher.Invoke(() =>
             {
                 Users.Add(user);
             });
         }
+        /// <summary>
+        /// Add a message to the ChatMessages BindingList (avoiding the error if BindingList is changed from diffrent thread)
+        /// </summary>
+        /// <param name="message"></param>
         private void AddMessage(LobbyChatMessage message)
         {
-            //dispatcher.BeginInvoke((Action)(() =>
-            //{
-            //    ChatMessages.Add(message);
-            //}));
             App.Current.Dispatcher.Invoke(() =>
             {
                 ChatMessages.Add(message);
@@ -207,15 +204,12 @@ namespace ArcadeGames.ViewModels
 
         private void OnNewOnlineUserEvent(object sender, NewOnlineUserEventArgs e)
         {
-            //List<OnlineUser> users = Users.ToList();
-            //users.Add(e.NewUser);
-            //Users = new BindingList<OnlineUser>(users);
             AddUser(e.NewUser);
             //send new users list to clients
             foreach(OnlineClient client in _brokerHost.clients)
             {
                 if (e.NewUser.UserId == client.user.UserId) continue; //the new user will receive the LobbyInfoMessage with the user list
-                SendUpdatedUserList message = new SendUpdatedUserList(Users);
+                SendUpdatedUserList message = new SendUpdatedUserList(Users.OrderBy(u => u.UserSeq));
                 _brokerHost.SendMessage(client.socket, message);
             }
         }
@@ -229,6 +223,9 @@ namespace ArcadeGames.ViewModels
             MessageBase message = (MessageBase)e.MessageReceived;
             switch (message.MessageCode)
             {
+                case (int)CommunicationCnst.Messages.SendUpdatedUserList:
+                    HandleUpdateUserListMessage(message as  SendUpdatedUserList);
+                    break;
                 case (int)CommunicationCnst.Messages.LobbyChatMessage:
                     HandleNewChatMessage(message as LobbyChatMessage);
                     break;
@@ -237,6 +234,10 @@ namespace ArcadeGames.ViewModels
         private void HandleNewChatMessage(LobbyChatMessage message)
         {
             AddMessage(message);
+        }
+        private void HandleUpdateUserListMessage(SendUpdatedUserList message)
+        {
+            Users = new BindingList<OnlineUser>(message.Users);
         }
         //private void OnClientDisconnected()
         //{

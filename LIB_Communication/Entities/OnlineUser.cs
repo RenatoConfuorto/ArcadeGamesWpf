@@ -22,6 +22,7 @@ namespace LIB_Com.Entities
             set => SetArray(ref _userName, value, USER_NAME_LENGTH);
         }
         public Guid UserId { get; set; }
+        public int UserSeq { get; set; }
 
         #region Serialize / Deserialize
         public override byte[] Serialize()
@@ -31,6 +32,7 @@ namespace LIB_Com.Entities
             {
                 br.Write(_userName);
                 br.Write(UserId.ToByteArray());
+                br.Write(UserSeq);
 
                 return ms.ToArray();
             }
@@ -45,6 +47,7 @@ namespace LIB_Com.Entities
                 {
                     this.UserName   = br.ReadString(USER_NAME_LENGTH);
                     this.UserId     = new Guid(br.ReadBytes(USER_NAME_LENGTH));
+                    this.UserSeq    = br.ReadInt32();
                 }
             }
             catch (Exception e)

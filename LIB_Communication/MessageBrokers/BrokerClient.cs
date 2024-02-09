@@ -108,6 +108,7 @@ namespace LIB_Com.MessageBrokers
             SendDataConfirmation receivedMessage = (SendDataConfirmation)GetMessageFromBytes(received);
 
             LocalUserId = receivedMessage.UserId;
+            User.UserSeq = receivedMessage.UserSeq;
 
             //send userName
             SendUserNameToHost responseMessage = new SendUserNameToHost(this.UserName);

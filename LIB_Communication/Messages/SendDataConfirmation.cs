@@ -13,11 +13,13 @@ namespace LIB_Com.Messages
     public class SendDataConfirmation : MessageBase
     {
         public Guid UserId { get; set; }
+        public int UserSeq { get; set; }
         public SendDataConfirmation() { }
-        public SendDataConfirmation(Guid userId)
+        public SendDataConfirmation(Guid userId, int userSeq)
             : base(CommunicationCnst.Messages.SendDataConfirmation, new Guid()/*, CommunicationCnst.MessageType.HostToCliet*/)
         {
-            this.UserId = userId;
+            this.UserId     = userId;
+            this.UserSeq    = userSeq;
         }
 
         #region Serialize / Deserialize
@@ -25,13 +27,15 @@ namespace LIB_Com.Messages
         {
             base.SerializeData(bw);
             bw.Write(UserId.ToByteArray());
+            bw.Write(UserSeq);
         }
 
 
         public override void DeserializeData(BinaryReader br)
         {
             base.DeserializeData(br);
-            this.UserId = br.ReadGuid();
+            this.UserId     = br.ReadGuid();
+            this.UserSeq    = br.ReadInt32();
         }
         #endregion
     }
