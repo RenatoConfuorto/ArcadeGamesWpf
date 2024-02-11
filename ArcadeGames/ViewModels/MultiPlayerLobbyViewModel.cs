@@ -234,6 +234,8 @@ namespace ArcadeGames.ViewModels
         private void HandleNewChatMessage(LobbyChatMessage message)
         {
             AddMessage(message);
+            if (_userMode == CommunicationCnst.Mode.Host)
+                _brokerHost.RedirectToClients(message);
         }
         private void HandleUpdateUserListMessage(SendUpdatedUserList message)
         {

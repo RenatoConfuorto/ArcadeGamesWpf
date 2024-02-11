@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static LIB_Com.Constants.CommunicationCnst;
+using LIB_Com.Interfaces.Communication;
 
 namespace LIB_Com.MessageBrokers
 {
@@ -128,8 +129,12 @@ namespace LIB_Com.MessageBrokers
             base.Dispose();
         }
         #endregion
-
-        public void SendToClients(object message)
+        /// <summary>
+        /// Sends a message to all clients
+        /// </summary>
+        /// <param name="message"></param>
+        public void SendToClients<T>(T message)
+            where T : IMessage
         {
             foreach(OnlineClient client in clients)
             {
@@ -139,6 +144,22 @@ namespace LIB_Com.MessageBrokers
                 {
                     SendMessage(cs, message);
                 }
+            }
+        }
+        /// <summary>
+        /// Redirects a message from <class cref="OnlineUser"/> to all other clients
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="user"></param>
+        public void RedirectToClients<T>(T message)
+            where T : IMessage
+        {
+            Guid senderId = message.SenderId;
+            foreach(OnlineClient client in clients)
+            {
+                if (client.user.UserId == senderId)
+                    continue;
+                SendMessage(client.socket, message);
             }
         }
 
