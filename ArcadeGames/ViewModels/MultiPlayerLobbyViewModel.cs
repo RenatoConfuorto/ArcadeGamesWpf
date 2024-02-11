@@ -29,14 +29,14 @@ namespace ArcadeGames.ViewModels
     public class MultiPlayerLobbyViewModel : ContentViewModel
     {
         #region Private Fields
-        private Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
         private CommunicationCnst.Mode _userMode;
         private BrokerHost _brokerHost;
         private BrokerClient _brokerClient;
         private BindingList<OnlineUser> _users = new BindingList<OnlineUser>();
         private string _hostIp;
         private string _newMessageText;
-        private bool _isLobbyChatEnabled = true; // TODO manage lobby chat enabled
+        private bool _isLobbyChatEnabled = true;
+        private string _chatButtonText = "Chat Abilitata";
         private BindingList<LobbyChatMessage> _chatMessages = new BindingList<LobbyChatMessage>();
         #endregion
 
@@ -45,6 +45,15 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Public Properties
+        public bool IsUserHost
+        {
+            get => _userMode == CommunicationCnst.Mode.Host;
+        }
+        public bool IsUserClient
+        {
+            get => _userMode == CommunicationCnst.Mode.Client;
+        }
+
         public string HostIp
         {
             get => _hostIp;
@@ -71,7 +80,17 @@ namespace ArcadeGames.ViewModels
             {
                 SetProperty(ref _isLobbyChatEnabled, value);
                 SetCommandExecutionStatus();
+                if(IsUserHost)
+                    SendChatChangedStatus();
+                SwitchChatButtonText(value);
+                if (!value)
+                    NewMessageText = String.Empty;
             }
+        }
+        public string ChatButtonText
+        {
+            get => _chatButtonText;
+            set => SetProperty(ref _chatButtonText, value);
         }
         public BindingList<LobbyChatMessage> ChatMessages
         {
@@ -113,12 +132,13 @@ namespace ArcadeGames.ViewModels
                         if (tempObj is CommunicationCnst.Mode)
                         {
                             _userMode = (CommunicationCnst.Mode)tempObj;
+                            NotifyPropertyChanged(nameof(IsUserHost));
                         }
                     }
                     parameterName = "Broker";
                     if (parameters.TryGetValue(parameterName, out tempObj))
                     {
-                        if (_userMode == CommunicationCnst.Mode.Host)
+                        if (IsUserHost)
                         {
                             HostIp = CommunicationHelper.GetLocalIpAddress().ToString();
                             if (tempObj is BrokerHost)
@@ -132,7 +152,7 @@ namespace ArcadeGames.ViewModels
                                 
                             }
                         }
-                        else if (_userMode == CommunicationCnst.Mode.Client)
+                        else if (IsUserClient)
                         {
                             if (tempObj is BrokerClient)
                             {
@@ -153,6 +173,14 @@ namespace ArcadeGames.ViewModels
                                     if(tempObj is IEnumerable<OnlineUser> users)
                                     {
                                         Users = new BindingList<OnlineUser>(users.ToList());
+                                    }
+                                }
+                                parameterName = "ChatStatus";
+                                if(parameters.TryGetValue(parameterName, out tempObj))
+                                {
+                                    if(tempObj is bool chatStatus)
+                                    {
+                                        IsLobbyChatEnabled = chatStatus;
                                     }
                                 }
                             }
@@ -196,10 +224,18 @@ namespace ArcadeGames.ViewModels
                 ChatMessages.Add(message);
             });
         }
+
+        private void SwitchChatButtonText(bool value)
+        {
+            if (value)
+                ChatButtonText = "Chat Abilitata";
+            else
+                ChatButtonText = "Chat Disabilitata";
+        }
         #region Host Methods
         private void OnLobbyInfoRequestedEvent(object sender, LobbyInfoRequestedEventArgs e)
         {
-            _brokerHost.SendLobbyInfo(e.client, Users);
+            _brokerHost.SendLobbyInfo(e.client, Users, IsLobbyChatEnabled);
         }
 
         private void OnNewOnlineUserEvent(object sender, NewOnlineUserEventArgs e)
@@ -212,6 +248,12 @@ namespace ArcadeGames.ViewModels
                 SendUpdatedUserList message = new SendUpdatedUserList(Users.OrderBy(u => u.UserSeq));
                 _brokerHost.SendMessage(client.socket, message);
             }
+        }
+
+        private void SendChatChangedStatus()
+        {
+            ChangeLobbyChatStatus message = new ChangeLobbyChatStatus(IsLobbyChatEnabled);
+            _brokerHost.SendToClients(message);
         }
         #endregion
 
@@ -229,22 +271,26 @@ namespace ArcadeGames.ViewModels
                 case (int)CommunicationCnst.Messages.LobbyChatMessage:
                     HandleNewChatMessage(message as LobbyChatMessage);
                     break;
+                case (int)CommunicationCnst.Messages.ChangeLobbyChatStatus:
+                    HandleNewChatStatus(message as ChangeLobbyChatStatus);
+                    break;
             }
         }
         private void HandleNewChatMessage(LobbyChatMessage message)
         {
             AddMessage(message);
-            if (_userMode == CommunicationCnst.Mode.Host)
+            if (IsUserHost)
                 _brokerHost.RedirectToClients(message);
         }
         private void HandleUpdateUserListMessage(SendUpdatedUserList message)
         {
             Users = new BindingList<OnlineUser>(message.Users);
         }
-        //private void OnClientDisconnected()
-        //{
-        //    //Task.Run(() =>  _brokerHost.StartListening(CommunicationCnst.DEFAULT_PORT));
-        //}
+        private void HandleNewChatStatus(ChangeLobbyChatStatus message)
+        {
+            if (IsUserClient)
+                IsLobbyChatEnabled = message.bChatStatus;
+        }
 
         #endregion
 
@@ -253,7 +299,7 @@ namespace ArcadeGames.ViewModels
         {
             LobbyChatMessage message = new LobbyChatMessage(null, NewMessageText);
             //message.TextMessage = NewMessageText;
-            if (_userMode == CommunicationCnst.Mode.Client)
+            if (IsUserClient)
             {
                 message.User = _brokerClient.User;
                 AddMessage(message);

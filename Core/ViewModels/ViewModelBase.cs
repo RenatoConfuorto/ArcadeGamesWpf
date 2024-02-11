@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 using Unity;
 
 namespace Core.ViewModels
@@ -25,6 +27,10 @@ namespace Core.ViewModels
             set => SetProperty(ref _navigation, value);
         }
         public string ParentView { get; private set; }
+        #endregion
+
+        #region Dispatcher
+        public Dispatcher dispatcher { get; private set; } = Application.Current.Dispatcher;
         #endregion
 
         #region IsDisposed

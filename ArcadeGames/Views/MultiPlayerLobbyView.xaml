@@ -78,6 +78,7 @@
                     BorderThickness="1"
                     Margin="8 10"> <!--TextBox CHAT-->
                 <TextBox Text="{Binding NewMessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         IsEnabled="{Binding IsLobbyChatEnabled}"
                          MaxLength="{x:Static Com_Cnst:CommunicationCnst.LOBBY_CHAT_MESSAGE_SZ}">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter"
@@ -142,6 +143,7 @@
                                                 <ComboBox Width="75" MinWidth="75"
                                                           Grid.Column="1"
                                                           VerticalAlignment="Center" Visibility="Hidden"
+                                                          IsEnabled="{Binding IsUserHost}"
                                                           HorizontalAlignment="Center"/> <!--DA ABILITARE-->
                                             </StackPanel>
                                         </Grid>
@@ -158,6 +160,15 @@
                                 <Label Content="{Binding HostIp}"/>
                             </StackPanel>
                         </Border>
+                        <StackPanel>
+                            <CheckBox Content="{Binding ChatButtonText}"
+                                      VerticalContentAlignment="Center"
+                                      Padding="50 0"
+                                      Margin="8"
+                                      Foreground="{StaticResource TextColor}"
+                                      IsEnabled="{Binding IsUserHost}"
+                                      IsChecked="{Binding IsLobbyChatEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </Border>

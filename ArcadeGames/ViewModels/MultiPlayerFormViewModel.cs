@@ -163,7 +163,8 @@ namespace ArcadeGames.ViewModels
                 { "Mode", CommunicationCnst.Mode.Client },
                 { "Broker", sender },
                 { "HostIp", e.HostIp },
-                { "Users", e.Users }
+                { "Users", e.Users },
+                { "ChatStatus", e.ChatStatus }
             };
             ChangeView(ViewNames.MultiPlayerLobby, parameters);
         } 

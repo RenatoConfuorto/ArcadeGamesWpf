@@ -61,6 +61,7 @@
     <Compile Include="MessageBrokers\BrokerClient.cs" />
     <Compile Include="MessageBrokers\BrokerHost.cs" />
     <Compile Include="Messages\Base\MessageBase.cs" />
+    <Compile Include="Messages\ChangeLobbyChatStatus.cs" />
     <Compile Include="Messages\LobbyChatMessage.cs" />
     <Compile Include="Messages\LobbyInfoMessage.cs" />
     <Compile Include="Messages\SendDataConfirmation.cs" />

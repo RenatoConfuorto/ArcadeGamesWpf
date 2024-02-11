@@ -43,7 +43,8 @@ namespace LIB_Com.Constants
             SendUserNameToHost      = 1001,
             LobbyInfoMessage        = 1002,
             SendUpdatedUserList     = 1003,
-            LobbyChatMessage        = 1004
+            LobbyChatMessage        = 1004,
+            ChangeLobbyChatStatus   = 1005
         }
 
         #region Static References

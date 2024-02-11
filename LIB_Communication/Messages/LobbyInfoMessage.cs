@@ -28,13 +28,26 @@ namespace LIB_Com.Messages
             get => _users;
             set => SetArray(ref _users, value, MULTIPLAYER_USERS_LIMIT);
         }
+        /// <summary>
+        /// 0 => Disabled, 1 => Enabled
+        /// </summary>
+        public short ChatStatus { get; set; }
+        public bool bChatStatus
+        {
+            get => Convert.ToBoolean(ChatStatus);
+        }
 
         public LobbyInfoMessage() { }
-        public LobbyInfoMessage(string hostIp, IEnumerable<OnlineUser> users)
+        public LobbyInfoMessage(string hostIp, IEnumerable<OnlineUser> users, short chatStatus)
             :base(CommunicationCnst.Messages.LobbyInfoMessage, new Guid())
         {
-            this.HostIp = hostIp;
-            this.Users = users.ToArray(); 
+            this.HostIp     = hostIp;
+            this.Users      = users.ToArray(); 
+            this.ChatStatus = chatStatus;
+        }
+        public LobbyInfoMessage(string hostIp, IEnumerable<OnlineUser> users, bool chatStatus)
+            :this(hostIp, users, Convert.ToInt16(chatStatus))
+        {
         }
 
         #region Serialize / Deserialize
@@ -43,18 +56,16 @@ namespace LIB_Com.Messages
         {
             base.SerializeData(bw);
             bw.Write(_hostIp);
-            //for (int i = 0; i < MULTIPLAYER_USERS_LIMIT; i++)
-            //{
-            //    bw.Write(Users[i].Serialize());
-            //}
             bw.WriteObjectList(Users);
+            bw.Write(ChatStatus);
         }
 
         public override void DeserializeData(BinaryReader br)
         {
             base.DeserializeData(br);
-            this.HostIp = br.ReadString(HOST_IP_LENGTH);
-            this.Users  = br.ReadObjectList<OnlineUser>(MULTIPLAYER_USERS_LIMIT).ToArray();
+            this.HostIp     = br.ReadString(HOST_IP_LENGTH);
+            this.Users      = br.ReadObjectList<OnlineUser>(MULTIPLAYER_USERS_LIMIT).ToArray();
+            this.ChatStatus = br.ReadInt16();
         }
         #endregion
     }
