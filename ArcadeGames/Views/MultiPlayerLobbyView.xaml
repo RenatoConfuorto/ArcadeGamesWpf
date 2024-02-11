@@ -21,44 +21,56 @@
             <Border Grid.Row="0" 
                     Grid.Column="0"
                     BorderBrush="{StaticResource BorderColor}"
+                    x:Name="BorderContainer"
                     BorderThickness="1"
-                    Margin="8 10"> <!--CHAT-->
-                <StackPanel>
-                    <ItemsControl ItemsSource="{Binding ChatMessages}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <!--<Border BorderBrush="{StaticResource BorderColor}"
-                                        BorderThickness="0 0 0 1"
-                                        Margin="3 5"
-                                        >-->
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="{Binding User.UserName}"
-                                               ToolTip="{Binding User.UserId}"
-                                               Width="175"/>
-                                        <Label Content=": "/>
-                                        <Label Content="{Binding TextMessage}"/>
-                                    </StackPanel>
-                                    <Line Stroke="{StaticResource BorderColor}"
-                                          StrokeThickness="10"
-                                          StrokeDashArray="0.5"
-                                          Margin="4 6"
-                                          X1="0" 
-                                          X2="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                                          Height="1"/>
-                                </StackPanel>
-                                <!--</Border>-->
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
+                    Margin="8 10">
+                <!--CHAT-->
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Auto" x:Name="ScrollViewerContainer"
+                              Padding="0 5 0 0">
+                    <StackPanel x:Name="MainContainer">
+                        <ItemsControl ItemsSource="{Binding ChatMessages}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource BorderColor}"
+                                            BorderThickness="0 0 0 0"
+                                            Margin="3 5">
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Content="{Binding User.UserName}"
+                                                       ToolTip="{Binding User.UserId}"
+                                                       Width="{x:Static local:MultiPlayerLobbyView.USER_NAME_TEXTBLOCK_WIDTH}"/>
+                                                <Label Content=": "/>
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                    <TextBlock Text="{Binding TextMessage}" 
+                                                               TextWrapping="Wrap" 
+                                                               VerticalAlignment="Center" HorizontalAlignment="Left"
+                                                               Loaded="TextBlock_Loaded"
+                                                               LineHeight="16"
+                                                               FontSize="12"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Line Stroke="{StaticResource BorderColor}"
+                                                  StrokeThickness="10"
+                                                  StrokeDashArray="0.5"
+                                                  Margin="4 6"
+                                                  X1="0" 
+                                                  X2="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                                                  Height="1"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
             </Border>
-            
+
             <Border Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
@@ -68,9 +80,8 @@
                 <TextBox Text="{Binding NewMessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          MaxLength="{x:Static Com_Cnst:CommunicationCnst.LOBBY_CHAT_MESSAGE_SZ}">
                     <TextBox.InputBindings>
-                        <KeyBinding
-                            Key="Enter"
-                            Command="{Binding SendChatMessage}"/>
+                        <KeyBinding Key="Enter"
+                                    Command="{Binding SendChatMessage}"/>
                     </TextBox.InputBindings>
                 </TextBox>
             </Border>

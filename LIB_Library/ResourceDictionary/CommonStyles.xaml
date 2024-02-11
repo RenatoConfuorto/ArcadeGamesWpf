@@ -408,4 +408,9 @@
         </Setter>
     </Style>
     <!--#endregion-->
+
+    <Style x:Key="GridViewColumnNoHeader" TargetType="GridViewColumnHeader">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
 </ResourceDictionary>
