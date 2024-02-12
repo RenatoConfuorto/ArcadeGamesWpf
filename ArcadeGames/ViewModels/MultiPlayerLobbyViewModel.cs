@@ -22,18 +22,19 @@ using LIB_Com.Messages.Base;
 using System.ComponentModel;
 using System.Windows.Threading;
 using System.Runtime.Remoting.Contexts;
+using LIB_Com.ViewModels;
 
 namespace ArcadeGames.ViewModels
 {
     [ViewRef(typeof(MultiPlayerLobbyView))]
-    public class MultiPlayerLobbyViewModel : ContentViewModel
+    public class MultiPlayerLobbyViewModel : OnlineViewModelBase
     {
         #region Private Fields
-        private CommunicationCnst.Mode _userMode;
-        private BrokerHost _brokerHost;
-        private BrokerClient _brokerClient;
-        private BindingList<OnlineUser> _users = new BindingList<OnlineUser>();
-        private string _hostIp;
+        //private CommunicationCnst.Mode _userMode;
+        //private BrokerHost _brokerHost;
+        //private BrokerClient _brokerClient;
+        //private BindingList<OnlineUser> _users = new BindingList<OnlineUser>();
+        //private string _hostIp;
         private string _newMessageText;
         private bool _isLobbyChatEnabled = true;
         private string _chatButtonText = "Chat Abilitata";
@@ -45,25 +46,25 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Public Properties
-        public bool IsUserHost
-        {
-            get => _userMode == CommunicationCnst.Mode.Host;
-        }
-        public bool IsUserClient
-        {
-            get => _userMode == CommunicationCnst.Mode.Client;
-        }
+        //public bool IsUserHost
+        //{
+        //    get => _userMode == CommunicationCnst.Mode.Host;
+        //}
+        //public bool IsUserClient
+        //{
+        //    get => _userMode == CommunicationCnst.Mode.Client;
+        //}
 
-        public string HostIp
-        {
-            get => _hostIp;
-            set => SetProperty(ref _hostIp, value);
-        }
-        public BindingList<OnlineUser> Users
-        {
-            get => _users;
-            set => SetProperty(ref _users, value);
-        }
+        //public string HostIp
+        //{
+        //    get => _hostIp;
+        //    set => SetProperty(ref _hostIp, value);
+        //}
+        //public BindingList<OnlineUser> Users
+        //{
+        //    get => _users;
+        //    set => SetProperty(ref _users, value);
+        //}
         public string NewMessageText
         {
             get => _newMessageText;
@@ -100,7 +101,8 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Constructor
-        public MultiPlayerLobbyViewModel(object param) : base(ViewNames.MultiPlayerLobby, ViewNames.MultiPlayerForm, param) { }
+        public MultiPlayerLobbyViewModel(object param) 
+            : base(ViewNames.MultiPlayerLobby, ViewNames.MultiPlayerForm, param) { }
         #endregion
 
         #region Override Methods
@@ -120,69 +122,29 @@ namespace ArcadeGames.ViewModels
         }
         protected override void GetViewParameter()
         {
+            base.GetViewParameter();
             if(ViewParam != null)
             {
                 if (ViewParam is Dictionary<string, object>)
                 {
                     Dictionary<string, object> parameters = (Dictionary<string, object>)ViewParam;
-                    string parameterName = "Mode";
+                    string parameterName = String.Empty;
                     object tempObj;
-                    if (parameters.TryGetValue(parameterName, out tempObj))
+                    if (IsUserHost)
                     {
-                        if (tempObj is CommunicationCnst.Mode)
-                        {
-                            _userMode = (CommunicationCnst.Mode)tempObj;
-                            NotifyPropertyChanged(nameof(IsUserHost));
-                        }
-                    }
-                    parameterName = "Broker";
-                    if (parameters.TryGetValue(parameterName, out tempObj))
-                    {
-                        if (IsUserHost)
-                        {
-                            HostIp = CommunicationHelper.GetLocalIpAddress().ToString();
-                            if (tempObj is BrokerHost)
-                            {
-                                _brokerHost = (BrokerHost)tempObj;
-                                _brokerHost.LobbyInfoRequestedEvent += OnLobbyInfoRequestedEvent;
-                                _brokerHost.NewOnlineUserEvent += OnNewOnlineUserEvent;
-                                _brokerHost.MessageReceivedEvent += OnMessageReceivedEvent;
-                                AddUser(_brokerHost.User);
-                                _brokerHost.RunServer();
+                        _brokerHost.NewOnlineUserEvent += OnNewOnlineUserEvent;
+                        _brokerHost.LobbyInfoRequestedEvent += OnLobbyInfoRequestedEvent;
+                        _brokerHost.RunServer();
                                 
-                            }
-                        }
-                        else if (IsUserClient)
+                    }
+                    else if (IsUserClient)
+                    {
+                        parameterName = "ChatStatus";
+                        if(parameters.TryGetValue(parameterName, out tempObj))
                         {
-                            if (tempObj is BrokerClient)
+                            if(tempObj is bool chatStatus)
                             {
-                                _brokerClient = (BrokerClient)tempObj;
-                                _brokerClient.MessageReceivedEvent += OnMessageReceivedEvent;
-                                //get client parameters
-                                parameterName = "HostIp";
-                                if(parameters.TryGetValue(parameterName, out tempObj))
-                                {
-                                    if(tempObj is string hostIp)
-                                    {
-                                        HostIp = hostIp;
-                                    }
-                                }
-                                parameterName = "Users";
-                                if(parameters.TryGetValue(parameterName, out tempObj))
-                                {
-                                    if(tempObj is IEnumerable<OnlineUser> users)
-                                    {
-                                        Users = new BindingList<OnlineUser>(users.ToList());
-                                    }
-                                }
-                                parameterName = "ChatStatus";
-                                if(parameters.TryGetValue(parameterName, out tempObj))
-                                {
-                                    if(tempObj is bool chatStatus)
-                                    {
-                                        IsLobbyChatEnabled = chatStatus;
-                                    }
-                                }
+                                IsLobbyChatEnabled = chatStatus;
                             }
                         }
                     }
@@ -260,7 +222,7 @@ namespace ArcadeGames.ViewModels
         #region Client Methods
 
         #endregion
-        private void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
+        protected override void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
         {
             MessageBase message = (MessageBase)e.MessageReceived;
             switch (message.MessageCode)

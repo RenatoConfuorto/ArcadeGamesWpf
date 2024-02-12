@@ -51,5 +51,12 @@ namespace LIB_Com.Constants
         public static readonly int USER_NAME_LEN             = USER_NAME_LENGTH;
         public static readonly int LOBBY_CHAT_MESSAGE_SZ     = LOBBY_CHAT_MESSAGE_SIZE;
         #endregion
+
+        #region View Parameters Names
+        public const string USER_MODE   = "Mode";
+        public const string USER_BROKER = "Broker";
+        public const string HOST_IP     = "HostIp";
+        public const string USERS_LIST  = "Users";
+        #endregion
     }
 }

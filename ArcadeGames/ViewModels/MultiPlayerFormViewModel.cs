@@ -20,6 +20,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using LIB.UserMng;
+using static LIB_Com.Constants.CommunicationCnst;
+using System.ComponentModel;
+using LIB_Com.Entities;
 
 namespace ArcadeGames.ViewModels
 {
@@ -115,10 +118,16 @@ namespace ArcadeGames.ViewModels
         private void CreateCommandExecute(object param)
         {
             BrokerHost broker = new BrokerHost(UserName);
+            BindingList<OnlineUser> users = new BindingList<OnlineUser>()
+            {
+                broker.User,
+            };
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
-                { "Mode", CommunicationCnst.Mode.Host },
-                { "Broker", broker }
+                { USER_MODE, CommunicationCnst.Mode.Host },
+                { USER_BROKER, broker },
+                { USERS_LIST, users },
+                { HOST_IP, CommunicationHelper.GetLocalIpAddress().ToString() },
             };
             ChangeView(ViewNames.MultiPlayerLobby, parameters);
         }
@@ -139,11 +148,6 @@ namespace ArcadeGames.ViewModels
 
                     //ChangeView(ViewNames.MultiPlayerLobby, parameters);
                 }
-                //else
-                //{
-                //    MessageDialogHelper.ShowInfoMessage("La connessione non è andata a buon fine");
-                //    return;
-                //}
                 else
                 {
                     MessageDialogHelper.ShowInfoMessage("Impossibile trovare l'host specificato");
@@ -160,10 +164,10 @@ namespace ArcadeGames.ViewModels
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
-                { "Mode", CommunicationCnst.Mode.Client },
-                { "Broker", sender },
-                { "HostIp", e.HostIp },
-                { "Users", e.Users },
+                { USER_MODE, CommunicationCnst.Mode.Client },
+                { USER_BROKER, sender },
+                { HOST_IP, e.HostIp },
+                { USERS_LIST, e.Users },
                 { "ChatStatus", e.ChatStatus }
             };
             ChangeView(ViewNames.MultiPlayerLobby, parameters);

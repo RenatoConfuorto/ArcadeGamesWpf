@@ -68,6 +68,7 @@
     <Compile Include="Messages\SendUpdatedUserList.cs" />
     <Compile Include="Messages\SendUserNameToHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\OnlineViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MessagesDefinition.xlsx" />
@@ -76,6 +77,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{375e336e-3efc-40fe-88dd-6fe78a662ada}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LIB_Library\LIB_Library.csproj">
+      <Project>{801B867B-AD2D-48F0-AB09-F292567878B4}</Project>
+      <Name>LIB_Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
