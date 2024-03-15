@@ -16,7 +16,7 @@ using LIB.Sounds;
 
 namespace MemoryGame.ViewModels
 {
-    public abstract class MemoryGameViewModelBase<S, G> : GameViewModelBase<CardEntity>
+    public abstract class MemoryGameViewModelBase<S, G> : LocalGameViewModelBase<CardEntity>
         where S : MemorySettingsBase, new()
         where G : GameDataMemoryBase, new()
     {

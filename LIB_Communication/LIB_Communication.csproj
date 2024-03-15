@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ArrayMaxSize.cs" />
+    <Compile Include="Entities\OnlineSettingsBase.cs" />
     <Compile Include="Constants\CommunicationCnst.cs" />
     <Compile Include="Entities\OnlineClient.cs" />
     <Compile Include="Entities\OnlineUser.cs" />
@@ -56,12 +57,14 @@
     <Compile Include="Extensions\BinaryReaderExtensions.cs" />
     <Compile Include="Extensions\BinaryWriterExtensions.cs" />
     <Compile Include="Helpers\CommunicationHelper.cs" />
+    <Compile Include="Interfaces\Entities\IOnlineSettingsBase.cs" />
     <Compile Include="Interfaces\IMessage.cs" />
+    <Compile Include="Interfaces\ViewModels\IOnlineViewModelBase.cs" />
     <Compile Include="MessageBrokers\BrokerBase.cs" />
     <Compile Include="MessageBrokers\BrokerClient.cs" />
     <Compile Include="MessageBrokers\BrokerHost.cs" />
     <Compile Include="Messages\Base\MessageBase.cs" />
-    <Compile Include="Messages\ChangeLobbyChatStatus.cs" />
+    <Compile Include="Messages\LobbyStatusAndSettings.cs" />
     <Compile Include="Messages\LobbyChatMessage.cs" />
     <Compile Include="Messages\LobbyInfoMessage.cs" />
     <Compile Include="Messages\SendDataConfirmation.cs" />
@@ -82,6 +85,9 @@
       <Project>{801B867B-AD2D-48F0-AB09-F292567878B4}</Project>
       <Name>LIB_Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

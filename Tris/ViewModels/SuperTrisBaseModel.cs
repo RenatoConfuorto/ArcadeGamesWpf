@@ -17,7 +17,7 @@ using static Tris.Common.Constants;
 
 namespace Tris.ViewModels
 {
-    public abstract class SuperTrisBaseModel : GameViewModelBase<SuperTrisEntity>
+    public abstract class SuperTrisBaseModel : LocalGameViewModelBase<SuperTrisEntity>
     {
         #region Private Fields
         protected const int MACRO_SIGN_PLACED_WAIT_TIME = 400; //ms

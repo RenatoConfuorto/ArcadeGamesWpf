@@ -147,6 +147,7 @@
     <Compile Include="ValueConverters\ActivePlayerBrushConverter.cs" />
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="ViewModels\GameViewModelBase.cs" />
+    <Compile Include="ViewModels\LocalGameViewModelBase.cs" />
     <Compile Include="ViewModels\MessageBoxViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModelBase.cs" />
     <Compile Include="Views\MessageBox.xaml.cs">
@@ -211,8 +212,6 @@
     <Folder Include="Dependency\" />
     <Folder Include="Events\" />
     <Folder Include="Interfaces\Entities\" />
-    <Folder Include="Interfaces\Navigation\" />
-    <Folder Include="Interfaces\ViewModels\" />
     <Folder Include="MarkupExtensions\" />
   </ItemGroup>
   <ItemGroup>

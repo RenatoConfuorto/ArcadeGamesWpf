@@ -14,7 +14,7 @@ using static Tris.Common.Constants;
 
 namespace Tris.ViewModels
 {
-    public abstract class TrisGameBaseModel : GameViewModelBase<TrisEntity>
+    public abstract class TrisGameBaseModel : LocalGameViewModelBase<TrisEntity>
     {
         #region Private Fields
         protected int turn;

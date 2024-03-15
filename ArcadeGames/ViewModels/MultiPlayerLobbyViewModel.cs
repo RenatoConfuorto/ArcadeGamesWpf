@@ -214,7 +214,7 @@ namespace ArcadeGames.ViewModels
 
         private void SendChatChangedStatus()
         {
-            ChangeLobbyChatStatus message = new ChangeLobbyChatStatus(IsLobbyChatEnabled);
+            LobbyStatusAndSettings message = new LobbyStatusAndSettings(IsLobbyChatEnabled);
             _brokerHost.SendToClients(message);
         }
         #endregion
@@ -222,7 +222,7 @@ namespace ArcadeGames.ViewModels
         #region Client Methods
 
         #endregion
-        protected override void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
+        public override void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
         {
             MessageBase message = (MessageBase)e.MessageReceived;
             switch (message.MessageCode)
@@ -233,8 +233,8 @@ namespace ArcadeGames.ViewModels
                 case (int)CommunicationCnst.Messages.LobbyChatMessage:
                     HandleNewChatMessage(message as LobbyChatMessage);
                     break;
-                case (int)CommunicationCnst.Messages.ChangeLobbyChatStatus:
-                    HandleNewChatStatus(message as ChangeLobbyChatStatus);
+                case (int)CommunicationCnst.Messages.LobbyStatusAndSettings:
+                    HandleNewChatStatus(message as LobbyStatusAndSettings);
                     break;
             }
         }
@@ -248,7 +248,7 @@ namespace ArcadeGames.ViewModels
         {
             Users = new BindingList<OnlineUser>(message.Users);
         }
-        private void HandleNewChatStatus(ChangeLobbyChatStatus message)
+        private void HandleNewChatStatus(LobbyStatusAndSettings message)
         {
             if (IsUserClient)
                 IsLobbyChatEnabled = message.bChatStatus;

@@ -108,7 +108,7 @@ namespace LIB_Com.MessageBrokers
             _socket.BeginAccept(new AsyncCallback(AcceptCallback), null);
         }
 
-        public void SendLobbyInfo(OnlineClient client, IEnumerable<OnlineUser> users, bool chatStatus)
+        public void SendLobbyInfo(OnlineClient client, IEnumerable<OnlineUser> users, bool chatStatus) // use LobbyStatusAndSettings for all the information
         {
             LobbyInfoMessage infoMessage = new LobbyInfoMessage(CommunicationHelper.GetLocalIpAddress().ToString(), users, chatStatus);
             SendMessage(client.socket, infoMessage);

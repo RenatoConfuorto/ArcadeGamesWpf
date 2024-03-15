@@ -177,9 +177,9 @@ namespace LIB_Com.MessageBrokers
                     return CommunicationHelper.DeserializeObject<SendUpdatedUserList>(data);
                 case CommunicationCnst.Messages.LobbyChatMessage:
                     return CommunicationHelper.DeserializeObject<LobbyChatMessage>(data);
-                case CommunicationCnst.Messages.ChangeLobbyChatStatus:
-                    return CommunicationHelper.DeserializeObject<ChangeLobbyChatStatus>(data);
-                    default: return null;
+                case CommunicationCnst.Messages.LobbyStatusAndSettings:
+                    return CommunicationHelper.DeserializeObject<LobbyStatusAndSettings>(data);
+                default: return null;
             }
         }
         #endregion

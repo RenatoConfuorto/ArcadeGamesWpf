@@ -16,10 +16,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static LIB_Com.Constants.CommunicationCnst;
+using LIB_Com.Interfaces.ViewModels;
 
 namespace LIB_Com.ViewModels
 {
-    public class OnlineViewModelBase : ContentViewModel
+    public class OnlineViewModelBase : ContentViewModel , IOnlineViewModelBase
     {
         #region Private Fields
         private BindingList<OnlineUser> _users = new BindingList<OnlineUser>();
@@ -27,15 +28,15 @@ namespace LIB_Com.ViewModels
         #endregion
 
         #region Protected fields
-        protected CommunicationCnst.Mode _userMode;
-        protected BrokerHost _brokerHost;
-        protected BrokerClient _brokerClient;
         #endregion
 
         #region Command
         #endregion
 
         #region Public Properties
+        public CommunicationCnst.Mode _userMode { get; private set; }
+        public BrokerHost _brokerHost { get; private set; }
+        public BrokerClient _brokerClient { get; private set; }
         public bool IsUserHost
         {
             get => _userMode == CommunicationCnst.Mode.Host;
@@ -170,7 +171,7 @@ namespace LIB_Com.ViewModels
         #region Client Methods
 
         #endregion
-        protected virtual void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
+        public virtual void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
         {
         }
 

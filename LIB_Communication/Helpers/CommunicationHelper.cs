@@ -130,21 +130,7 @@ namespace LIB.Helpers
         /// <param name="fieldLength"></param>
         public static void SetString(ref char[] field, string value, int fieldLength)
         {
-            SetArray(ref field, value, fieldLength);
-            //field = new char[fieldLength];
-            //for (int i = 0; i < fieldLength; i++)
-            //{
-            //    char element;
-            //    if (i < value.Count())
-            //    {
-            //        element = value.ElementAt(i);
-            //    }
-            //    else
-            //    {
-            //        element = new char();
-            //    }
-            //    field[i] = element;
-            //}
+            SetArray(ref field, value, fieldLength, ' ');
         }
         /// <summary>
         /// Set an array keeping the same length
@@ -154,6 +140,19 @@ namespace LIB.Helpers
         /// <param name="value"></param>
         /// <param name="fieldLength"></param>
         public static void SetArray<T>(ref T[] field, IEnumerable<T> value, int fieldLength)
+            where T : new()
+        {
+            SetArray(ref field, value, fieldLength, new T());
+        }
+        /// <summary>
+        /// Set an array keeping the same length
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="fieldLength"></param>
+        /// <param name="voidValue"></param>
+        public static void SetArray<T>(ref T[] field, IEnumerable<T> value, int fieldLength, T voidValue)
             where T : new()
         {
             field = new T[fieldLength];
@@ -166,7 +165,7 @@ namespace LIB.Helpers
                 }
                 else
                 {
-                    element = new T();
+                    element = voidValue;
                 }
                 field[i] = element;
             }

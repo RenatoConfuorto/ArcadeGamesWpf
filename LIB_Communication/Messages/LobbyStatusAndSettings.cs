@@ -12,7 +12,7 @@ using static LIB.Helpers.CommunicationHelper;
 
 namespace LIB_Com.Messages
 {
-    public class ChangeLobbyChatStatus : MessageBase
+    public class LobbyStatusAndSettings : MessageBase
     {
         /// <summary>
         /// 0 => Disabled, 1 => Enabled
@@ -23,14 +23,14 @@ namespace LIB_Com.Messages
             get => Convert.ToBoolean(ChatStatus);
         }
 
-        public ChangeLobbyChatStatus() { }
-        public ChangeLobbyChatStatus(short status)
-            : base(CommunicationCnst.Messages.ChangeLobbyChatStatus, new Guid())
+        public LobbyStatusAndSettings() { }
+        public LobbyStatusAndSettings(short status)
+            : base(CommunicationCnst.Messages.LobbyStatusAndSettings, new Guid())
         {
             this.ChatStatus = status;
         }
 
-        public ChangeLobbyChatStatus(bool status)
+        public LobbyStatusAndSettings(bool status)
             :this(Convert.ToInt16(status))
         {
         }
