@@ -23,12 +23,12 @@ namespace LIB_Com.Entities
             set => SetProperty(ref _playersTime, value);
         }
 
-        private char[] _settingsPopupName = new char[ONLINE_SETTINGS_POPUP_NAME_LEN];
-        public string SettingsPopupName
-        {
-            get => new string(_settingsPopupName).Trim();
-            set => SetString(ref _settingsPopupName, value, ONLINE_SETTINGS_POPUP_NAME_LEN);
-        }
+        //private char[] _settingsPopupName = new char[ONLINE_SETTINGS_POPUP_NAME_LEN];
+        //public string SettingsPopupName
+        //{
+        //    get => new string(_settingsPopupName).Trim();
+        //    set => SetString(ref _settingsPopupName, value, ONLINE_SETTINGS_POPUP_NAME_LEN);
+        //}
 
         #region ISerializableBase
         public byte[] Serialize()
@@ -37,7 +37,7 @@ namespace LIB_Com.Entities
             using (BinaryWriter bw = new BinaryWriter(ms))
             {
                 bw.Write(PlayersTime);
-                bw.Write(_settingsPopupName);
+                //bw.Write(_settingsPopupName);
                 SerializeData(bw);
                 return ms.ToArray();
             }
@@ -56,7 +56,7 @@ namespace LIB_Com.Entities
                 using (BinaryReader br = new BinaryReader(ms))
                 {
                     this.PlayersTime = br.ReadInt32();
-                    this.SettingsPopupName = br.ReadString(ONLINE_SETTINGS_POPUP_NAME_LEN);
+                    //this.SettingsPopupName = br.ReadString(ONLINE_SETTINGS_POPUP_NAME_LEN);
                     DeserializeData(br);
                 }
             }

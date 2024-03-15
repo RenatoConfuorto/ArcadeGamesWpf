@@ -23,6 +23,8 @@ using System.ComponentModel;
 using System.Windows.Threading;
 using System.Runtime.Remoting.Contexts;
 using LIB_Com.ViewModels;
+using static LIB_Com.Constants.OnlineGamesDefs;
+using System.Windows.Controls;
 
 namespace ArcadeGames.ViewModels
 {
@@ -30,41 +32,21 @@ namespace ArcadeGames.ViewModels
     public class MultiPlayerLobbyViewModel : OnlineViewModelBase
     {
         #region Private Fields
-        //private CommunicationCnst.Mode _userMode;
-        //private BrokerHost _brokerHost;
-        //private BrokerClient _brokerClient;
-        //private BindingList<OnlineUser> _users = new BindingList<OnlineUser>();
-        //private string _hostIp;
         private string _newMessageText;
         private bool _isLobbyChatEnabled = true;
         private string _chatButtonText = "Chat Abilitata";
         private BindingList<LobbyChatMessage> _chatMessages = new BindingList<LobbyChatMessage>();
+        private OnlineGame _selectedGame;
+        public UserControl _settingsControl;
         #endregion
 
         #region Command
         public RelayCommand SendChatMessage { get; set; }
+        public RelayCommand RemovePlayerTime { get; set; }
+        public RelayCommand AddPlayerTime { get; set; }
         #endregion
 
         #region Public Properties
-        //public bool IsUserHost
-        //{
-        //    get => _userMode == CommunicationCnst.Mode.Host;
-        //}
-        //public bool IsUserClient
-        //{
-        //    get => _userMode == CommunicationCnst.Mode.Client;
-        //}
-
-        //public string HostIp
-        //{
-        //    get => _hostIp;
-        //    set => SetProperty(ref _hostIp, value);
-        //}
-        //public BindingList<OnlineUser> Users
-        //{
-        //    get => _users;
-        //    set => SetProperty(ref _users, value);
-        //}
         public string NewMessageText
         {
             get => _newMessageText;
@@ -98,6 +80,30 @@ namespace ArcadeGames.ViewModels
             get => _chatMessages;
             set => SetProperty(ref _chatMessages, value);
         }
+        public OnlineGame SelectedGame
+        {
+            get => _selectedGame;
+            set
+            {
+                SetProperty(ref _selectedGame, value);
+                NotifyPropertyChanged(nameof(GameSettings));
+                SetCommandExecutionStatus();
+                OnSelectedGameChanged();
+            }
+        }
+        public OnlineSettingsBase GameSettings
+        {
+            get => SelectedGame?.GameSettings;
+        }
+        public List<OnlineGame> Games
+        {
+            get => OnlineGamesDefs.Games;
+        }
+        public UserControl SettingsControl
+        {
+            get => _settingsControl;
+            set => SetProperty(ref _settingsControl, value);
+        }
         #endregion
 
         #region Constructor
@@ -114,11 +120,15 @@ namespace ArcadeGames.ViewModels
         {
             base.InitCommands();
             SendChatMessage = new RelayCommand(SendChatMessageExecute, SendChatMessageCanExecute);
+            RemovePlayerTime = new RelayCommand(RemovePlayerTimeExecute, RemovePlayerTimeCanExecute);
+            AddPlayerTime = new RelayCommand(AddPlayerTimeExecute, AddPlayerTimeCanExecute);
         }
         protected override void SetCommandExecutionStatus()
         {
             base.SetCommandExecutionStatus();
             SendChatMessage.RaiseCanExecuteChanged();
+            RemovePlayerTime.RaiseCanExecuteChanged();
+            AddPlayerTime.RaiseCanExecuteChanged();
         }
         protected override void GetViewParameter()
         {
@@ -253,7 +263,10 @@ namespace ArcadeGames.ViewModels
             if (IsUserClient)
                 IsLobbyChatEnabled = message.bChatStatus;
         }
+        private void OnSelectedGameChanged()
+        {
 
+        }
         #endregion
 
         #region Commands methods
@@ -277,6 +290,24 @@ namespace ArcadeGames.ViewModels
             NewMessageText = String.Empty;
         }
         private bool SendChatMessageCanExecute(object paran) => IsLobbyChatEnabled && !String.IsNullOrWhiteSpace(NewMessageText);
+
+        private void RemovePlayerTimeExecute(object param)
+        {
+            if (GameSettings.PlayersTime > 5)
+                GameSettings.PlayersTime -= 5;
+            else GameSettings.PlayersTime = 1;
+            //Force Commands can execute update
+            RemovePlayerTime.RaiseCanExecuteChanged();
+        }
+        private bool RemovePlayerTimeCanExecute(object param) => SelectedGame != null && GameSettings.PlayersTime > 1;
+        private void AddPlayerTimeExecute(object param)
+        {
+            GameSettings.PlayersTime += 5;
+            AddPlayerTime.RaiseCanExecuteChanged();
+            //Force Commands can execute update
+            RemovePlayerTime.RaiseCanExecuteChanged();
+        }
+        private bool AddPlayerTimeCanExecute(object param) => SelectedGame != null;
         #endregion
     }
 }

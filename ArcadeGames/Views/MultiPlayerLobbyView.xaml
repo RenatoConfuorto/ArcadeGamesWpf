@@ -7,6 +7,11 @@
              xmlns:Com_Cnst="clr-namespace:LIB_Com.Constants;assembly=LIB_Com"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!--<DataTemplate DataType="{x:Type Settings:OnlineTrisSettings}">
+            <Label Content="Impostazioni del tris"/>
+        </DataTemplate>-->
+    </UserControl.Resources>
     <Border BorderBrush="Transparent" BorderThickness="30 15 30 0" HorizontalAlignment="Stretch">
         <Grid Background="{StaticResource BgColor}" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
@@ -140,11 +145,11 @@
                                                            HorizontalAlignment="Left"/>
                                             <StackPanel Grid.Column="1"
                                                         Width="125">
-                                                <ComboBox Width="75" MinWidth="75"
+                                                <!--<ComboBox Width="75" MinWidth="75"
                                                           Grid.Column="1"
                                                           VerticalAlignment="Center" Visibility="Hidden"
                                                           IsEnabled="{Binding IsUserHost}"
-                                                          HorizontalAlignment="Center"/> <!--DA ABILITARE-->
+                                                          HorizontalAlignment="Center"/>--> <!--DA ABILITARE-->
                                             </StackPanel>
                                         </Grid>
                                     </DataTemplate>
@@ -168,6 +173,33 @@
                                       Foreground="{StaticResource TextColor}"
                                       IsEnabled="{Binding IsUserHost}"
                                       IsChecked="{Binding IsLobbyChatEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <StackPanel IsEnabled="{Binding IsUserHost}">
+                                <StackPanel Orientation="Horizontal" Margin="0 8 0 0">
+                                    <Label Content="Gioco: " Foreground="{StaticResource TextColor}"/>
+                                    <ComboBox ItemsSource="{Binding Games}"
+                                              SelectedItem="{Binding SelectedGame, Mode=TwoWay}"
+                                              DisplayMemberPath="NameDisplay"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0 8 0 0">
+                                    <Label Content="Dur. Turno: " Foreground="{StaticResource TextColor}"/>
+                                    <Button Content="5-"
+                                            Command="{Binding RemovePlayerTime}"/>
+                                    <TextBox Text="{Binding GameSettings.PlayersTime}" 
+                                             VerticalAlignment="Center"
+                                             HorizontalContentAlignment="Center"
+                                             IsReadOnly="True"
+                                             Width="75" 
+                                             MinWidth="0" 
+                                             Margin="6 0"/>
+                                    <Button Content="5+"
+                                            Command="{Binding AddPlayerTime}"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="0 8 0 0">
+                                    <ContentControl Content="{Binding SettingsControl}"/>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
                 </Grid>

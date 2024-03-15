@@ -11,6 +11,6 @@ namespace LIB_Com.Interfaces.Entities
     public interface IOnlineSettingsBase : ISerializableBase
     {
         int PlayersTime { get; set; }
-        string SettingsPopupName { get; set; }
+        //string SettingsPopupName { get; set; }
     }
 }
