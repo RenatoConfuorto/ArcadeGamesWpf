@@ -185,7 +185,7 @@
                                     <Label Content="Dur. Turno: " Foreground="{StaticResource TextColor}"/>
                                     <Button Content="5-"
                                             Command="{Binding RemovePlayerTime}"/>
-                                    <TextBox Text="{Binding GameSettings.PlayersTime}" 
+                                    <TextBox Text="{Binding PlayersTime}" 
                                              VerticalAlignment="Center"
                                              HorizontalContentAlignment="Center"
                                              IsReadOnly="True"

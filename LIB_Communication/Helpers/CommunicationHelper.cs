@@ -1,5 +1,8 @@
 ﻿using LIB_Com.Constants;
+using LIB_Com.Entities;
+using LIB_Com.Entities.OnlineGameSettings;
 using LIB_Com.Events;
+using LIB_Com.Extensions;
 using LIB_Com.Messages;
 using LIB_Com.Messages.Base;
 using System;
@@ -15,6 +18,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static LIB_Com.Constants.CommunicationCnst;
+using static LIB_Com.Constants.OnlineGamesDefs;
 
 namespace LIB.Helpers
 {
@@ -169,6 +173,23 @@ namespace LIB.Helpers
                 }
                 field[i] = element;
             }
+        }
+        /// <summary>
+        /// Reads an online settings object from the Binary Reader given the GameId
+        /// </summary>
+        /// <param name="br"></param>
+        /// <param name="gameId"></param>
+        /// <returns></returns>
+        public static OnlineSettingsBase DeserializeOnlineSettings(BinaryReader br, int gameId)
+        {
+            OnlineSettingsBase result = null;
+            switch(gameId)
+            {
+                case TRIS_ID:
+                    result = br.ReadObject<OnlineTrisSettings>();
+                    break;
+            }
+            return result;
         }
     }
 }

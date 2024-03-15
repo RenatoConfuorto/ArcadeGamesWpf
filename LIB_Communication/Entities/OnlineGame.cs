@@ -11,7 +11,7 @@ namespace LIB_Com.Entities
     {
         public string _nameDisplay;
         public string _settingControlName;
-        public int _gameId;
+        public short _gameId;
         public OnlineSettingsBase _gameSettings;
 
         public string NameDisplay
@@ -24,7 +24,7 @@ namespace LIB_Com.Entities
             get => _settingControlName;
             set => SetProperty(ref _settingControlName, value);
         }
-        public int GameId
+        public short GameId
         {
             get => _gameId;
             set => SetProperty(ref _gameId, value);

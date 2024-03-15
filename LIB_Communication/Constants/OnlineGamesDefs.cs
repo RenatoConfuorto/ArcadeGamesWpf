@@ -10,8 +10,11 @@ namespace LIB_Com.Constants
 {
     public class OnlineGamesDefs
     {
+        #region Online Game Ids
+        public const short TRIS_ID = 1;
+        #endregion
         #region Controls names
-        public const string ONLINE_TRIS_SETTINGS = "OnlineTrisSettings";
+        public const string ONLINE_TRIS_SETTINGS = "OnlineTrisSettings"; // Not used
         #endregion
 
         #region Game Settings Def Values
@@ -24,7 +27,7 @@ namespace LIB_Com.Constants
             {
                 NameDisplay = "Tris",
                 //SettingControlName = ONLINE_TRIS_SETTINGS, // No Control for Tris game
-                GameId = 1,
+                GameId = TRIS_ID,
                 GameSettings = new OnlineTrisSettings()
                 {
                     PlayersTime = ONLINE_TRIS_DEF_PLAYER_TIME

@@ -64,7 +64,7 @@ namespace ArcadeGames.ViewModels
                 SetProperty(ref _isLobbyChatEnabled, value);
                 SetCommandExecutionStatus();
                 if(IsUserHost)
-                    SendChatChangedStatus();
+                    SendLobbyStatusToClients();
                 SwitchChatButtonText(value);
                 if (!value)
                     NewMessageText = String.Empty;
@@ -80,6 +80,10 @@ namespace ArcadeGames.ViewModels
             get => _chatMessages;
             set => SetProperty(ref _chatMessages, value);
         }
+        public List<OnlineGame> Games
+        {
+            get => OnlineGamesDefs.Games;
+        }
         public OnlineGame SelectedGame
         {
             get => _selectedGame;
@@ -87,6 +91,7 @@ namespace ArcadeGames.ViewModels
             {
                 SetProperty(ref _selectedGame, value);
                 NotifyPropertyChanged(nameof(GameSettings));
+                NotifyPropertyChanged(nameof(PlayersTime));
                 SetCommandExecutionStatus();
                 OnSelectedGameChanged();
             }
@@ -95,9 +100,19 @@ namespace ArcadeGames.ViewModels
         {
             get => SelectedGame?.GameSettings;
         }
-        public List<OnlineGame> Games
+        public int PlayersTime
         {
-            get => OnlineGamesDefs.Games;
+            get => (int)GameSettings?.PlayersTime;
+            set
+            {
+                if(GameSettings != null)
+                {
+                    GameSettings.PlayersTime = value;
+                    NotifyPropertyChanged();
+                    SetCommandExecutionStatus();
+                    SendLobbyStatusToClients();
+                }
+            }
         }
         public UserControl SettingsControl
         {
@@ -171,6 +186,22 @@ namespace ArcadeGames.ViewModels
             _brokerClient?.Dispose();
             base.Dispose();
         }
+        public override void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
+        {
+            MessageBase message = (MessageBase)e.MessageReceived;
+            switch (message.MessageCode)
+            {
+                case (int)CommunicationCnst.Messages.SendUpdatedUserList:
+                    HandleUpdateUserListMessage(message as SendUpdatedUserList);
+                    break;
+                case (int)CommunicationCnst.Messages.LobbyChatMessage:
+                    HandleNewChatMessage(message as LobbyChatMessage);
+                    break;
+                case (int)CommunicationCnst.Messages.LobbyStatusAndSettings:
+                    HandleLobbyStatusMessage(message as LobbyStatusAndSettings);
+                    break;
+            }
+        }
         #endregion
 
         #region Private Methods
@@ -222,32 +253,25 @@ namespace ArcadeGames.ViewModels
             }
         }
 
-        private void SendChatChangedStatus()
+        private void SendLobbyStatusToClients()
         {
-            LobbyStatusAndSettings message = new LobbyStatusAndSettings(IsLobbyChatEnabled);
+            LobbyStatusAndSettings message = GetLobbyStatus();
             _brokerHost.SendToClients(message);
+        }
+        private LobbyStatusAndSettings GetLobbyStatus()
+        {
+            return new LobbyStatusAndSettings
+            {
+                ChatStatus   = Convert.ToInt16(this.IsLobbyChatEnabled),
+                GameId       = SelectedGame == null ? (short)0 : SelectedGame.GameId,
+                GameSettings = this.GameSettings,
+            };
         }
         #endregion
 
         #region Client Methods
 
         #endregion
-        public override void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
-        {
-            MessageBase message = (MessageBase)e.MessageReceived;
-            switch (message.MessageCode)
-            {
-                case (int)CommunicationCnst.Messages.SendUpdatedUserList:
-                    HandleUpdateUserListMessage(message as  SendUpdatedUserList);
-                    break;
-                case (int)CommunicationCnst.Messages.LobbyChatMessage:
-                    HandleNewChatMessage(message as LobbyChatMessage);
-                    break;
-                case (int)CommunicationCnst.Messages.LobbyStatusAndSettings:
-                    HandleNewChatStatus(message as LobbyStatusAndSettings);
-                    break;
-            }
-        }
         private void HandleNewChatMessage(LobbyChatMessage message)
         {
             AddMessage(message);
@@ -258,14 +282,26 @@ namespace ArcadeGames.ViewModels
         {
             Users = new BindingList<OnlineUser>(message.Users);
         }
-        private void HandleNewChatStatus(LobbyStatusAndSettings message)
+        private void HandleLobbyStatusMessage(LobbyStatusAndSettings message)
         {
             if (IsUserClient)
+            {
                 IsLobbyChatEnabled = message.bChatStatus;
+                SelectedGame = Games.Where(g => g.GameId == message.GameId).FirstOrDefault();
+                if(SelectedGame != null)
+                {
+                    SelectedGame.GameSettings = message.GameSettings;
+                }
+                NotifyPropertyChanged(nameof(GameSettings));
+                NotifyPropertyChanged(nameof(PlayersTime));
+            }
         }
         private void OnSelectedGameChanged()
         {
-
+            if(IsUserHost)
+            {
+                SendLobbyStatusToClients();
+            }
         }
         #endregion
 
@@ -293,19 +329,17 @@ namespace ArcadeGames.ViewModels
 
         private void RemovePlayerTimeExecute(object param)
         {
-            if (GameSettings.PlayersTime > 5)
-                GameSettings.PlayersTime -= 5;
-            else GameSettings.PlayersTime = 1;
-            //Force Commands can execute update
-            RemovePlayerTime.RaiseCanExecuteChanged();
+            if (PlayersTime > 5)
+                PlayersTime -= 5;
+            else PlayersTime = 1;
         }
-        private bool RemovePlayerTimeCanExecute(object param) => SelectedGame != null && GameSettings.PlayersTime > 1;
+        private bool RemovePlayerTimeCanExecute(object param) => SelectedGame != null && PlayersTime > 1;
         private void AddPlayerTimeExecute(object param)
         {
-            GameSettings.PlayersTime += 5;
+            if (PlayersTime >= 5)
+                PlayersTime += 5;
+            else PlayersTime = 5;
             AddPlayerTime.RaiseCanExecuteChanged();
-            //Force Commands can execute update
-            RemovePlayerTime.RaiseCanExecuteChanged();
         }
         private bool AddPlayerTimeCanExecute(object param) => SelectedGame != null;
         #endregion

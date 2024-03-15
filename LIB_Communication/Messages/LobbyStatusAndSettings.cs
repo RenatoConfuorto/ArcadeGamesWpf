@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static LIB_Com.Constants.CommunicationCnst;
 using static LIB.Helpers.CommunicationHelper;
+using LIB_Com.Extensions;
+using LIB.Helpers;
 
 namespace LIB_Com.Messages
 {
@@ -23,7 +25,14 @@ namespace LIB_Com.Messages
             get => Convert.ToBoolean(ChatStatus);
         }
 
-        public LobbyStatusAndSettings() { }
+        public short GameId { get; set; }
+        public OnlineSettingsBase GameSettings { get; set; }
+
+        public LobbyStatusAndSettings()
+            :base(CommunicationCnst.Messages.LobbyStatusAndSettings, new Guid())
+        {
+            
+        }
         public LobbyStatusAndSettings(short status)
             : base(CommunicationCnst.Messages.LobbyStatusAndSettings, new Guid())
         {
@@ -39,12 +48,16 @@ namespace LIB_Com.Messages
         {
             base.SerializeData(bw);
             bw.Write(ChatStatus);
+            bw.Write(GameId);
+            if(GameSettings != null) bw.WriteObject(GameSettings);
         }
 
         public override void DeserializeData(BinaryReader br)
         {
             base.DeserializeData(br);
             this.ChatStatus = br.ReadInt16();
+            this.GameId     = br.ReadInt16();
+            this.GameSettings = CommunicationHelper.DeserializeOnlineSettings(br, this.GameId);
         }
         #endregion
     }
