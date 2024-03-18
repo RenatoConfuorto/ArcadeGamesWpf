@@ -143,10 +143,16 @@ namespace LIB.Helpers
                     User _user;
                     foreach (string directoryUser in directoryUsers)
                     {
-                        if (!File.Exists($"{directoryUser}\\{Cnst.UserFileName}")) continue;
-                        string userXML = File.ReadAllText($"{directoryUser}\\{Cnst.UserFileName}");
-                        _user = (User)XmlSerializerBase.DeserializeObjectFromString(userXML, typeof(User));
-                        users.Add(_user);
+                        try
+                        {
+                            if (!File.Exists($"{directoryUser}\\{Cnst.UserFileName}")) continue;
+                            string userXML = File.ReadAllText($"{directoryUser}\\{Cnst.UserFileName}");
+                            _user = (User)XmlSerializerBase.DeserializeObjectFromString(userXML, typeof(User));
+                            users.Add(_user);
+                        }catch (Exception e)
+                        {
+                            //Log Error
+                        }
                     }
                 }
             }

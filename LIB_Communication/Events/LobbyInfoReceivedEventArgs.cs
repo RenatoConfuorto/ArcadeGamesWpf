@@ -12,20 +12,20 @@ namespace LIB_Com.Events
     {
         public string HostIp { get; set; }
         public IEnumerable<OnlineUser> Users { get; set; }
-        public bool ChatStatus { get; set; }
+        public LobbyStatus lobbyStatus { get; set; }
 
-        public LobbyInfoReceivedEventArgs(string hostIp, IEnumerable<OnlineUser> users, bool chatStatus)
+        public LobbyInfoReceivedEventArgs(string hostIp, IEnumerable<OnlineUser> users, LobbyStatus lobbyStatus)
         {
             this.HostIp     = hostIp;
             this.Users      = users;
-            this.ChatStatus = chatStatus;
+            this.lobbyStatus = lobbyStatus;
         }
 
         public LobbyInfoReceivedEventArgs(LobbyInfoMessage infoMessage) 
         { 
             this.HostIp     = infoMessage.HostIp;
             this.Users      = infoMessage.Users;
-            this.ChatStatus = infoMessage.bChatStatus;
+            this.lobbyStatus = infoMessage.lobbyStatus;
         }
     }
 }

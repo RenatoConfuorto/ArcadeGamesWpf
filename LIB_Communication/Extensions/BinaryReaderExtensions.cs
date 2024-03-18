@@ -12,7 +12,7 @@ namespace LIB_Com.Extensions
     {
         private const int GUID_LENGTH = 16;
         /// <summary>
-        /// Reads a GUID from the BinaryReader
+        ///     Reads a GUID from the BinaryReader
         /// </summary>
         /// <param name="br"></param>
         /// <returns></returns>
@@ -21,7 +21,24 @@ namespace LIB_Com.Extensions
             return new Guid(br.ReadBytes(GUID_LENGTH));
         }
         /// <summary>
-        /// Reads an object of type <interface cref="ISerializableBase"/> from the BinaryReader
+        ///     Reads an object of type <interface cref="ISerializableBase"/> from the BinaryReader using all the remaining bytes
+        /// </summary>
+        /// <remarks>
+        ///     The object to read must be positioned at the end of the stream since this method takes all the remaining bytes of it.
+        /// </remarks>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="br"></param>
+        /// <returns></returns>
+        public static T ReadDynamicObject<T>(this BinaryReader br)
+            where T : ISerializableBase, new()
+        {
+            T result = new T();
+            long remaining_bytes = br.BaseStream.Length - br.BaseStream.Position;
+            result.Deserialize(br.ReadBytes((int)remaining_bytes));
+            return result;
+        }
+        /// <summary>
+        ///     Reads an object of type <interface cref="ISerializableBase"/> from the BinaryReader
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="br"></param>
@@ -34,7 +51,7 @@ namespace LIB_Com.Extensions
             return result;
         }
         /// <summary>
-        /// Reads a list ob object of type <interface cref="ISerializableBase"/> from the BinaryReader
+        ///     Reads a list ob object of type <interface cref="ISerializableBase"/> from the BinaryReader
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="br"></param>
@@ -53,7 +70,7 @@ namespace LIB_Com.Extensions
             }
         }
         /// <summary>
-        /// Reads a string of length <paramref name="StringLength"/> from the BinaryReader
+        ///     Reads a string of length <paramref name="StringLength"/> from the BinaryReader
         /// </summary>
         /// <param name="br"></param>
         /// <param name="StringLength"></param>

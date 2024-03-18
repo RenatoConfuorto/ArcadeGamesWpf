@@ -164,12 +164,12 @@ namespace ArcadeGames.ViewModels
                     }
                     else if (IsUserClient)
                     {
-                        parameterName = "ChatStatus";
+                        parameterName = "LobbyStatus";
                         if(parameters.TryGetValue(parameterName, out tempObj))
                         {
-                            if(tempObj is bool chatStatus)
+                            if(tempObj is LobbyStatus lobbyStatus)
                             {
-                                IsLobbyChatEnabled = chatStatus;
+                                SetLobbyStatusForClient(lobbyStatus);
                             }
                         }
                     }
@@ -238,7 +238,7 @@ namespace ArcadeGames.ViewModels
         #region Host Methods
         private void OnLobbyInfoRequestedEvent(object sender, LobbyInfoRequestedEventArgs e)
         {
-            _brokerHost.SendLobbyInfo(e.client, Users, IsLobbyChatEnabled);
+            _brokerHost.SendLobbyInfo(e.client, Users, GetLobbyStatus());
         }
 
         private void OnNewOnlineUserEvent(object sender, NewOnlineUserEventArgs e)
@@ -255,22 +255,31 @@ namespace ArcadeGames.ViewModels
 
         private void SendLobbyStatusToClients()
         {
-            LobbyStatusAndSettings message = GetLobbyStatus();
+            LobbyStatusAndSettings message = new LobbyStatusAndSettings(GetLobbyStatus());
             _brokerHost.SendToClients(message);
         }
-        private LobbyStatusAndSettings GetLobbyStatus()
+        private LobbyStatus GetLobbyStatus()
         {
-            return new LobbyStatusAndSettings
-            {
-                ChatStatus   = Convert.ToInt16(this.IsLobbyChatEnabled),
-                GameId       = SelectedGame == null ? (short)0 : SelectedGame.GameId,
-                GameSettings = this.GameSettings,
-            };
+            return new LobbyStatus(
+                Convert.ToInt16(this.IsLobbyChatEnabled),
+                SelectedGame == null ? (short)0 : SelectedGame.GameId,
+                this.GameSettings
+                );
         }
         #endregion
 
         #region Client Methods
-
+        private void SetLobbyStatusForClient(LobbyStatus lobbyStatus)
+        {
+            IsLobbyChatEnabled = lobbyStatus.bChatStatus;
+            SelectedGame = Games.Where(g => g.GameId == lobbyStatus.GameId).FirstOrDefault();
+            if(SelectedGame != null )
+            {
+                SelectedGame.GameSettings = lobbyStatus.GameSettings;
+            }
+            NotifyPropertyChanged(nameof(GameSettings));
+            NotifyPropertyChanged(nameof(PlayersTime));
+        }
         #endregion
         private void HandleNewChatMessage(LobbyChatMessage message)
         {
@@ -286,14 +295,7 @@ namespace ArcadeGames.ViewModels
         {
             if (IsUserClient)
             {
-                IsLobbyChatEnabled = message.bChatStatus;
-                SelectedGame = Games.Where(g => g.GameId == message.GameId).FirstOrDefault();
-                if(SelectedGame != null)
-                {
-                    SelectedGame.GameSettings = message.GameSettings;
-                }
-                NotifyPropertyChanged(nameof(GameSettings));
-                NotifyPropertyChanged(nameof(PlayersTime));
+                SetLobbyStatusForClient(message.lobbyStatus);
             }
         }
         private void OnSelectedGameChanged()

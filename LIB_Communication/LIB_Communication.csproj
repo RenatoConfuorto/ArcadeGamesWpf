@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Attributes\ArrayMaxSize.cs" />
     <Compile Include="Constants\OnlineGamesDefs.cs" />
+    <Compile Include="Entities\LobbyStatus.cs" />
     <Compile Include="Entities\OnlineGame.cs" />
     <Compile Include="Entities\OnlineGameSettings\OnlineTrisSettings.cs" />
     <Compile Include="Entities\OnlineSettingsBase.cs" />

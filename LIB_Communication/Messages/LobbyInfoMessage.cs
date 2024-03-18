@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using static LIB.Helpers.CommunicationHelper;
 using static LIB_Com.Constants.CommunicationCnst;
 using LIB_Com.Extensions;
+using LIB.Helpers;
 
 namespace LIB_Com.Messages
 {
@@ -28,25 +29,31 @@ namespace LIB_Com.Messages
             get => _users;
             set => SetArray(ref _users, value, MULTIPLAYER_USERS_LIMIT);
         }
-        /// <summary>
-        /// 0 => Disabled, 1 => Enabled
-        /// </summary>
-        public short ChatStatus { get; set; }
-        public bool bChatStatus
-        {
-            get => Convert.ToBoolean(ChatStatus);
-        }
+        
+        public LobbyStatus lobbyStatus { get; set; }
+        //public short ChatStatus { get; set; }
+        //public bool bChatStatus
+        //{
+        //    get => Convert.ToBoolean(ChatStatus);
+        //}
+
+        //public short GameId { get; set; }
+        //public OnlineSettingsBase GameSettings { get; set; }
 
         public LobbyInfoMessage() { }
-        public LobbyInfoMessage(string hostIp, IEnumerable<OnlineUser> users, short chatStatus)
-            :base(CommunicationCnst.Messages.LobbyInfoMessage, new Guid())
+        public LobbyInfoMessage(string hostIp, IEnumerable<OnlineUser> users, LobbyStatus status)
+            : base(CommunicationCnst.Messages.LobbyInfoMessage, new Guid())
         {
-            this.HostIp     = hostIp;
-            this.Users      = users.ToArray(); 
-            this.ChatStatus = chatStatus;
+            this.HostIp = hostIp;
+            this.Users = users.ToArray();
+            this.lobbyStatus = status;
         }
-        public LobbyInfoMessage(string hostIp, IEnumerable<OnlineUser> users, bool chatStatus)
-            :this(hostIp, users, Convert.ToInt16(chatStatus))
+        public LobbyInfoMessage(string hostIp, IEnumerable<OnlineUser> users, short chatStatus, short gameId, OnlineSettingsBase gameSettings)
+            :this(hostIp, users, new LobbyStatus(chatStatus, gameId, gameSettings))
+        {
+        }
+        public LobbyInfoMessage(string hostIp, IEnumerable<OnlineUser> users, bool chatStatus, short gameId, OnlineSettingsBase gameSettings)
+            :this(hostIp, users, Convert.ToInt16(chatStatus), gameId, gameSettings)
         {
         }
 
@@ -57,7 +64,10 @@ namespace LIB_Com.Messages
             base.SerializeData(bw);
             bw.Write(_hostIp);
             bw.WriteObjectList(Users);
-            bw.Write(ChatStatus);
+            //bw.Write(ChatStatus);
+            //bw.Write(GameId);
+            //if(GameSettings != null) bw.WriteObject(GameSettings); 
+            bw.WriteObject(lobbyStatus);
         }
 
         public override void DeserializeData(BinaryReader br)
@@ -65,7 +75,10 @@ namespace LIB_Com.Messages
             base.DeserializeData(br);
             this.HostIp     = br.ReadString(HOST_IP_LENGTH);
             this.Users      = br.ReadObjectList<OnlineUser>(MULTIPLAYER_USERS_LIMIT).ToArray();
-            this.ChatStatus = br.ReadInt16();
+            //this.ChatStatus = br.ReadInt16();
+            //this.GameId     = br.ReadInt16();
+            //this.GameSettings = CommunicationHelper.DeserializeOnlineSettings(br, GameId);
+            this.lobbyStatus     = br.ReadDynamicObject<LobbyStatus>();
         }
         #endregion
     }

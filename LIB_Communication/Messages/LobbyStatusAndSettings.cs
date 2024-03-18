@@ -16,48 +16,51 @@ namespace LIB_Com.Messages
 {
     public class LobbyStatusAndSettings : MessageBase
     {
-        /// <summary>
-        /// 0 => Disabled, 1 => Enabled
-        /// </summary>
-        public short ChatStatus { get; set; }
-        public bool bChatStatus
-        {
-            get => Convert.ToBoolean(ChatStatus);
-        }
+        public LobbyStatus lobbyStatus { get; set; }
+        //public short ChatStatus
+        //{
+        //    get => Status != null ? Status.ChatStatus : (short)0;
+        //}
+        //public bool bChatStatus
+        //{
+        //    get => Convert.ToBoolean(ChatStatus);
+        //}
 
-        public short GameId { get; set; }
-        public OnlineSettingsBase GameSettings { get; set; }
+        //public short GameId { get; set; }
+        //public OnlineSettingsBase GameSettings { get; set; }
 
         public LobbyStatusAndSettings()
             :base(CommunicationCnst.Messages.LobbyStatusAndSettings, new Guid())
         {
             
         }
-        public LobbyStatusAndSettings(short status)
+        public LobbyStatusAndSettings(LobbyStatus status)
             : base(CommunicationCnst.Messages.LobbyStatusAndSettings, new Guid())
         {
-            this.ChatStatus = status;
+            this.lobbyStatus = status;
         }
 
-        public LobbyStatusAndSettings(bool status)
-            :this(Convert.ToInt16(status))
-        {
-        }
+        //public LobbyStatusAndSettings(bool status)
+        //    :this(Convert.ToInt16(status))
+        //{
+        //}
         #region Serialize / Deserialize
         public override void SerializeData(BinaryWriter bw)
         {
             base.SerializeData(bw);
-            bw.Write(ChatStatus);
-            bw.Write(GameId);
-            if(GameSettings != null) bw.WriteObject(GameSettings);
+            //bw.Write(ChatStatus);
+            //bw.Write(GameId);
+            //if(GameSettings != null) bw.WriteObject(GameSettings);
+            bw.WriteObject(lobbyStatus);
         }
 
         public override void DeserializeData(BinaryReader br)
         {
             base.DeserializeData(br);
-            this.ChatStatus = br.ReadInt16();
-            this.GameId     = br.ReadInt16();
-            this.GameSettings = CommunicationHelper.DeserializeOnlineSettings(br, this.GameId);
+            //this.ChatStatus = br.ReadInt16();
+            //this.GameId     = br.ReadInt16();
+            //this.GameSettings = CommunicationHelper.DeserializeOnlineSettings(br, this.GameId);
+            this.lobbyStatus     = br.ReadDynamicObject<LobbyStatus>();
         }
         #endregion
     }
