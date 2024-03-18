@@ -122,9 +122,11 @@ namespace LIB_Com.MessageBrokers
         #region IDisposable
         public override void Dispose()
         {
+            NotifyDisconnectHost();
             foreach(OnlineClient client in clients)
             {
-                client.socket.Dispose();
+                client.socket.Shutdown(SocketShutdown.Both);
+                client.socket.Close();
             }
             base.Dispose();
         }
@@ -161,6 +163,12 @@ namespace LIB_Com.MessageBrokers
                     continue;
                 SendMessage(client.socket, message);
             }
+        }
+
+        public void NotifyDisconnectHost()
+        {
+            HostDisconnectedMessage message = new HostDisconnectedMessage();
+            SendToClients(message);
         }
 
         private int GetLastUserSeq()

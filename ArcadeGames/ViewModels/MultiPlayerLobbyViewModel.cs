@@ -182,8 +182,8 @@ namespace ArcadeGames.ViewModels
         }
         public override void Dispose()
         {
-            _brokerHost?.Dispose();
-            _brokerClient?.Dispose();
+            //_brokerHost?.Dispose();
+            //_brokerClient?.Dispose();
             base.Dispose();
         }
         public override void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
@@ -199,6 +199,9 @@ namespace ArcadeGames.ViewModels
                     break;
                 case (int)CommunicationCnst.Messages.LobbyStatusAndSettings:
                     HandleLobbyStatusMessage(message as LobbyStatusAndSettings);
+                    break;
+                case (int)CommunicationCnst.Messages.HostDisconnectedMessage:
+                    HandleHostDisconnected(message as  HostDisconnectedMessage);
                     break;
             }
         }
@@ -279,6 +282,17 @@ namespace ArcadeGames.ViewModels
             }
             NotifyPropertyChanged(nameof(GameSettings));
             NotifyPropertyChanged(nameof(PlayersTime));
+        }
+        private void HandleHostDisconnected(HostDisconnectedMessage message)
+        {
+            if(IsUserClient)
+            {
+                dispatcher.Invoke(() =>
+                {
+                    MessageDialogHelper.ShowInfoMessage("L'host si è disconnesso.");
+                });
+                ChangeView(ParentView);
+            }
         }
         #endregion
         private void HandleNewChatMessage(LobbyChatMessage message)

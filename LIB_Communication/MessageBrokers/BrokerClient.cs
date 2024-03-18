@@ -136,5 +136,9 @@ namespace LIB_Com.MessageBrokers
             SendMessage(_socket, message);
         }
         #endregion
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }

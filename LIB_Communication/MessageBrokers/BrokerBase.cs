@@ -151,6 +151,7 @@ namespace LIB_Com.MessageBrokers
         #region IDisposable
         public virtual void Dispose()
         {
+            if(_socket != null) _socket.Close();
             GC.SuppressFinalize(this);
         }
         #endregion
@@ -179,6 +180,8 @@ namespace LIB_Com.MessageBrokers
                     return CommunicationHelper.DeserializeObject<LobbyChatMessage>(data);
                 case CommunicationCnst.Messages.LobbyStatusAndSettings:
                     return CommunicationHelper.DeserializeObject<LobbyStatusAndSettings>(data);
+                case CommunicationCnst.Messages.HostDisconnectedMessage:
+                    return CommunicationHelper.DeserializeObject<HostDisconnectedMessage>(data);
                 default: return null;
             }
         }

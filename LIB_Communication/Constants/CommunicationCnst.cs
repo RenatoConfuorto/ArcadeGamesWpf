@@ -40,12 +40,14 @@ namespace LIB_Com.Constants
 
         public enum Messages
         {
-            SendDataConfirmation    = 1000,
-            SendUserNameToHost      = 1001,
-            LobbyInfoMessage        = 1002,
-            SendUpdatedUserList     = 1003,
-            LobbyChatMessage        = 1004,
-            LobbyStatusAndSettings  = 1005
+            SendDataConfirmation        = 1000,
+            SendUserNameToHost          = 1005,
+            LobbyInfoMessage            = 1010,
+            SendUpdatedUserList         = 1015,
+            LobbyChatMessage            = 1020,
+            LobbyStatusAndSettings      = 1025,
+            HostDisconnectedMessage     = 1026,
+            ClientDisconnectedMessage   = 1027
         }
 
         #region Static References
