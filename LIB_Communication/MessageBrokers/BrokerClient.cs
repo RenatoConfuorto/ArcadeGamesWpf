@@ -128,6 +128,12 @@ namespace LIB_Com.MessageBrokers
             LobbyInfoReceivedEvent?.Invoke(this, new LobbyInfoReceivedEventArgs(infoMessage));
             StartReceive(socket);
         }
+
+        private void SendDisconnectionToHost()
+        {
+            ClientDisconnectedMessage message = new ClientDisconnectedMessage(LocalUserId);
+            SendToHost(message);
+        }
         #endregion
 
         #region Send/Receive from host
@@ -138,6 +144,7 @@ namespace LIB_Com.MessageBrokers
         #endregion
         public override void Dispose()
         {
+            SendDisconnectionToHost();
             base.Dispose();
         }
     }

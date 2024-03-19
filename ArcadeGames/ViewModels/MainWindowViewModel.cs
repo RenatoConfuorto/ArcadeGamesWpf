@@ -109,6 +109,7 @@ namespace ArcadeGames.ViewModels
         {
             if(MessageDialogHelper.ShowConfirmationRequestMessage("Uscire dall'applicazione?"))
             {
+                Navigation.CurrentView.Dispose();
                 Application.Current.Shutdown();
             }
         }

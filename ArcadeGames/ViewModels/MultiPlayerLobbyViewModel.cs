@@ -203,6 +203,9 @@ namespace ArcadeGames.ViewModels
                 case (int)CommunicationCnst.Messages.HostDisconnectedMessage:
                     HandleHostDisconnected(message as  HostDisconnectedMessage);
                     break;
+                case (int)CommunicationCnst.Messages.ClientDisconnectedMessage:
+                    HandleClientDisconnection(message as ClientDisconnectedMessage);
+                    break;
             }
         }
         #endregion
@@ -214,10 +217,25 @@ namespace ArcadeGames.ViewModels
         /// <param name="user"></param>
         private void AddUser(OnlineUser user)
         {
-            App.Current.Dispatcher.Invoke(() =>
+            _dispatcher.Invoke(() =>
             {
                 Users.Add(user);
             });
+        }
+        /// <summary>
+        /// Remove a user from the Users BindingList (avoiding the error if the BindingList is changed from a different thread)
+        /// </summary>
+        /// <param name="userId"></param>
+        private void RemoveUser(Guid userId)
+        {
+            OnlineUser user = Users.Where(u => u.UserId == userId).FirstOrDefault();
+            if(user != null)
+            {
+                _dispatcher.Invoke(() =>
+                {
+                    Users.Remove(user);
+                });
+            }
         }
         /// <summary>
         /// Add a message to the ChatMessages BindingList (avoiding the error if BindingList is changed from diffrent thread)
@@ -225,7 +243,7 @@ namespace ArcadeGames.ViewModels
         /// <param name="message"></param>
         private void AddMessage(LobbyChatMessage message)
         {
-            App.Current.Dispatcher.Invoke(() =>
+            _dispatcher.Invoke(() =>
             {
                 ChatMessages.Add(message);
             });
@@ -287,7 +305,7 @@ namespace ArcadeGames.ViewModels
         {
             if(IsUserClient)
             {
-                dispatcher.Invoke(() =>
+                _dispatcher.Invoke(() =>
                 {
                     MessageDialogHelper.ShowInfoMessage("L'host si è disconnesso.");
                 });
@@ -303,7 +321,14 @@ namespace ArcadeGames.ViewModels
         }
         private void HandleUpdateUserListMessage(SendUpdatedUserList message)
         {
-            Users = new BindingList<OnlineUser>(message.Users);
+            Users = new BindingList<OnlineUser>(message.Users.ToList());
+            // Prevent the IsReadOnly
+            //_dispatcher.Invoke(() =>
+            //{
+            //    foreach(OnlineUser user in message.Users)
+            //        Users.Add(user);
+            //});
+            
         }
         private void HandleLobbyStatusMessage(LobbyStatusAndSettings message)
         {
@@ -311,6 +336,14 @@ namespace ArcadeGames.ViewModels
             {
                 SetLobbyStatusForClient(message.lobbyStatus);
             }
+        }
+        private void HandleClientDisconnection(ClientDisconnectedMessage message)
+        {
+            if(IsUserHost)
+            {
+                _brokerHost.HandleClientDisconnected(message);
+            }
+            RemoveUser(message.UserId);
         }
         private void OnSelectedGameChanged()
         {

@@ -119,7 +119,13 @@ namespace LIB_Com.MessageBrokers
             catch(ObjectDisposedException odEx)
             {
                 return;
-            }catch(Exception ex)
+            }
+            catch(SocketException sEx)
+            {
+                //Connessione persa;
+                return;
+            }
+            catch(Exception ex)
             {
                 return;
             }
@@ -182,6 +188,8 @@ namespace LIB_Com.MessageBrokers
                     return CommunicationHelper.DeserializeObject<LobbyStatusAndSettings>(data);
                 case CommunicationCnst.Messages.HostDisconnectedMessage:
                     return CommunicationHelper.DeserializeObject<HostDisconnectedMessage>(data);
+                case CommunicationCnst.Messages.ClientDisconnectedMessage:
+                    return CommunicationHelper.DeserializeObject<ClientDisconnectedMessage>(data);
                 default: return null;
             }
         }

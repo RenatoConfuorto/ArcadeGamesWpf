@@ -171,6 +171,21 @@ namespace LIB_Com.MessageBrokers
             SendToClients(message);
         }
 
+        public bool HandleClientDisconnected(ClientDisconnectedMessage message)
+        {
+            bool retVal = false;
+            OnlineClient client = clients.Where(c => c.user.UserId == message.UserId).FirstOrDefault();
+            if(client != null)
+            {
+                // Remove client from clients list
+                clients.Remove(client);
+                // Notify the other clients of the disconnection
+                RedirectToClients(message);
+                retVal = true;
+            }
+            return retVal;
+        }
+
         private int GetLastUserSeq()
         {
             if (clients.Count == 0)

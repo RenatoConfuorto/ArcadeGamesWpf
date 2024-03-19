@@ -46,7 +46,7 @@ namespace LIB_Com.Entities
                 using (BinaryReader br = new BinaryReader(ms))
                 {
                     this.UserName   = br.ReadString(USER_NAME_LENGTH);
-                    this.UserId     = new Guid(br.ReadBytes(USER_NAME_LENGTH));
+                    this.UserId     = br.ReadGuid();
                     this.UserSeq    = br.ReadInt32();
                 }
             }

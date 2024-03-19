@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Core.Interfaces.ViewModels
 {
@@ -13,6 +14,7 @@ namespace Core.Interfaces.ViewModels
         string ParentView { get; }
         object ViewParam { get; }
         bool IsDisposed { get; }
+        Dispatcher _dispatcher { get; }
         event ViewChangedEvent viewChangedEvent;
         void InitViewModel();
     }

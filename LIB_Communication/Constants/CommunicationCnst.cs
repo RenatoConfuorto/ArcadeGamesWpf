@@ -10,7 +10,7 @@ namespace LIB_Com.Constants
     public class CommunicationCnst
     {
         public const int DEFAULT_PORT                   = 8800;
-        public const int DEFAULT_BUFFER_SIZE            = 10240;
+        public const int DEFAULT_BUFFER_SIZE            = 1024;
         //public const int CONNECTION_TIMEOUT             = 30000; //30s
         public const int CONNECTION_MAX_TRIES           = 1200;
         public const int CONNECTION_RETRY_WAIT          = 100; //0.1s

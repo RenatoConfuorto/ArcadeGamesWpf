@@ -30,7 +30,7 @@ namespace Core.ViewModels
         #endregion
 
         #region Dispatcher
-        public Dispatcher dispatcher { get; private set; } = Application.Current.Dispatcher;
+        public Dispatcher _dispatcher { get; private set; } = Application.Current.Dispatcher;
         #endregion
 
         #region IsDisposed
