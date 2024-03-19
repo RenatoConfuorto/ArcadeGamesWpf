@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using static LIB_Com.Constants.CommunicationCnst;
+using LIB_Com.Helpers;
 
 namespace LIB_Com.MessageBrokers
 {
@@ -170,28 +171,7 @@ namespace LIB_Com.MessageBrokers
         /// <returns></returns>
         protected MessageBase DeserializeObject(byte[] data)
         {
-            //get the messageCode
-            int messageCode = BitConverter.ToInt32(data, 0);
-            switch((CommunicationCnst.Messages)messageCode)
-            {
-                case CommunicationCnst.Messages.SendDataConfirmation:
-                    return CommunicationHelper.DeserializeObject<SendDataConfirmation>(data);
-                case CommunicationCnst.Messages.SendUserNameToHost:
-                    return CommunicationHelper.DeserializeObject<SendUserNameToHost>(data);
-                case CommunicationCnst.Messages.LobbyInfoMessage:
-                    return CommunicationHelper.DeserializeObject<LobbyInfoMessage>(data);
-                case CommunicationCnst.Messages.SendUpdatedUserList:
-                    return CommunicationHelper.DeserializeObject<SendUpdatedUserList>(data);
-                case CommunicationCnst.Messages.LobbyChatMessage:
-                    return CommunicationHelper.DeserializeObject<LobbyChatMessage>(data);
-                case CommunicationCnst.Messages.LobbyStatusAndSettings:
-                    return CommunicationHelper.DeserializeObject<LobbyStatusAndSettings>(data);
-                case CommunicationCnst.Messages.HostDisconnectedMessage:
-                    return CommunicationHelper.DeserializeObject<HostDisconnectedMessage>(data);
-                case CommunicationCnst.Messages.ClientDisconnectedMessage:
-                    return CommunicationHelper.DeserializeObject<ClientDisconnectedMessage>(data);
-                default: return null;
-            }
+            return MessageDeserializer.DeserializeMessage(data);
         }
         #endregion
     }

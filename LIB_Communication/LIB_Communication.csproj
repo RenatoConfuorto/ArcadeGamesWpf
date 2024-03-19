@@ -61,6 +61,7 @@
     <Compile Include="Extensions\BinaryReaderExtensions.cs" />
     <Compile Include="Extensions\BinaryWriterExtensions.cs" />
     <Compile Include="Helpers\CommunicationHelper.cs" />
+    <Compile Include="Helpers\MessageDeserializer.cs" />
     <Compile Include="Interfaces\Entities\IOnlineSettingsBase.cs" />
     <Compile Include="Interfaces\IMessage.cs" />
     <Compile Include="Interfaces\ViewModels\IOnlineViewModelBase.cs" />
