@@ -15,6 +15,7 @@ namespace LIB.ViewModels
         Info = 0,
         Confirmation = 1,
         Error = 2,
+        Status = 3
     }
     public class MessageBoxViewModel : NotifyerPropertyChangedBase
     {
@@ -53,14 +54,30 @@ namespace LIB.ViewModels
 
         public MessageBoxViewModel(MessageType type, string message)
         {
-            if(type == MessageType.Confirmation)
-            {
-                CloseOption = Visibility.Collapsed;
-                ConfirmationOptions = Visibility.Visible;
-            }
+            SetOptionVisibility(type);
             Message = message;
             OkCommand = new RelayCommand(OkCommandExecute);
             CancelCommand = new RelayCommand(CancelCommandExecute);
+        }
+
+        private void SetOptionVisibility(MessageType type)
+        {
+            switch (type)
+            {
+                case MessageType.Confirmation:
+                    CloseOption = Visibility.Collapsed;
+                    ConfirmationOptions = Visibility.Visible;
+                    break;
+                case MessageType.Info:
+                case MessageType.Error:
+                    CloseOption = Visibility.Visible;
+                    ConfirmationOptions = Visibility.Collapsed;
+                    break;
+                case MessageType.Status:
+                    CloseOption = Visibility.Collapsed;
+                    ConfirmationOptions = Visibility.Collapsed;
+                    break;
+            }
         }
 
         private void OkCommandExecute(object param)

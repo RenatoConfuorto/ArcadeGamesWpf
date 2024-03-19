@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Core.Helpers
 {
@@ -12,22 +13,33 @@ namespace Core.Helpers
     {
         public static void ShowInfoMessage(string message)
         {
-            MessageBox messagebox = new MessageBox(MessageType.Info, message);
+            LIB.Views.MessageBox messagebox = new LIB.Views.MessageBox(MessageType.Info, message);
             messagebox.ShowDialog();
         }
 
         public static bool ShowConfirmationRequestMessage(string message)
         {
-            MessageBox messageBox = new MessageBox(MessageType.Confirmation, message);
+            LIB.Views.MessageBox messageBox = new LIB.Views.MessageBox(MessageType.Confirmation, message);
             messageBox.ShowDialog();
             return messageBox.result;
         }
 
-        public static MessageBox ShowStatusMessage(string message)
+        public static LIB.Views.MessageBox ShowStatusMessage(string message)
         {
-            MessageBox messageBox = new MessageBox(MessageType.Info, message);
-            messageBox.Show();
+            LIB.Views.MessageBox messageBox = new LIB.Views.MessageBox(MessageType.Status, message);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                messageBox.Show();
+            });
             return messageBox;
+        }
+
+        public static void CloseMessageBox(LIB.Views.MessageBox messageBox)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                messageBox.Close();
+            });
         }
     }
 }
