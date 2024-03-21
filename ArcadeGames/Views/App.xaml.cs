@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using Unity;
 using Core.Helpers;
+using System.Threading;
+using System.Diagnostics;
+using Core.Logging;
+using Core.Interfaces.Logging;
 
 namespace ArcadeGames.Views
 {
@@ -32,6 +36,7 @@ namespace ArcadeGames.Views
                 return _container;
             }
         }
+        public string LoggersConfig { get; set; }
         public App()
         {
         }
@@ -48,11 +53,27 @@ namespace ArcadeGames.Views
                 DefaultValue = FindResource(typeof(Window))
             });
             DependencyInjectionBase.InitDependencies();
+
+            if (LoggersConfig != null)
+            {
+                LoggerHelper.InitLoggers(LoggersConfig);
+                ILogger logger = LoggerHelper.GetSystemLogger();
+                logger.LogAnonym($"-----------------------------Application Startup-----------------------------\n" +
+                                 $"-----------------------------{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}-----------------------------");
+            }
+
             NavigateToMainView();
 
             base.OnStartup(e);
         }
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);;
 
+            ILogger logger = LoggerHelper.GetSystemLogger();
+            logger.LogAnonym($"------------------------------Application Close------------------------------\n" +
+                             $"-----------------------------{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}-----------------------------");
+        }
         public void NavigateToMainView()
         {
             IUnityContainer container = UnityHelper.Current.GetLocalContainer();

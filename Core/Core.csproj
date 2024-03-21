@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="Attributes\ViewRef.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Constants\LoggingCnst.cs" />
+    <Compile Include="CoreDependencies.cs" />
     <Compile Include="Dependency\DependencyInjectionBase.cs" />
     <Compile Include="Dependency\UnityHelper.cs" />
     <Compile Include="Entities\NotifyerPropertyChangedBase.cs" />
@@ -86,13 +88,19 @@
     <Compile Include="Events\ClosePopupEvent.cs" />
     <Compile Include="Events\ViewChangedEvent.cs" />
     <Compile Include="Helpers\AssemblyHelper.cs" />
+    <Compile Include="Helpers\LoggerHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Helpers\XmlSerializer.cs" />
     <Compile Include="Interfaces\DbBrowser\IParametersBase.cs" />
     <Compile Include="Interfaces\DbBrowser\IProxyBase.cs" />
     <Compile Include="Interfaces\Entities\ISerializableBase.cs" />
+    <Compile Include="Interfaces\Logging\ILogger.cs" />
     <Compile Include="Interfaces\Navigation\INavigationService.cs" />
     <Compile Include="Interfaces\ViewModels\IViewModelBase.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LoggerCtorParam.cs" />
+    <Compile Include="Logging\LoggerInstance.cs" />
+    <Compile Include="Logging\LoggerInstanceCollection.cs" />
     <Compile Include="MarkupExtensions\EmFontSize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\ProxyCore.cs" />
@@ -122,7 +130,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Constants\" />
     <Folder Include="Navigation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

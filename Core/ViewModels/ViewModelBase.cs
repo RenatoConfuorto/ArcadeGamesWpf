@@ -1,6 +1,8 @@
 ﻿using Core.Dependency;
 using Core.Entities;
 using Core.Events;
+using Core.Helpers;
+using Core.Interfaces.Logging;
 using Core.Interfaces.Navigation;
 using Core.Interfaces.ViewModels;
 using System;
@@ -33,6 +35,10 @@ namespace Core.ViewModels
         public Dispatcher _dispatcher { get; private set; } = Application.Current.Dispatcher;
         #endregion
 
+        #region Logger
+        protected ILogger logger { get; private set; }
+        #endregion
+
         #region IsDisposed
         private bool _isDisposed = false;
 
@@ -58,6 +64,7 @@ namespace Core.ViewModels
             _viewParam = param;
             container = UnityHelper.Current.GetLocalContainer();
             _navigation = container.Resolve<INavigationService>();
+            logger = LoggerHelper.GetSystemLogger();
             OnInitialized();
         }
         #endregion
@@ -111,7 +118,7 @@ namespace Core.ViewModels
         public virtual void Dispose()
         {
             _isDisposed = true;
-            GC.SuppressFinalize(this);
+            //GC.SuppressFinalize(this);
         }
         #endregion
 

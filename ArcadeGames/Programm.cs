@@ -1,4 +1,6 @@
 ﻿using ArcadeGames.Views;
+using Core.Helpers;
+using Core.Logging;
 using LIB;
 using LIB.Settings;
 using LIB.Sounds;
@@ -16,12 +18,21 @@ namespace ArcadeGames
         [STAThread]
         public static void Main(string[] args)
         {
-            App app = new App();
-            app.InitializeComponent();
-            app.SplashScreen = new System.Windows.SplashScreen(Assembly.GetExecutingAssembly(), "SplashScreen.png");
-            GlobalSettings.LoadGlobalSettings();
-            SoundsManagment.ChangeBackground(SoundsManagment.MainBackground);
-            app.Run();
+            try
+            {
+                App app = new App();
+                app.InitializeComponent();
+                app.SplashScreen = new System.Windows.SplashScreen(Assembly.GetExecutingAssembly(), "SplashScreen.png");
+                app.LoggersConfig = Properties.Settings.Default.Loggers;
+                GlobalSettings.LoadGlobalSettings();
+
+                SoundsManagment.ChangeBackground(SoundsManagment.MainBackground);
+
+                app.Run();
+            }catch (Exception ex)
+            {
+                MessageDialogHelper.ShowInfoMessage(ex.Message);
+            }
         }
     }
 }
