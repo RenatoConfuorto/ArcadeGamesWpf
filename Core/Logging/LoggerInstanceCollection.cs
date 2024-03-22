@@ -3,6 +3,8 @@ using Core.Helpers;
 using Core.Interfaces.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,7 +14,7 @@ using System.Windows.Navigation;
 using Unity;
 using Unity.Resolution;
 using static Core.Constants.LoggingCnst;
-using static Core.Helpers.LoggerHelper;
+//using static Core.Helpers.LoggerHelper;
 
 namespace Core.Logging
 {
@@ -35,8 +37,9 @@ namespace Core.Logging
             try
             {
                 LoggerInstanceCollection collection = GetLoggerInstanceCollection(config);
-                loggers = new Dictionary<string, ILogger>();
-                CheckDirectories(collection.LogLocation, collection.GroupByDay);
+                LoggerHelper.loggers = new Dictionary<string, ILogger>();
+                LoggerHelper.CheckDirectories(collection.LogLocation, collection.GroupByDay);
+                PurgeLogs(collection.LogLocation, collection.PurgingDay, collection.GroupByDay);
                 foreach (LoggerInstance loggerInstance in collection.LoggerInstances)
                 {
                     InitLogger(collection.LogLocation, 
@@ -73,28 +76,65 @@ namespace Core.Logging
             LoggerCtorParam param = new LoggerCtorParam()
             {
                 LogLevel = logLevel,
-                LogName = instance.LogName,
+                LogName = CreateLogName(instance.LogName, !groupByDay),
                 LogLocation = logLocation,
                 GroupByDay = groupByDay,
                 IsSystemLog = isSystemLog
             };
             ILogger logger = _container.Resolve<ILogger>(new ParameterOverride("param", param));
-            loggers.Add(instance.InstanceName, logger);
+            LoggerHelper.loggers.Add(instance.InstanceName, logger);
         }
 
         private static void CheckSystemLogger(string logLocation, bool groupByDay)
         {
-            ILogger systemLogger = GetSystemLogger();
+            ILogger systemLogger = LoggerHelper.GetSystemLogger();
             if(systemLogger == null) 
             {
                 InitLogger(logLocation, groupByDay, true, new LoggerInstance()
                 {
                     LogLevel = (int)LogLevel.ALL,
-                    LogName = "Application_log",
+                    LogName = CreateLogName("Application_log", !groupByDay),
                     InstanceName = "System"
                 });
             }
         }
 
+        private static string CreateLogName(string nominalName, bool useDate)
+        {
+            string logName = nominalName;
+            if (useDate)
+            {
+                logName = string.Format(nominalName + "_" + DateTime.Now.Date.ToString(LoggerHelper.DEFAULT_DATE_FORMAT));
+            }
+            return logName;
+        }
+
+        private static void PurgeLogs(string logLocation, int purgeDays, bool groupByDay)
+        {
+            if (purgeDays <= 0)
+                return;
+            DateTime thresholdData = DateTime.Now.Date.AddDays(-purgeDays);
+            //Clear directories
+            string[] directories = Directory.GetDirectories(logLocation);
+            foreach(string dir in directories)
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(dir);
+                if(dirInfo.CreationTime.Date < thresholdData)
+                {
+                    Directory.Delete(dir, true);
+                }
+            }
+
+            //Clear files
+            string[] files = Directory.GetFiles(logLocation);
+            foreach(string file in files)
+            {
+                FileInfo fInfo = new FileInfo(file);
+                if(fInfo.CreationTime.Date < thresholdData)
+                {
+                    File.Delete(file);
+                }
+            }
+        }
     }
 }
