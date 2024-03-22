@@ -31,45 +31,52 @@ namespace Core.Interfaces.Logging
         /// Writes a log without log level
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        bool LogAnonym(string message);
+        bool LogAnonym(string message, params object[] parameters);
         /// <summary>
         /// Write a log with a log level defined by the user
         /// </summary>
         /// <param name="level"></param>
         /// <param name="message"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        bool WriteLog(LoggingCnst.LogLevel level, string message);
+        bool WriteLog(LoggingCnst.LogLevel level, string message, params object[] parameters);
         /// <summary>
         /// Writes a log with the DEBUG log level (1)
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        bool LogDebug(string message);
+        bool LogDebug(string message, params object[] parameters);
         /// <summary>
         /// Writes a log with the INFO log level (2)
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        bool LogInfo(string message);
+        bool LogInfo(string message, params object[] parameters);
         /// <summary>
         /// Writes a log with the WARN log level (3)
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        bool LogWarn(string message);
+        bool LogWarn(string message, params object[] parameters);
         /// <summary>
         /// Writes a log with the ERROR log level (4)
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        bool LogError(string message);
+        bool LogError(string message, params object[] parameters);
         /// <summary>
         /// Writes a log with the FATAL log level (5)
         /// </summary>
         /// <param name="message"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        bool LogFatal(string message);
+        bool LogFatal(string message, params object[] parameters);
         #endregion
     }
 }

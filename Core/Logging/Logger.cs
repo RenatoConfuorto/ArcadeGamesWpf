@@ -75,7 +75,7 @@ namespace Core.Logging
         #endregion
 
         #region Log Write Methods
-        private bool WriteLog(int level, string message)
+        private bool WriteLog(int level, string message, params object[] parameters)
         {
             if (level < (int)this.LogLevel)
                 return false;
@@ -84,38 +84,42 @@ namespace Core.Logging
                 RestartLogger();
 
             string log = $"[{GetLogAcronym(level)}] [{DateTime.Now}]  {message}";
-            LogAnonym(log);
+            LogAnonym(log, parameters);
             return true;
         }
-        public bool LogAnonym(string message)
+        public bool LogAnonym(string message, params object[] parameters)
         {
+            if(parameters != null && parameters.Count() > 0)
+            {
+                message = string.Format(message, parameters);
+            }
             sw.WriteLine(message);
             sw.Flush();
             return true;
         }
-        public bool WriteLog(LoggingCnst.LogLevel level, string message) 
+        public bool WriteLog(LoggingCnst.LogLevel level, string message, params object[] parameters) 
         {
-            return WriteLog((int)level, message);
+            return WriteLog((int)level, message, parameters);
         }
-        public bool LogDebug(string message) 
+        public bool LogDebug(string message, params object[] parameters) 
         {
-            return WriteLog(LoggingCnst.LogLevel.DEBUG , message);
+            return WriteLog(LoggingCnst.LogLevel.DEBUG , message, parameters);
         }
-        public bool LogInfo(string message) 
+        public bool LogInfo(string message, params object[] parameters) 
         {
-            return WriteLog(LoggingCnst.LogLevel.INFO , message);
+            return WriteLog(LoggingCnst.LogLevel.INFO , message, parameters);
         }
-        public bool LogWarn(string message) 
+        public bool LogWarn(string message, params object[] parameters) 
         {
-            return WriteLog(LoggingCnst.LogLevel.WARN , message);
+            return WriteLog(LoggingCnst.LogLevel.WARN , message, parameters);
         }
-        public bool LogError(string message) 
+        public bool LogError(string message, params object[] parameters) 
         {
-            return WriteLog(LoggingCnst.LogLevel.ERROR , message);
+            return WriteLog(LoggingCnst.LogLevel.ERROR , message, parameters);
         }
-        public bool LogFatal(string message) 
+        public bool LogFatal(string message, params object[] parameters) 
         {
-            return WriteLog(LoggingCnst.LogLevel.FATAL , message);
+            return WriteLog(LoggingCnst.LogLevel.FATAL , message, parameters);
         }
 
         #region IDisposable interface
