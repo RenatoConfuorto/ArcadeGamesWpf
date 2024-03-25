@@ -121,6 +121,27 @@ namespace Core.Logging
         {
             return WriteLog(LoggingCnst.LogLevel.FATAL , message, parameters);
         }
+        public bool LogException(Exception ex, LoggingCnst.LogLevel logLevel = LoggingCnst.LogLevel.ERROR)
+        {
+            bool retVal = true;
+            retVal &= WriteLog(logLevel, "----------------Exception----------------");
+            retVal &= WriteLog(logLevel, "Message       : {0}", ex.Message);
+            retVal &= WriteLog(logLevel, "Source        : {0}", ex.Source);
+            retVal &= WriteLog(logLevel, "Stack Tarace  : {0}", ex.StackTrace);
+            retVal &= WriteLog(logLevel, "Target Site   : {0}", ex.TargetSite);
+            Exception inEx = ex.InnerException;
+            while(inEx != null)
+            {
+                retVal &= WriteLog(logLevel, "--------Inner Exception--------");
+                retVal &= WriteLog(logLevel, "Message       : {0}", inEx.Message);
+                retVal &= WriteLog(logLevel, "Source        : {0}", inEx.Source);
+                retVal &= WriteLog(logLevel, "Stack Tarace  : {0}", inEx.StackTrace);
+                retVal &= WriteLog(logLevel, "Target Site   : {0}", inEx.TargetSite);
+
+                inEx = inEx.InnerException;
+            }
+            return retVal;
+        }
 
         #region IDisposable interface
         private bool disposed = false;

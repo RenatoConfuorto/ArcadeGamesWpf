@@ -77,6 +77,13 @@ namespace Core.Interfaces.Logging
         /// <param name="parameters"></param>
         /// <returns></returns>
         bool LogFatal(string message, params object[] parameters);
+        /// <summary>
+        /// Writes a log with all the details of the exception
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <param name="logLevel"></param>
+        /// <returns></returns>
+        bool LogException(Exception ex, LoggingCnst.LogLevel logLevel = LoggingCnst.LogLevel.ERROR);
         #endregion
     }
 }
