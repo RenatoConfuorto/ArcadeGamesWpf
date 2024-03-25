@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ArrayMaxSize.cs" />
+    <Compile Include="Attributes\NonReloadblePageAttribute.cs" />
     <Compile Include="Constants\OnlineGamesDefs.cs" />
     <Compile Include="Entities\LobbyStatus.cs" />
     <Compile Include="Entities\OnlineGame.cs" />

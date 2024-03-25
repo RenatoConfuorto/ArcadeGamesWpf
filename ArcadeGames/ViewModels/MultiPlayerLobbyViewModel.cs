@@ -25,9 +25,11 @@ using System.Runtime.Remoting.Contexts;
 using LIB_Com.ViewModels;
 using static LIB_Com.Constants.OnlineGamesDefs;
 using System.Windows.Controls;
+using LIB_Com.Attributes;
 
 namespace ArcadeGames.ViewModels
 {
+    [NonReloadblePageAttribute]
     [ViewRef(typeof(MultiPlayerLobbyView))]
     public class MultiPlayerLobbyViewModel : OnlineViewModelBase
     {

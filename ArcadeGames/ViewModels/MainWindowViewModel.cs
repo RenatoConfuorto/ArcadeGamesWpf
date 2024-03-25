@@ -17,6 +17,7 @@ using LIB.Entities;
 using LIB.UserMng;
 using LIB.Helpers;
 using System.ComponentModel;
+using LIB_Com.Attributes;
 
 namespace ArcadeGames.ViewModels
 {
@@ -79,7 +80,7 @@ namespace ArcadeGames.ViewModels
             base.InitCommands();
             ShoutDownCommand = new RelayCommand(ShoutDownCommandExecute);
             PreviousPageCommand = new RelayCommand(PreviousPageCommandExecute, PreviousPageCommandCanExecute);
-            ReloadPageCommand = new RelayCommand(ReloadPageCommandExecute);
+            ReloadPageCommand = new RelayCommand(ReloadPageCommandExecute, ReloadPageCommandCanExecute);
             HomeCommand = new RelayCommand(HomeCommandExecute, HomeCommandCanExecute);
             UserManagerCommand = new RelayCommand(UserManagerCommandExecute);
             ManageUserCommand = new RelayCommand(ManageUserCommandExecute);
@@ -91,6 +92,7 @@ namespace ArcadeGames.ViewModels
             ReloadPageCommand.RaiseCanExecuteChanged();
             HomeCommand.RaiseCanExecuteChanged();
             ManageUserCommand.RaiseCanExecuteChanged();
+            ReloadPageCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
@@ -105,15 +107,20 @@ namespace ArcadeGames.ViewModels
         #endregion
 
         #region Command Methods
+
+        #region ShoutDown Command
         private void ShoutDownCommandExecute(object param)
         {
-            if(MessageDialogHelper.ShowConfirmationRequestMessage("Uscire dall'applicazione?"))
+            if (MessageDialogHelper.ShowConfirmationRequestMessage("Uscire dall'applicazione?"))
             {
                 Navigation.CurrentView.Dispose();
                 Application.Current.Shutdown();
             }
         }
-        private void PreviousPageCommandExecute(object param) 
+        #endregion
+
+        #region Previous Paga Command
+        private void PreviousPageCommandExecute(object param)
         {
             if (String.IsNullOrEmpty(Navigation.ParentViewName))
             {
@@ -125,26 +132,42 @@ namespace ArcadeGames.ViewModels
             }
         }
         private bool PreviousPageCommandCanExecute(object param) => !String.IsNullOrEmpty(Navigation.ParentViewName);
-        private void ReloadPageCommandExecute(object param) 
+        #endregion
+
+        #region Reload Page Command
+        private void ReloadPageCommandExecute(object param)
         {
             Navigation.CurrentView.InitViewModel();
         }
+        private bool ReloadPageCommandCanExecute(object param)
+        {
+            return Navigation.CurrentView?.GetType().GetCustomAttribute<NonReloadblePageAttribute>() == null;
+        }
+        #endregion
 
+        #region User Manager Command
         private void UserManagerCommandExecute(object param)
         {
             NavigateToView(ViewNames.UserMngMainPage);
         }
+        #endregion
+
+        #region Manage User Command
         private void ManageUserCommandExecute(object param)
         {
             if (param == null) return;
             NavigateToView(ViewNames.ManageUserView, param);
         }
+        #endregion
 
+        #region Homa Command
         private void HomeCommandExecute(object param)
         {
             NavigateToView(ViewNames.Home);
         }
-        private bool HomeCommandCanExecute(object param) => Navigation.CurrentView.ViewName != ViewNames.Home;
+        private bool HomeCommandCanExecute(object param) => Navigation.CurrentView.ViewName != ViewNames.Home; 
+        #endregion
+
         #endregion
     }
 }
