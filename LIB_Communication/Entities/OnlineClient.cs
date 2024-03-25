@@ -11,5 +11,6 @@ namespace LIB_Com.Entities
     {
         public Socket socket { get; set; }
         public OnlineUser user { get; set; }
+        public DateTime lastWatchdog { get; set; }
     }
 }

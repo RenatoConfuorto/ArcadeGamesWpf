@@ -121,6 +121,7 @@ namespace LIB_Com.ViewModels
                             {
                                 _brokerHost = (BrokerHost)tempObj;
                                 _brokerHost.MessageReceivedEvent += OnMessageReceivedEvent;
+                                _brokerHost.ClientConnectionLost += OnClientConnectionLost;
                             }
                         }
                         else if (IsUserClient)
@@ -139,6 +140,7 @@ namespace LIB_Com.ViewModels
                 }
             }
         }
+
         protected Dictionary<string, object> GenerateBaseViewParameters()
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>()
@@ -165,7 +167,10 @@ namespace LIB_Com.ViewModels
         #region Private Methods
 
         #region Host Methods
+        public virtual void OnClientConnectionLost(object sender, ClientConnectionLostEventArgs e)
+        {
 
+        }
         #endregion
 
         #region Client Methods

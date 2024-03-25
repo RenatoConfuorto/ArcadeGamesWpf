@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using static LIB_Com.Constants.CommunicationCnst;
 using LIB_Com.Helpers;
+using Core.Interfaces.Logging;
 
 namespace LIB_Com.MessageBrokers
 {
@@ -24,6 +25,7 @@ namespace LIB_Com.MessageBrokers
     {
         protected Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         protected byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+        protected ILogger logger;
 
         #region Events
         public event EventHandler<MessageReceivedEventArgs> MessageReceivedEvent;
@@ -93,11 +95,11 @@ namespace LIB_Com.MessageBrokers
         /// </summary>
         /// <param name="receivedBytes"></param>
         /// <returns></returns>
-        protected object GetMessageFromBytes(int receivedBytes)
+        protected MessageBase GetMessageFromBytes(int receivedBytes)
         {
             byte[] data = new byte[receivedBytes];
             Array.Copy(buffer, data, receivedBytes);
-            object message = DeserializeObject(data);
+            MessageBase message = DeserializeObject(data);
             //object message = CommunicationHelper.DeserializeObject(data);
             return message;
         }
@@ -112,8 +114,9 @@ namespace LIB_Com.MessageBrokers
             try
             {
                 receivedData = socket.EndReceive(ar);
-                object message = GetMessageFromBytes(receivedData);
-                OnMessageReceived(message);
+                MessageBase message = GetMessageFromBytes(receivedData);
+                if(CanRedirectMessage(message))
+                    OnMessageReceived(message);
                 socket.BeginReceive(buffer, 0, DEFAULT_BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
 
             }
@@ -130,6 +133,15 @@ namespace LIB_Com.MessageBrokers
             {
                 return;
             }
+        }
+        /// <summary>
+        /// Handle the message in case this should not be redirect to the page
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        protected virtual bool CanRedirectMessage(MessageBase message)
+        {
+            return true;
         }
         /// <summary>
         /// triggers the event <event cref="MessageReceived"/> using the message object and the message code

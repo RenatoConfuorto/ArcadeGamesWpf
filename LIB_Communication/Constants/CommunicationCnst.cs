@@ -15,6 +15,7 @@ namespace LIB_Com.Constants
         public const int CONNECTION_MAX_TRIES           = 1200;
         public const int CONNECTION_RETRY_WAIT          = 100; //0.1s
         public const int CONNECTION_CHECK_INTERVAL      = 500; //0.5s
+        public const int CLIENT_DELAY_LIMIT             = 5000; // 5s  Tempo dopo il quale viene dichiarato disconnesso il client se non si ricevono watchdog
 
         public const int MULTIPLAYER_USERS_LIMIT        = 5;
         #region Fields Length
@@ -40,6 +41,7 @@ namespace LIB_Com.Constants
 
         public enum Messages
         {
+            Watchdog                    = 99,
             SendDataConfirmation        = 1000,
             SendUserNameToHost          = 1005,
             LobbyInfoMessage            = 1010,
@@ -47,7 +49,8 @@ namespace LIB_Com.Constants
             LobbyChatMessage            = 1020,
             LobbyStatusAndSettings      = 1025,
             HostDisconnectedMessage     = 1026,
-            ClientDisconnectedMessage   = 1027
+            ClientDisconnectedMessage   = 1027,
+            ClientConnectionLost        = 1028
         }
 
         #region Static References

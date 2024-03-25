@@ -38,6 +38,7 @@ namespace ArcadeGames.ViewModels
         private BindingList<LobbyChatMessage> _chatMessages = new BindingList<LobbyChatMessage>();
         private OnlineGame _selectedGame;
         public UserControl _settingsControl;
+        OnlineUser system = new OnlineUser() { UserName = "System", UserId = new Guid(), UserSeq = 0 };
         #endregion
 
         #region Command
@@ -191,6 +192,9 @@ namespace ArcadeGames.ViewModels
             MessageBase message = (MessageBase)e.MessageReceived;
             switch (message.MessageCode)
             {
+                case (int)CommunicationCnst.Messages.Watchdog:
+                    //AddMessage(new LobbyChatMessage(new OnlineUser() { UserName = "System" }, "Watchdog"));
+                    break;
                 case (int)CommunicationCnst.Messages.SendUpdatedUserList:
                     HandleUpdateUserListMessage(message as SendUpdatedUserList);
                     break;
@@ -226,9 +230,8 @@ namespace ArcadeGames.ViewModels
         /// Remove a user from the Users BindingList (avoiding the error if the BindingList is changed from a different thread)
         /// </summary>
         /// <param name="userId"></param>
-        private void RemoveUser(Guid userId)
+        private void RemoveUser(OnlineUser user)
         {
-            OnlineUser user = Users.Where(u => u.UserId == userId).FirstOrDefault();
             if(user != null)
             {
                 _dispatcher.Invoke(() =>
@@ -257,9 +260,16 @@ namespace ArcadeGames.ViewModels
                 ChatButtonText = "Chat Disabilitata";
         }
         #region Host Methods
+        private void AddSystemMessage(string message)
+        {
+            LobbyChatMessage systemMessage = new LobbyChatMessage(system, $"---{message}---");
+            AddMessage(systemMessage);
+            _brokerHost.SendToClients(systemMessage);
+        }
         private void OnLobbyInfoRequestedEvent(object sender, LobbyInfoRequestedEventArgs e)
         {
             _brokerHost.SendLobbyInfo(e.client, Users, GetLobbyStatus());
+            AddSystemMessage($"{e.client.user.UserName} si è unito alla partita");
         }
 
         private void OnNewOnlineUserEvent(object sender, NewOnlineUserEventArgs e)
@@ -286,6 +296,15 @@ namespace ArcadeGames.ViewModels
                 SelectedGame == null ? (short)0 : SelectedGame.GameId,
                 this.GameSettings
                 );
+        }
+        public override void OnClientConnectionLost(object sender, ClientConnectionLostEventArgs e)
+        {
+            OnlineUser user = Users.Where(u => u.UserId == e.User.UserId).FirstOrDefault();
+            if(user != null)
+            {
+                AddSystemMessage($"Connessione persa con {user.UserName}");
+                RemoveUser(user);
+            }
         }
         #endregion
 
@@ -343,7 +362,9 @@ namespace ArcadeGames.ViewModels
             {
                 _brokerHost.HandleClientDisconnected(message);
             }
-            RemoveUser(message.UserId);
+            OnlineUser user = Users.Where(u => u.UserId == message.UserId).FirstOrDefault();
+            AddSystemMessage($"{user.UserName} si è disconnesso");
+            RemoveUser(user);
         }
         private void OnSelectedGameChanged()
         {

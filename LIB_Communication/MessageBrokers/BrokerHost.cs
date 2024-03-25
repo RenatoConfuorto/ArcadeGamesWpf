@@ -25,10 +25,16 @@ namespace LIB_Com.MessageBrokers
         /// client list connected to the host
         /// </summary>
         public List<OnlineClient> clients = new List<OnlineClient>();
+        /// <summary>
+        /// List of received watchdogs
+        /// </summary>
+        List<Watchdog> receivedWatchdogs = new List<Watchdog>();
+        Thread thread_checker;
 
         #region Events
         public event EventHandler<LobbyInfoRequestedEventArgs> LobbyInfoRequestedEvent;
         public event EventHandler<NewOnlineUserEventArgs> NewOnlineUserEvent;
+        public event EventHandler<ClientConnectionLostEventArgs> ClientConnectionLost;
         #endregion
 
         #region Constructor
@@ -41,14 +47,19 @@ namespace LIB_Com.MessageBrokers
         {
             LocalUserId = Guid.NewGuid();
             User.UserSeq = 1;
+            thread_checker = new Thread(HandleWatchDogs);
+            logger = LoggerHelper.GetLogger("_brokerHost_log");
         }
         #endregion
 
         #region Start Server / Accept Connections
         public void RunServer()
         {
-            _socket.Bind(new IPEndPoint(IPAddress.Any, DEFAULT_PORT));
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, DEFAULT_PORT);
+            _socket.Bind(endPoint);
             _socket.Listen(1);
+            logger.LogInfo("Begin listen. Port: {0}", DEFAULT_PORT);
+            logger.LogDebug("Begin Accept connections.");
             _socket.BeginAccept(new AsyncCallback(AcceptCallback), null);
         }
         /// <summary>
@@ -61,6 +72,7 @@ namespace LIB_Com.MessageBrokers
             try
             {
                 clientSocket = _socket.EndAccept(ar);
+                logger.LogDebug("Received connection request. LocalEndPoint: {0}, RemoteEndPoint: {1}", clientSocket.LocalEndPoint, clientSocket.RemoteEndPoint);
                 //creare oggetto OnlineClient e mandare la conferma
                 int newUserSeq = GetLastUserSeq() + 1;
                 OnlineClient client = new OnlineClient()
@@ -71,12 +83,14 @@ namespace LIB_Com.MessageBrokers
                         UserName = String.Empty, //da ricevere
                         UserSeq = newUserSeq,
                         UserId = Guid.NewGuid(),
-                    }
+                    },
+                    lastWatchdog = DateTime.Now // Init last watchdog chekc
                 };
                 //mandare messaggio di conferma
                 SendDataConfirmation message = new SendDataConfirmation(client.user.UserId, client.user.UserSeq);
 
                 SendMessage(clientSocket, message);
+                logger.LogDebug("Confirmation sended. UserId: {0}, UserSeq: {1}", client.user.UserId, client.user.UserSeq);
                 clientSocket.BeginReceive(buffer, 0, DEFAULT_BUFFER_SIZE, SocketFlags.None, new AsyncCallback(OnConfirmationReceived), client);
             }catch(ObjectDisposedException odEx)
             {
@@ -97,14 +111,17 @@ namespace LIB_Com.MessageBrokers
             int received = clientSocket.EndReceive(ar);
             SendUserNameToHost receivedMessage = (SendUserNameToHost)GetMessageFromBytes(received);
 
+            logger.LogDebug("Confirmation received from client. Client user name: {0}", receivedMessage.UserName.ToString());
             client.user.UserName = receivedMessage.UserName;
 
             clients.Add(client);
             //evento newUser => notificare al viewModel del nuovo utente
             NewOnlineUserEvent?.Invoke(this, new NewOnlineUserEventArgs(client.user));
+            logger.LogDebug("Notify lobby of new user with NewOnlineUserEvent.");
             //recuperare le informazioni della lobby dal viewModel
             LobbyInfoRequestedEvent?.Invoke(this, new LobbyInfoRequestedEventArgs(client));
 
+            logger.LogDebug("Start listening for a new connection.");
             _socket.BeginAccept(new AsyncCallback(AcceptCallback), null);
         }
 
@@ -112,8 +129,11 @@ namespace LIB_Com.MessageBrokers
         {
             LobbyInfoMessage infoMessage = new LobbyInfoMessage(CommunicationHelper.GetLocalIpAddress().ToString(), users, lobbyStatus);
             SendMessage(client.socket, infoMessage);
-            //TODO Check client connection status
-
+            logger.LogDebug("Sended lobby info to client. Lobby address: {0}, user count: {1}", infoMessage.HostIp, infoMessage.Users.Length);
+            // Start checking watchdogs
+            if (!thread_checker.IsAlive)
+                thread_checker.Start();
+            logger.LogDebug("Start listening for messages from client.");
             //start listening for messager
             StartReceive(client.socket);
         }
@@ -123,6 +143,7 @@ namespace LIB_Com.MessageBrokers
         public override void Dispose()
         {
             NotifyDisconnectHost();
+            thread_checker.Abort();
             foreach(OnlineClient client in clients)
             {
                 client.socket.Shutdown(SocketShutdown.Both);
@@ -131,6 +152,72 @@ namespace LIB_Com.MessageBrokers
             base.Dispose();
         }
         #endregion
+        protected override bool CanRedirectMessage(MessageBase message)
+        {
+            if(message.MessageCode == (int)CommunicationCnst.Messages.Watchdog)
+            {
+                logger.LogDebug("WatchDog received from client: {0}.", message.SenderId);
+                receivedWatchdogs.Add((Watchdog)message);
+                return false;
+            }
+            return true;
+        }
+        private void HandleWatchDogs()
+        {
+            try
+            {
+                logger.LogDebug("Start checking watchdogs.");
+                while(clients.Count > 0)
+                {
+                    if(receivedWatchdogs.Count > 0)
+                    {
+                        Watchdog wd = receivedWatchdogs[0];
+                        OnlineClient client = clients.Where(c => c.user.UserId == wd.SenderId).FirstOrDefault();
+                        client.lastWatchdog = DateTime.Now; // Update last check.
+                        receivedWatchdogs.RemoveAt(0);
+                    }
+                    else
+                    { // Avoid a loop in case there are no watchdogs yet
+                        Thread.Sleep(50);
+                    }
+                    CheckClientsStatus();
+                }
+                thread_checker.Join();
+            }catch(ThreadAbortException taEx)
+            {
+
+            }catch(Exception ex)
+            {
+
+            }
+        }
+        /// <summary>
+        // Check if the client is active using the limit time <constant cref="CommunicationCnst.CLIENT_DELAY_LIMIT" />
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns>True if client is considered connected</returns>
+        private void CheckClientsStatus()
+        {
+            List<OnlineClient> clients = new List<OnlineClient>(this.clients);
+            foreach(OnlineClient client in clients)
+            {
+                double milliseconds = (DateTime.Now - client.lastWatchdog).TotalMilliseconds;
+                //Console.WriteLine($"check - {milliseconds}");
+                if (milliseconds > CommunicationCnst.CLIENT_DELAY_LIMIT)
+                    HandleClientConnectionLost(client);
+            }
+        }
+        private void HandleClientConnectionLost(OnlineClient client)
+        {
+            logger.LogInfo("Connection lost with client {0}/{1}.", client.user.UserName.ToString(), client.user.UserId);
+
+            client.socket.Close();
+            clients.Remove(client);
+            ClientConnectionLost message = new ClientConnectionLost(client.user.UserId);
+            SendToClients(message);
+            ClientConnectionLost?.Invoke(this, new ClientConnectionLostEventArgs(client.user));
+            //HandleClientDisconnected(clientDisconnectedMessage);
+        }
         /// <summary>
         /// Sends a message to all clients
         /// </summary>
@@ -175,6 +262,7 @@ namespace LIB_Com.MessageBrokers
         {
             bool retVal = false;
             OnlineClient client = clients.Where(c => c.user.UserId == message.UserId).FirstOrDefault();
+            logger.LogInfo("Client disconnection received from client {0}/{1}", client.user.UserName.ToString(), client.user.UserId);
             if(client != null)
             {
                 // Remove client from clients list

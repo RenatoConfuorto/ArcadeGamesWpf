@@ -18,6 +18,8 @@ namespace LIB_Com.Helpers
             int messageCode = BitConverter.ToInt32(data, 0);
             switch ((CommunicationCnst.Messages)messageCode)
             {
+                case CommunicationCnst.Messages.Watchdog:
+                    return CommunicationHelper.DeserializeObject<Watchdog>(data);
                 case CommunicationCnst.Messages.SendDataConfirmation:
                     return CommunicationHelper.DeserializeObject<SendDataConfirmation>(data);
                 case CommunicationCnst.Messages.SendUserNameToHost:
@@ -34,6 +36,8 @@ namespace LIB_Com.Helpers
                     return CommunicationHelper.DeserializeObject<HostDisconnectedMessage>(data);
                 case CommunicationCnst.Messages.ClientDisconnectedMessage:
                     return CommunicationHelper.DeserializeObject<ClientDisconnectedMessage>(data);
+                case CommunicationCnst.Messages.ClientConnectionLost:
+                    return CommunicationHelper.DeserializeObject<ClientConnectionLost>(data);
                 default: return null;
             }
         }

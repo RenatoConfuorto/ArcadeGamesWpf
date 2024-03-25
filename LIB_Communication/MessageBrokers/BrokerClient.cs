@@ -20,6 +20,9 @@ namespace LIB_Com.MessageBrokers
 {
     public class BrokerClient : BrokerBase
     {
+        Thread watchdogThread;
+        //bool _isRunning = false;
+        bool _isConnected = false;
         #region Events
         public event EventHandler<LobbyInfoReceivedEventArgs> LobbyInfoReceivedEvent;
         #endregion
@@ -31,7 +34,8 @@ namespace LIB_Com.MessageBrokers
         /// <param name="UserName"></param>
         public BrokerClient(string UserName)
             :base(UserName) 
-        { 
+        {
+            logger = LoggerHelper.GetLogger("_brokerClient_log");
         }
         #endregion
 
@@ -51,6 +55,7 @@ namespace LIB_Com.MessageBrokers
             }
             catch (InvalidCastException iEx)
             {
+                logger.LogError(iEx.Message);
                 MessageBox.Show(iEx.Message);
             }
         }
@@ -69,6 +74,7 @@ namespace LIB_Com.MessageBrokers
         private void ConnectToServer(IPAddress address)
         {
             int attempts = 0;
+            logger.LogInfo("Attempt to connect to host: {0}", address.ToString());
             while (!_socket.Connected && attempts < CONNECTION_MAX_TRIES)
             {
                 try
@@ -78,20 +84,22 @@ namespace LIB_Com.MessageBrokers
                 }
                 catch (SocketException sEx)
                 {
-
+                    logger.LogWarn(sEx.Message);
                 }
                 catch (Exception ex)
                 {
-
+                    logger.LogError(ex.Message);
                 }
             }
             if (_socket.Connected)
             {
                 //connessione avvenuta => ricevere la GUID
+                logger.LogDebug("Connection to host successful. Waiting confirmation.");
                 _socket.BeginReceive(buffer, 0, DEFAULT_BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveConfirmationCallBack), _socket);
             }
             else
             {
+                logger.LogWarn("Connection to host failed.");
                 MessageBox.Show("Connessione con l'host fallita");
             }
         }
@@ -106,7 +114,7 @@ namespace LIB_Com.MessageBrokers
             int received = socket.EndReceive(ar);
 
             SendDataConfirmation receivedMessage = (SendDataConfirmation)GetMessageFromBytes(received);
-
+            logger.LogDebug("Confirmation received from host. UserId/UserSeq {0}/{1}.", receivedMessage.UserId, receivedMessage.UserSeq);
             LocalUserId = receivedMessage.UserId;
             User.UserSeq = receivedMessage.UserSeq;
 
@@ -124,8 +132,10 @@ namespace LIB_Com.MessageBrokers
             Socket socket = (Socket )ar.AsyncState;
             int received = socket.EndReceive(ar);
             LobbyInfoMessage infoMessage = (LobbyInfoMessage)GetMessageFromBytes(received);
-
+            logger.LogDebug("Lobby info received from host.");
             LobbyInfoReceivedEvent?.Invoke(this, new LobbyInfoReceivedEventArgs(infoMessage));
+            _isConnected = true;
+            StartWatchdog();
             StartReceive(socket);
         }
 
@@ -133,6 +143,43 @@ namespace LIB_Com.MessageBrokers
         {
             ClientDisconnectedMessage message = new ClientDisconnectedMessage(LocalUserId);
             SendToHost(message);
+        }
+        private void StartWatchdog()
+        {
+            watchdogThread = new Thread(WatchDogThread);
+            watchdogThread.Start();
+        }
+        private void WatchDogThread()
+        {
+            logger.LogDebug("Starting watchdog thread.");
+            try
+            {
+                while(_isConnected)
+                {
+                    SendWatchdog();
+                    Thread.Sleep(250);
+                }
+            }catch(SocketException sEx)
+            {
+                logger.LogWarn("Error while sending the watchdog.");
+                _isConnected = false;
+            }catch(Exception ex)
+            {
+                //logger.LogError(ex.Message);
+                logger.LogException(ex);
+            }
+            finally
+            {
+                //_isConnected = false;
+                logger.LogDebug("Thread watchdog concluded.");
+                watchdogThread.Join();
+            }
+        }
+        private void SendWatchdog()
+        {
+            Watchdog wd = new Watchdog();
+            logger.LogDebug("Watchdog sended to host.");
+            SendToHost(wd);
         }
         #endregion
 
@@ -144,6 +191,7 @@ namespace LIB_Com.MessageBrokers
         #endregion
         public override void Dispose()
         {
+            _isConnected = false;
             SendDisconnectionToHost();
             base.Dispose();
         }
