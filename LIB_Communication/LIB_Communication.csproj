@@ -81,6 +81,7 @@
     <Compile Include="Messages\SendUserNameToHost.cs" />
     <Compile Include="Messages\Watchdog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\OnlineGameViewModelBase.cs" />
     <Compile Include="ViewModels\OnlineViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -158,42 +158,51 @@
                         </StackPanel>
                     </Border> <!--LISTA UTENTI-->
 
-                    <StackPanel Grid.Row="1"> <!--OPZIONI PARTITA-->
-                        <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0 0 0 1">
+                    <Grid Grid.Row="1">
+                        <!--OPZIONI PARTITA-->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0"
+                                    BorderBrush="{StaticResource BorderColor}"
+                                    BorderThickness="0 0 0 1">
                             <StackPanel Orientation="Horizontal" Margin="4 6">
                                 <Label Content="Ip partita: "/>
                                 <Label Content="{Binding HostIp}"/>
                             </StackPanel>
                         </Border>
-                        <StackPanel>
+                        <StackPanel Grid.Row="1">
                             <CheckBox Content="{Binding ChatButtonText}"
-                                      VerticalContentAlignment="Center"
-                                      Padding="50 0"
-                                      Margin="8"
-                                      Foreground="{StaticResource TextColor}"
-                                      IsEnabled="{Binding IsUserHost}"
-                                      IsChecked="{Binding IsLobbyChatEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                          VerticalContentAlignment="Center"
+                                          Padding="50 0"
+                                          Margin="8"
+                                          Foreground="{StaticResource TextColor}"
+                                          IsEnabled="{Binding IsUserHost}"
+                                          IsChecked="{Binding IsLobbyChatEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <StackPanel IsEnabled="{Binding IsUserHost}">
                                 <StackPanel Orientation="Horizontal" Margin="0 8 0 0">
                                     <Label Content="Gioco: " Foreground="{StaticResource TextColor}"/>
                                     <ComboBox ItemsSource="{Binding Games}"
-                                              SelectedItem="{Binding SelectedGame, Mode=TwoWay}"
-                                              DisplayMemberPath="NameDisplay"/>
+                                                  SelectedItem="{Binding SelectedGame, Mode=TwoWay}"
+                                                  DisplayMemberPath="NameDisplay"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Margin="0 8 0 0">
                                     <Label Content="Dur. Turno: " Foreground="{StaticResource TextColor}"/>
                                     <Button Content="5-"
-                                            Command="{Binding RemovePlayerTime}"/>
+                                                Command="{Binding RemovePlayerTime}"/>
                                     <TextBox Text="{Binding PlayersTime}" 
-                                             VerticalAlignment="Center"
-                                             HorizontalContentAlignment="Center"
-                                             IsReadOnly="True"
-                                             Width="75" 
-                                             MinWidth="0" 
-                                             Margin="6 0"/>
+                                                 VerticalAlignment="Center"
+                                                 HorizontalContentAlignment="Center"
+                                                 IsReadOnly="True"
+                                                 Width="75" 
+                                                 MinWidth="0" 
+                                                 Margin="6 0"/>
                                     <Button Content="5+"
-                                            Command="{Binding AddPlayerTime}"/>
+                                                Command="{Binding AddPlayerTime}"/>
                                 </StackPanel>
 
                                 <StackPanel Margin="0 8 0 0">
@@ -201,7 +210,13 @@
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                        <StackPanel Grid.Row="2">
+                            <Button HorizontalAlignment="Right"
+                                        Command="{Binding StartGameCommand}"
+                                        Content="Start"
+                                    Margin="6"/>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
             </Border>
         </Grid>

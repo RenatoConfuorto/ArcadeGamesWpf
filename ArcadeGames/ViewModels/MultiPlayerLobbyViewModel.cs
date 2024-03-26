@@ -47,6 +47,7 @@ namespace ArcadeGames.ViewModels
         public RelayCommand SendChatMessage { get; set; }
         public RelayCommand RemovePlayerTime { get; set; }
         public RelayCommand AddPlayerTime { get; set; }
+        public RelayCommand StartGameCommand { get; set; }
         #endregion
 
         #region Public Properties
@@ -140,6 +141,7 @@ namespace ArcadeGames.ViewModels
             SendChatMessage = new RelayCommand(SendChatMessageExecute, SendChatMessageCanExecute);
             RemovePlayerTime = new RelayCommand(RemovePlayerTimeExecute, RemovePlayerTimeCanExecute);
             AddPlayerTime = new RelayCommand(AddPlayerTimeExecute, AddPlayerTimeCanExecute);
+            StartGameCommand = new RelayCommand(StartGameCommandExecute, StartGameCommandCanExecute);
         }
         protected override void SetCommandExecutionStatus()
         {
@@ -147,6 +149,7 @@ namespace ArcadeGames.ViewModels
             SendChatMessage.RaiseCanExecuteChanged();
             RemovePlayerTime.RaiseCanExecuteChanged();
             AddPlayerTime.RaiseCanExecuteChanged();
+            StartGameCommand.RaiseCanExecuteChanged();
         }
         protected override void GetViewParameter()
         {
@@ -414,6 +417,22 @@ namespace ArcadeGames.ViewModels
             AddPlayerTime.RaiseCanExecuteChanged();
         }
         private bool AddPlayerTimeCanExecute(object param) => SelectedGame != null;
+
+        private void StartGameCommandExecute(object param)
+        {
+
+        }
+        private bool StartGameCommandCanExecute(object param) => IsUserHost
+                                                                 && SelectedGame != null
+                                                                 && IsValidNumerOfPlayers();
+        /// <summary>
+        /// Controllare se ci sono abbastanza giocatori per il gioco selezionato
+        /// </summary>
+        /// <returns></returns>
+        private bool IsValidNumerOfPlayers()
+        {
+            return true;
+        }
         #endregion
     }
 }
