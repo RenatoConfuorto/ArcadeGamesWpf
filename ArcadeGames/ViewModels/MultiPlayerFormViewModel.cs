@@ -129,6 +129,7 @@ namespace ArcadeGames.ViewModels
                 { USERS_LIST, users },
                 { HOST_IP, CommunicationHelper.GetLocalIpAddress().ToString() },
             };
+            logger.LogDebug($"ChangeView to <{ViewNames.MultiPlayerLobby}>, Mode = Host");
             ChangeView(ViewNames.MultiPlayerLobby, parameters);
         }
         private bool CreateCommandExecuteCanExecute(object parma) => IsValidUserName();
@@ -136,6 +137,7 @@ namespace ArcadeGames.ViewModels
         {
             try
             {
+                logger.LogDebug($"Join game as Client to host: <{RemoteIp}>");
                 Ping ping = new Ping();
                 PingReply pr = ping.Send(RemoteIp);
 
@@ -162,14 +164,18 @@ namespace ArcadeGames.ViewModels
 
         private void OnLobbyInfoReceived(object sender, LobbyInfoReceivedEventArgs e)
         {
+            BrokerClient brokerClient = sender as BrokerClient;
+            brokerClient.LobbyInfoReceivedEvent -= OnLobbyInfoReceived;
+
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
                 { USER_MODE, CommunicationCnst.Mode.Client },
-                { USER_BROKER, sender },
+                { USER_BROKER, brokerClient },
                 { HOST_IP, e.HostIp },
                 { USERS_LIST, e.Users },
                 { "LobbyStatus", e.lobbyStatus }
             };
+            logger.LogDebug($"ChangeView to <{ViewNames.MultiPlayerLobby}>, Mode = Client");
             ChangeView(ViewNames.MultiPlayerLobby, parameters);
         } 
         #endregion

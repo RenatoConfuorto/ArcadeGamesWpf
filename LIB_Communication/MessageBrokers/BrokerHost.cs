@@ -140,11 +140,12 @@ namespace LIB_Com.MessageBrokers
             //start listening for messager
             StartReceive(client.socket);
         }
-#endregion
+        #endregion
 
         #region IDisposable
         public override void Dispose()
         {
+            logger.LogDebug("Dispose of BrokerHost");
             NotifyDisconnectHost();
             thread_checker.Abort();
             foreach(OnlineClient client in clients)
@@ -159,7 +160,7 @@ namespace LIB_Com.MessageBrokers
         {
             if(message.MessageCode == (int)CommunicationCnst.Messages.Watchdog)
             {
-                logger.LogDebug($"WatchDog received from client: {message.SenderId}.");
+                //logger.LogDebug($"WatchDog received from client: {message.SenderId}.");
                 receivedWatchdogs.Add((Watchdog)message);
                 return false;
             }

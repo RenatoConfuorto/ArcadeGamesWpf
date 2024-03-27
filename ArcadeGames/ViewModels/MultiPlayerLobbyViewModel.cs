@@ -190,8 +190,14 @@ namespace ArcadeGames.ViewModels
         }
         public override void Dispose()
         {
-            //_brokerHost?.Dispose();
-            //_brokerClient?.Dispose();
+            if(IsUserHost)
+            {
+                _brokerHost.NewOnlineUserEvent -= OnNewOnlineUserEvent;
+                _brokerHost.LobbyInfoRequestedEvent -= OnLobbyInfoRequestedEvent;
+            }else
+            {
+
+            }
             base.Dispose();
         }
         public override void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
@@ -331,7 +337,8 @@ namespace ArcadeGames.ViewModels
             // Go to Game View
             Dictionary<string, object> parameters = GenerateBaseViewParameters();
             parameters.Add(GAME_SETTINGS, GameSettings);
-            NavigateToView(onlineViewName, parameters);
+            _shouldDisposeBrokersFlag = false;
+            ChangeView(onlineViewName, parameters);
         }
         #endregion
 
@@ -364,7 +371,8 @@ namespace ArcadeGames.ViewModels
             {
                 logger.LogDebug($"Ricevuto StartGameCommandMessage, viewName <{message.GameViewName.Trim()}>");
                 Dictionary<string, object> parameters = GenerateBaseViewParameters();
-                NavigateToView(message.GameViewName.Trim(), parameters);
+                _shouldDisposeBrokersFlag = false;
+                ChangeView(message.GameViewName.Trim(), parameters);
             }
         }
         #endregion

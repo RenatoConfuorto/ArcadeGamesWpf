@@ -28,6 +28,10 @@ namespace LIB_Com.ViewModels
         #endregion
 
         #region Protected fields
+        /// <summary>
+        /// Al cambio della view viene chiamato Dispose(), ma i broker non devono essere eliminati se si passa ad una pagina online
+        /// </summary>
+        protected bool _shouldDisposeBrokersFlag = true;
         #endregion
 
         #region Command
@@ -158,8 +162,21 @@ namespace LIB_Com.ViewModels
         }
         public override void Dispose()
         {
-            _brokerHost?.Dispose();
-            _brokerClient?.Dispose();
+            //Remove event listening 
+            if(IsUserHost)
+            {
+                _brokerHost.MessageReceivedEvent -= OnMessageReceivedEvent;
+                _brokerHost.ClientConnectionLost -= OnClientConnectionLost;
+            }
+            else
+            {
+                _brokerClient.MessageReceivedEvent -= OnMessageReceivedEvent;
+            }
+            if(_shouldDisposeBrokersFlag)
+            {
+                _brokerHost?.Dispose();
+                _brokerClient?.Dispose();
+            }
             base.Dispose();
         }
         #endregion

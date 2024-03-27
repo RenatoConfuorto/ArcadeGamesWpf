@@ -192,6 +192,7 @@ namespace LIB_Com.MessageBrokers
         #endregion
         public override void Dispose()
         {
+            logger.LogDebug("Dispose of BrokerClient");
             _isConnected = false;
             SendDisconnectionToHost();
             base.Dispose();

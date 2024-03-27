@@ -115,7 +115,7 @@ namespace LIB_Com.MessageBrokers
             {
                 receivedData = socket.EndReceive(ar);
                 MessageBase message = GetMessageFromBytes(receivedData);
-                if(CanRedirectMessage(message))
+                if(message != null && CanRedirectMessage(message))
                     OnMessageReceived(message);
                 socket.BeginReceive(buffer, 0, DEFAULT_BUFFER_SIZE, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
 
