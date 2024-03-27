@@ -1,4 +1,6 @@
-﻿using LIB.Entities;
+﻿using Core.Helpers;
+using LIB.Constants;
+using LIB.Entities;
 using LIB.Sounds;
 using LIB_Com.Entities;
 using System;
@@ -48,6 +50,11 @@ namespace LIB_Com.ViewModels
             get => _cells;
             set => SetProperty(ref _cells, value);
         }
+        public S GameSettings
+        {
+            get => _gameSettings;
+            set => SetProperty(ref _gameSettings, value);
+        }
         #endregion
 
         #region Constructor
@@ -70,6 +77,27 @@ namespace LIB_Com.ViewModels
         {
             base.OnInitialized();
             InitGame();
+        }
+        protected override void GetViewParameter()
+        {
+            base.GetViewParameter();
+            if (IsUserHost)
+            {
+                Dictionary<string, object> parameters = (Dictionary<string, object>)ViewParam;
+                object tempObj = null;
+                if(parameters.TryGetValue(GAME_SETTINGS, out tempObj))
+                {
+                    if(tempObj is S settings)
+                    {
+                        GameSettings = settings;
+                    }
+                }
+                if(GameSettings == null)
+                {
+                    MessageDialogHelper.ShowInfoMessage("Errore nella ricezione delle impostazioni.");
+                    NavigateToView(ViewNames.Home);
+                }
+            }
         }
         public override void Dispose()
         {

@@ -22,6 +22,7 @@ namespace LIB.Constants
         public const string TrisSingleplayer = "TrisSingleplayer";
         public const string SuperTrisMultiplayer = "SuperTrisMultiPlayer";
         public const string SuperTrisMpSettings = "SuperTrisMpSettings";
+        public const string OnlineTris = "OnlineTris";
         //User Manager
         public const string UserMngMainPage = "UserMngMainPage";
         public const string NewUserPage = "NewUserPage";

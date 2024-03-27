@@ -18,6 +18,7 @@ namespace LIB_Com.Constants
         public const int CLIENT_DELAY_LIMIT             = 5000; // 5s  Tempo dopo il quale viene dichiarato disconnesso il client se non si ricevono watchdog
 
         public const int MULTIPLAYER_USERS_LIMIT        = 5;
+
         #region Fields Length
         public const int GUID_LENGTH                    = 16;
         public const int USER_NAME_LENGTH               = 14;
@@ -25,7 +26,9 @@ namespace LIB_Com.Constants
         //public const int ONLINE_USER_LENGTH             = USER_NAME_LENGTH + GUID_LENGTH;
         public const int LOBBY_CHAT_MESSAGE_SIZE        = 80;
         public const int ONLINE_SETTINGS_POPUP_NAME_LEN = 80;
+        public const int ONLINE_GAME_VIEW_NAME_LEN      = 80;
         #endregion
+
         public enum Mode
         {
             Host = 0,
@@ -50,7 +53,8 @@ namespace LIB_Com.Constants
             LobbyStatusAndSettings      = 1025,
             HostDisconnectedMessage     = 1026,
             ClientDisconnectedMessage   = 1027,
-            ClientConnectionLost        = 1028
+            ClientConnectionLost        = 1028,
+            StartGameCommandMessage     = 1030
         }
 
         #region Static References
@@ -59,10 +63,11 @@ namespace LIB_Com.Constants
         #endregion
 
         #region View Parameters Names
-        public const string USER_MODE   = "Mode";
-        public const string USER_BROKER = "Broker";
-        public const string HOST_IP     = "HostIp";
-        public const string USERS_LIST  = "Users";
+        public const string USER_MODE       = "Mode";
+        public const string USER_BROKER     = "Broker";
+        public const string HOST_IP         = "HostIp";
+        public const string USERS_LIST      = "Users";
+        public const string GAME_SETTINGS   = "GameSettings";
         #endregion
     }
 }

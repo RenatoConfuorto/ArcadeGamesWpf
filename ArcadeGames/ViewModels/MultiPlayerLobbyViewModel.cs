@@ -24,8 +24,10 @@ using System.Windows.Threading;
 using System.Runtime.Remoting.Contexts;
 using LIB_Com.ViewModels;
 using static LIB_Com.Constants.OnlineGamesDefs;
+using static LIB_Com.Constants.CommunicationCnst;
 using System.Windows.Controls;
 using LIB_Com.Attributes;
+using Core.Interfaces.Logging;
 
 namespace ArcadeGames.ViewModels
 {
@@ -215,6 +217,9 @@ namespace ArcadeGames.ViewModels
                 case (int)CommunicationCnst.Messages.ClientDisconnectedMessage:
                     HandleClientDisconnection(message as ClientDisconnectedMessage);
                     break;
+                case (int)CommunicationCnst.Messages.StartGameCommandMessage:
+                    HandleStartGameCommandMessage(message as StartGameCommandMessage);
+                    break;
             }
         }
         #endregion
@@ -229,12 +234,13 @@ namespace ArcadeGames.ViewModels
             _dispatcher.Invoke(() =>
             {
                 Users.Add(user);
+                SetCommandExecutionStatus();
             });
         }
         /// <summary>
         /// Remove a user from the Users BindingList (avoiding the error if the BindingList is changed from a different thread)
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="user"></param>
         private void RemoveUser(OnlineUser user)
         {
             if(user != null)
@@ -242,6 +248,7 @@ namespace ArcadeGames.ViewModels
                 _dispatcher.Invoke(() =>
                 {
                     Users.Remove(user);
+                    SetCommandExecutionStatus();
                 });
             }
         }
@@ -311,6 +318,21 @@ namespace ArcadeGames.ViewModels
                 RemoveUser(user);
             }
         }
+        private void SendGameStartMessage()
+        {
+            string onlineViewName = GetOnlineGameViewName(SelectedGame.GameId);
+            if(String.IsNullOrEmpty(onlineViewName))
+            {
+                MessageDialogHelper.ShowInfoMessage($"Impossibile trovare la view specificata per ID <{SelectedGame.GameId}>");
+                return;
+            }
+            StartGameCommandMessage message = new StartGameCommandMessage(SelectedGame.GameId, onlineViewName);
+            _brokerHost.SendToClients(message);
+            // Go to Game View
+            Dictionary<string, object> parameters = GenerateBaseViewParameters();
+            parameters.Add(GAME_SETTINGS, GameSettings);
+            NavigateToView(onlineViewName, parameters);
+        }
         #endregion
 
         #region Client Methods
@@ -334,6 +356,15 @@ namespace ArcadeGames.ViewModels
                     MessageDialogHelper.ShowInfoMessage("L'host si è disconnesso.");
                 });
                 ChangeView(ParentView);
+            }
+        }
+        private void HandleStartGameCommandMessage(StartGameCommandMessage message)
+        {
+            if(IsUserClient)
+            {
+                logger.LogDebug($"Ricevuto StartGameCommandMessage, viewName <{message.GameViewName.Trim()}>");
+                Dictionary<string, object> parameters = GenerateBaseViewParameters();
+                NavigateToView(message.GameViewName.Trim(), parameters);
             }
         }
         #endregion
@@ -420,7 +451,7 @@ namespace ArcadeGames.ViewModels
 
         private void StartGameCommandExecute(object param)
         {
-
+            SendGameStartMessage();
         }
         private bool StartGameCommandCanExecute(object param) => IsUserHost
                                                                  && SelectedGame != null
@@ -431,7 +462,14 @@ namespace ArcadeGames.ViewModels
         /// <returns></returns>
         private bool IsValidNumerOfPlayers()
         {
-            return true;
+            bool retVal = false;
+            switch(SelectedGame.GameId)
+            {
+                case OnlineGamesDefs.TRIS_ID:
+                    retVal = Users.Count == 2;
+                    break;
+            }
+            return retVal;
         }
         #endregion
     }

@@ -114,7 +114,7 @@ namespace LIB_Com.MessageBrokers
             int received = socket.EndReceive(ar);
 
             SendDataConfirmation receivedMessage = (SendDataConfirmation)GetMessageFromBytes(received);
-            logger.LogDebug("Confirmation received from host. UserId/UserSeq {0}/{1}.", receivedMessage.UserId, receivedMessage.UserSeq);
+            logger.LogDebug($"Confirmation received from host. UserId/UserSeq {receivedMessage.UserId}/{receivedMessage.UserSeq}.");
             LocalUserId = receivedMessage.UserId;
             User.UserSeq = receivedMessage.UserSeq;
 
@@ -147,6 +147,7 @@ namespace LIB_Com.MessageBrokers
         private void StartWatchdog()
         {
             watchdogThread = new Thread(WatchDogThread);
+            watchdogThread.IsBackground = true;
             watchdogThread.Start();
         }
         private void WatchDogThread()
@@ -178,7 +179,7 @@ namespace LIB_Com.MessageBrokers
         private void SendWatchdog()
         {
             Watchdog wd = new Watchdog();
-            logger.LogDebug("Watchdog sended to host.");
+            //logger.LogDebug("Watchdog sended to host.");
             SendToHost(wd);
         }
         #endregion

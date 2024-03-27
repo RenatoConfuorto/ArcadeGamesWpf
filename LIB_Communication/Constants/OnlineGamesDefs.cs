@@ -1,4 +1,5 @@
-﻿using LIB_Com.Entities;
+﻿using LIB.Constants;
+using LIB_Com.Entities;
 using LIB_Com.Entities.OnlineGameSettings;
 using System;
 using System.Collections.Generic;
@@ -34,5 +35,17 @@ namespace LIB_Com.Constants
                 }
             }
         };
+
+        public static string GetOnlineGameViewName(int gameId)
+        {
+            string gameViewName = string.Empty;
+            switch(gameId)
+            {
+                case TRIS_ID:
+                    gameViewName = ViewNames.OnlineTris;
+                    break;
+            }
+            return gameViewName;
+        }
     }
 }

@@ -60,7 +60,7 @@ namespace LIB_Com.Helpers
             }
             else
             {
-                logger.LogError("Message Code sconosciuto: <{0}>", messageCode);
+                logger.LogError($"Message Code sconosciuto: <{messageCode}>");
             }
             return message;
         }

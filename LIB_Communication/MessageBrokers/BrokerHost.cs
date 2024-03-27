@@ -48,6 +48,7 @@ namespace LIB_Com.MessageBrokers
             LocalUserId = Guid.NewGuid();
             User.UserSeq = 1;
             thread_checker = new Thread(HandleWatchDogs);
+            thread_checker.IsBackground = true;
             logger = LoggerHelper.GetLogger("_brokerHost_log");
         }
         #endregion
@@ -58,7 +59,7 @@ namespace LIB_Com.MessageBrokers
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, DEFAULT_PORT);
             _socket.Bind(endPoint);
             _socket.Listen(1);
-            logger.LogInfo("Begin listen. Port: {0}", DEFAULT_PORT);
+            logger.LogInfo($"Begin listen. Port: {DEFAULT_PORT}");
             logger.LogDebug("Begin Accept connections.");
             _socket.BeginAccept(new AsyncCallback(AcceptCallback), null);
         }
@@ -72,7 +73,7 @@ namespace LIB_Com.MessageBrokers
             try
             {
                 clientSocket = _socket.EndAccept(ar);
-                logger.LogDebug("Received connection request. LocalEndPoint: {0}, RemoteEndPoint: {1}", clientSocket.LocalEndPoint, clientSocket.RemoteEndPoint);
+                logger.LogDebug($"Received connection request. LocalEndPoint: {clientSocket.LocalEndPoint}, RemoteEndPoint: {clientSocket.RemoteEndPoint}");
                 //creare oggetto OnlineClient e mandare la conferma
                 int newUserSeq = GetLastUserSeq() + 1;
                 OnlineClient client = new OnlineClient()
@@ -90,7 +91,7 @@ namespace LIB_Com.MessageBrokers
                 SendDataConfirmation message = new SendDataConfirmation(client.user.UserId, client.user.UserSeq);
 
                 SendMessage(clientSocket, message);
-                logger.LogDebug("Confirmation sended. UserId: {0}, UserSeq: {1}", client.user.UserId, client.user.UserSeq);
+                logger.LogDebug($"Confirmation sended. UserId: {client.user.UserId}, UserSeq: {client.user.UserSeq}");
                 clientSocket.BeginReceive(buffer, 0, DEFAULT_BUFFER_SIZE, SocketFlags.None, new AsyncCallback(OnConfirmationReceived), client);
             }catch(ObjectDisposedException odEx)
             {
@@ -129,15 +130,17 @@ namespace LIB_Com.MessageBrokers
         {
             LobbyInfoMessage infoMessage = new LobbyInfoMessage(CommunicationHelper.GetLocalIpAddress().ToString(), users, lobbyStatus);
             SendMessage(client.socket, infoMessage);
-            logger.LogDebug("Sended lobby info to client. Lobby address: {0}, user count: {1}", infoMessage.HostIp, infoMessage.Users.Length);
+            logger.LogDebug($"Sended lobby info to client. Lobby address: {infoMessage.HostIp}, user count: {infoMessage.Users.Length}");
             // Start checking watchdogs
+            #if !DEBUG
             if (!thread_checker.IsAlive)
                 thread_checker.Start();
+            #endif
             logger.LogDebug("Start listening for messages from client.");
             //start listening for messager
             StartReceive(client.socket);
         }
-        #endregion
+#endregion
 
         #region IDisposable
         public override void Dispose()
@@ -156,7 +159,7 @@ namespace LIB_Com.MessageBrokers
         {
             if(message.MessageCode == (int)CommunicationCnst.Messages.Watchdog)
             {
-                logger.LogDebug("WatchDog received from client: {0}.", message.SenderId);
+                logger.LogDebug($"WatchDog received from client: {message.SenderId}.");
                 receivedWatchdogs.Add((Watchdog)message);
                 return false;
             }
@@ -209,7 +212,7 @@ namespace LIB_Com.MessageBrokers
         }
         private void HandleClientConnectionLost(OnlineClient client)
         {
-            logger.LogInfo("Connection lost with client {0}/{1}.", client.user.UserName.ToString(), client.user.UserId);
+            logger.LogInfo($"Connection lost with client {client.user.UserName.ToString()}/{client.user.UserId}.");
 
             client.socket.Close();
             clients.Remove(client);
@@ -262,7 +265,7 @@ namespace LIB_Com.MessageBrokers
         {
             bool retVal = false;
             OnlineClient client = clients.Where(c => c.user.UserId == message.UserId).FirstOrDefault();
-            logger.LogInfo("Client disconnection received from client {0}/{1}", client.user.UserName.ToString(), client.user.UserId);
+            logger.LogInfo($"Client disconnection received from client {client.user.UserName.ToString()}/{client.user.UserId}");
             if(client != null)
             {
                 // Remove client from clients list
