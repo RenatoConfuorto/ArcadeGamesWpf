@@ -54,7 +54,9 @@ namespace LIB_Com.Constants
             HostDisconnectedMessage     = 1026,
             ClientDisconnectedMessage   = 1027,
             ClientConnectionLost        = 1028,
-            StartGameCommandMessage     = 1030
+            StartGameCommandMessage     = 1030,
+            GameJoinConfirmationMessage = 1032,
+            GameInitCommandMessage      = 1033
         }
 
         #region Static References

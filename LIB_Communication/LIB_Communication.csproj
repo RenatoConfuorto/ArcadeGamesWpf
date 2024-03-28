@@ -72,6 +72,8 @@
     <Compile Include="Messages\Base\MessageBase.cs" />
     <Compile Include="Messages\ClientConnectionLost.cs" />
     <Compile Include="Messages\ClientDisconnectedMessage.cs" />
+    <Compile Include="Messages\GameInitCommandMessage.cs" />
+    <Compile Include="Messages\GameJoinConfirmationMessage.cs" />
     <Compile Include="Messages\HostDisconnectedMessage.cs" />
     <Compile Include="Messages\LobbyStatusAndSettings.cs" />
     <Compile Include="Messages\LobbyChatMessage.cs" />

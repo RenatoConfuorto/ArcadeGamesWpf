@@ -2,12 +2,18 @@
 using LIB.Constants;
 using LIB.Entities;
 using LIB.Sounds;
+using LIB.Views;
+using LIB_Com.Constants;
 using LIB_Com.Entities;
+using LIB_Com.Events;
+using LIB_Com.Messages;
+using LIB_Com.Messages.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static LIB_Com.Constants.CommunicationCnst;
 
@@ -17,6 +23,8 @@ namespace LIB_Com.ViewModels
         where C : CellEntityBase
         where S : OnlineSettingsBase
     {
+        private MessageBox _gameStatusMessage;
+        private List<Guid> _confirmationReceived = new List<Guid>();
         #region Private Fields
         private bool _isGameEnabled = true;
         private bool _isGameOver = false;
@@ -76,7 +84,11 @@ namespace LIB_Com.ViewModels
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            InitGame();
+            Cells = GenerateGrid();
+            //InitGame();
+            WaitClientsConfirmationAndGameStart();
+            if(IsUserClient)
+                SendGameJoinConfirmation();
         }
         protected override void GetViewParameter()
         {
@@ -100,9 +112,91 @@ namespace LIB_Com.ViewModels
         {
             base.Dispose();
         }
+        public override void OnMessageReceivedEvent(object sender, MessageReceivedEventArgs e)
+        {
+            base.OnMessageReceivedEvent(sender, e);
+            MessageBase message = e.MessageReceived as MessageBase;
+            switch((CommunicationCnst.Messages)message.MessageCode)
+            {
+                case CommunicationCnst.Messages.GameJoinConfirmationMessage:
+                    HandleGameJoinConfirmationMessage(message as GameJoinConfirmationMessage);
+                    break;
+                case CommunicationCnst.Messages.GameInitCommandMessage:
+                    HandleGameInitCommandMessage(message as GameInitCommandMessage);
+                    break;
+            }
+        }
+
         #endregion
 
         #region Private Methods
+        private void WaitClientsConfirmationAndGameStart()
+        {
+            string statusMessage;
+            if (IsUserClient)
+                statusMessage = "In attesa della risposta dell'host";
+            else statusMessage = "In attesa dei client";
+
+            _gameStatusMessage = MessageDialogHelper.ShowStatusMessage(statusMessage);
+            IsGameEnabled = false;
+        }
+
+        #region Host Methods
+        private void HandleGameJoinConfirmationMessage(GameJoinConfirmationMessage message)
+        {
+            if (IsUserHost)
+            {
+                logger.LogDebug($"Ricevuto GameJoinConfirmationMessage da UserId <{message.SenderId}>");
+                _confirmationReceived.Add(message.SenderId);
+                if(CheckClientsConfirmations())
+                {
+                    logger.LogDebug("Tutti i client sono entrati nella partita.");
+                    GameInitCommandMessage gameInitMessage = new GameInitCommandMessage();
+                    _brokerHost.SendToClients(gameInitMessage);
+                    Thread.Sleep(250); //If the operation is too fast _gameStatusMessage will be null
+                    MessageDialogHelper.CloseMessageBox(_gameStatusMessage);
+                    InitGame();
+                }
+            }
+        }
+        /// <summary>
+        /// Check if has been received confirmation from all client
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckClientsConfirmations()
+        {
+            bool bRetVal = true;
+            foreach(OnlineUser user in Users)
+            {
+                if (user.UserId != _brokerHost.LocalUserId && !_confirmationReceived.Contains(user.UserId))
+                {
+                    bRetVal = false;
+                    break;
+                }
+            }
+            return bRetVal;
+        }
+        #endregion
+
+        #region Client Methods
+        private void HandleGameInitCommandMessage(GameInitCommandMessage message)
+        {
+            if (IsUserClient)
+            {
+                logger.LogDebug("Ricevuto GameInitCommandMessage dall'host.");
+                MessageDialogHelper.CloseMessageBox(_gameStatusMessage);
+                InitGame();
+            }
+        }
+
+        private void SendGameJoinConfirmation()
+        {
+            GameJoinConfirmationMessage message = new GameJoinConfirmationMessage(ViewName);
+            _brokerClient.SendToHost(message);
+            logger.LogDebug($"Inviata conferma di ingresso alla partita, ViewName <{message.GameViewName}>");
+        }
+        #endregion
+
         #endregion
 
         #region Protected Methods
@@ -113,7 +207,6 @@ namespace LIB_Com.ViewModels
         protected abstract ObservableCollection<C> GenerateGrid();
         protected virtual void InitGame()
         {
-            Cells = GenerateGrid();
             IsGameEnabled = true;
             IsGameOver = false;
         }
