@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using static LIB_Com.Constants.CommunicationCnst;
 using static LIB.Helpers.CommunicationHelper;
 using LIB_Com.Extensions;
+using LIB_Com.Entities;
+using LIB.Helpers;
 
 namespace LIB_Com.Messages
 {
@@ -22,13 +24,14 @@ namespace LIB_Com.Messages
             get => new string(_gameViewName);
             set => SetString(ref _gameViewName, value, ONLINE_GAME_VIEW_NAME_LEN);
         }
+        public OnlineSettingsBase GameSettings { get; set; }
 
-
-        public StartGameCommandMessage(int gameId, string gameViewName)
+        public StartGameCommandMessage(int gameId, string gameViewName, OnlineSettingsBase gameSettings)
             :this()
         {
             this.GameId = gameId;
             this.GameViewName = gameViewName;
+            this.GameSettings = gameSettings;
         }
         public StartGameCommandMessage()
             :base(CommunicationCnst.Messages.StartGameCommandMessage, new Guid())
@@ -40,6 +43,7 @@ namespace LIB_Com.Messages
             base.SerializeData(bw);
             bw.Write(GameId);
             bw.Write(_gameViewName);
+            bw.WriteObject(GameSettings);
         }
 
         public override void DeserializeData(BinaryReader br)
@@ -47,6 +51,7 @@ namespace LIB_Com.Messages
             base.DeserializeData(br);
             this.GameId         = br.ReadInt32();
             this.GameViewName   = br.ReadString(ONLINE_GAME_VIEW_NAME_LEN); 
+            this.GameSettings   = CommunicationHelper.DeserializeOnlineSettings(br, this.GameId);
         }
         #endregion
     }

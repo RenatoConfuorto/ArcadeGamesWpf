@@ -81,22 +81,19 @@ namespace LIB_Com.ViewModels
         protected override void GetViewParameter()
         {
             base.GetViewParameter();
-            if (IsUserHost)
+            Dictionary<string, object> parameters = (Dictionary<string, object>)ViewParam;
+            if(parameters.TryGetValue(GAME_SETTINGS, out object tempObj))
             {
-                Dictionary<string, object> parameters = (Dictionary<string, object>)ViewParam;
-                object tempObj = null;
-                if(parameters.TryGetValue(GAME_SETTINGS, out tempObj))
+                if(tempObj is S settings)
                 {
-                    if(tempObj is S settings)
-                    {
-                        GameSettings = settings;
-                    }
+                    GameSettings = settings;
+                    logger.LogDebug($"Ricevute impostazioni di tipo <{GameSettings.GetType().Name}>, PlayersTime <{GameSettings.PlayersTime}>");
                 }
-                if(GameSettings == null)
-                {
-                    MessageDialogHelper.ShowInfoMessage("Errore nella ricezione delle impostazioni.");
-                    NavigateToView(ViewNames.Home);
-                }
+            }
+            if(GameSettings == null)
+            {
+                MessageDialogHelper.ShowInfoMessage("Errore nella ricezione delle impostazioni.");
+                ChangeView(ViewNames.Home);
             }
         }
         public override void Dispose()

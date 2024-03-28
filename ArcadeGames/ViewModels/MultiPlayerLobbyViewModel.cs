@@ -332,7 +332,7 @@ namespace ArcadeGames.ViewModels
                 MessageDialogHelper.ShowInfoMessage($"Impossibile trovare la view specificata per ID <{SelectedGame.GameId}>");
                 return;
             }
-            StartGameCommandMessage message = new StartGameCommandMessage(SelectedGame.GameId, onlineViewName);
+            StartGameCommandMessage message = new StartGameCommandMessage(SelectedGame.GameId, onlineViewName, GameSettings);
             _brokerHost.SendToClients(message);
             // Go to Game View
             Dictionary<string, object> parameters = GenerateBaseViewParameters();
@@ -371,6 +371,7 @@ namespace ArcadeGames.ViewModels
             {
                 logger.LogDebug($"Ricevuto StartGameCommandMessage, viewName <{message.GameViewName.Trim()}>");
                 Dictionary<string, object> parameters = GenerateBaseViewParameters();
+                parameters.Add(GAME_SETTINGS, message.GameSettings);
                 _shouldDisposeBrokersFlag = false;
                 ChangeView(message.GameViewName.Trim(), parameters);
             }
