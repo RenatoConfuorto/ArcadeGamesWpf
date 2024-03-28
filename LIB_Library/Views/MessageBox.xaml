@@ -11,6 +11,10 @@
         MaxWidth="800" MaxHeight="300"
         ResizeMode="NoResize"
         mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+    
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

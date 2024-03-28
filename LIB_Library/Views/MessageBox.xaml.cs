@@ -32,6 +32,7 @@ namespace LIB.Views
                 this.Close();
             };
             this.DataContext = viewModel;
+            this.WindowStyle = WindowStyle.None;
             InitializeComponent();
         }
     }

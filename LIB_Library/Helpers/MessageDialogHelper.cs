@@ -26,9 +26,10 @@ namespace Core.Helpers
 
         public static LIB.Views.MessageBox ShowStatusMessage(string message)
         {
-            LIB.Views.MessageBox messageBox = new LIB.Views.MessageBox(MessageType.Status, message);
+            LIB.Views.MessageBox messageBox = null;
             Application.Current.Dispatcher.Invoke(() =>
             {
+                messageBox = new LIB.Views.MessageBox(MessageType.Status, message);
                 messageBox.Show();
             });
             return messageBox;
