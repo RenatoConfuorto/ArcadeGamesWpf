@@ -20,6 +20,7 @@ namespace Tris
             AddDependency<IViewModelBase, TrisSingleplayerViewModel>(ViewNames.TrisSingleplayer);
             AddDependency<IViewModelBase, SuperTrisMultiplayerViewModel>(ViewNames.SuperTrisMultiplayer);
             AddDependency<IViewModelBase, SuperTrisSettingsViewModel>(ViewNames.SuperTrisMpSettings);
+            AddDependency<IViewModelBase, OnlineTrisViewModel>(ViewNames.OnlineTris);
         }
     }
 }

@@ -20,7 +20,6 @@ namespace Tris.ViewModels
     public abstract class SuperTrisBaseModel : LocalGameViewModelBase<SuperTrisEntity>
     {
         #region Private Fields
-        protected const int MACRO_SIGN_PLACED_WAIT_TIME = 400; //ms
         protected int turn;
         protected List<int[]> winningCombinations = new List<int[]>()
         {

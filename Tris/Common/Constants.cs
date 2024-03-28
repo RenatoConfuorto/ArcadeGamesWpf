@@ -9,6 +9,8 @@ namespace Tris.Common
     public class Constants
     {
         public const int SUPER_TRIS_DEFAULT_START_TIME = 300;
+        public const int MACRO_SIGN_PLACED_WAIT_TIME = 400; //ms
+
         public enum Players
         {
             X = 0,
